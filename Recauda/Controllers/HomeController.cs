@@ -1,9 +1,12 @@
-using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Recauda.Models;
+using System.Diagnostics;
+using System.Security.Claims;
 
 namespace Recauda.Controllers
 {
+    [Authorize] 
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -15,6 +18,11 @@ namespace Recauda.Controllers
 
         public IActionResult Index()
         {
+            // Pasar información del usuario a la vista
+            ViewBag.UsuarioNombre = User.FindFirstValue("FullName");
+            ViewBag.UsuarioLogin = User.Identity?.Name;
+            ViewBag.UsuarioRol = User.FindFirstValue(ClaimTypes.Role);
+
             return View();
         }
 

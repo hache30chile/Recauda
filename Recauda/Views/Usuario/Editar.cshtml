@@ -1,0 +1,193 @@
+﻿@model Usuario
+
+@{
+    ViewData["Title"] = "Editar Usuario";
+}
+
+<h1 class="mt-4">@ViewData["Title"]</h1>
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Dashboard</a></li>
+    <li class="breadcrumb-item"><a asp-action="Index">Usuarios</a></li>
+    <li class="breadcrumb-item active">Editar</li>
+</ol>
+
+@* Mostrar mensajes de error/éxito *@
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="fas fa-exclamation-circle"></i>
+        @TempData["ErrorMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header">
+                <i class="fas fa-edit me-1"></i>
+                Editar Usuario: <strong>@Model.Login</strong>
+            </div>
+            <div class="card-body">
+                @* Debug: Mostrar errores del ModelState *@
+                @if (!ViewData.ModelState.IsValid)
+                {
+                    <div class="alert alert-warning">
+                        <h6>Errores de validación:</h6>
+                        <ul>
+                            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                            {
+                                <li>@error.ErrorMessage</li>
+                            }
+                        </ul>
+                    </div>
+                }
+
+                <form asp-controller="Usuario" asp-action="Editar" method="post">
+                    @Html.AntiForgeryToken()
+                    <input asp-for="Id" type="hidden" />
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Login" class="form-label">
+                                <i class="fas fa-user"></i> Login de Usuario *
+                            </label>
+                            <input asp-for="Login" class="form-control" />
+                            <span asp-validation-for="Login" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Nombre" class="form-label">
+                                <i class="fas fa-id-card"></i> Nombre Completo *
+                            </label>
+                            <input asp-for="Nombre" class="form-control" />
+                            <span asp-validation-for="Nombre" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label asp-for="Rut" class="form-label">
+                                <i class="fas fa-id-badge"></i> RUT *
+                            </label>
+                            <input asp-for="Rut" class="form-control" type="number" />
+                            <span asp-validation-for="Rut" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-2 mb-3">
+                            <label asp-for="Dv" class="form-label">
+                                <i class="fas fa-check"></i> DV *
+                            </label>
+                            <input asp-for="Dv" class="form-control" maxlength="1" />
+                            <span asp-validation-for="Dv" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="RolId" class="form-label">
+                                <i class="fas fa-user-tag"></i> Rol *
+                            </label>
+                            <select asp-for="RolId" asp-items="ViewBag.Roles" class="form-select">
+                                <option value="">-- Seleccione un Rol --</option>
+                            </select>
+                            <span asp-validation-for="RolId" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <div class="form-check form-switch">
+                                <input asp-for="Activo" class="form-check-input" type="checkbox" />
+                                <label asp-for="Activo" class="form-check-label">
+                                    <i class="fas fa-toggle-on"></i> Usuario Activo
+                                </label>
+                            </div>
+                            <small class="form-text text-muted">
+                                Al desactivar un usuario, no podrá acceder al sistema.
+                            </small>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-info" role="alert">
+                        <i class="fas fa-info-circle"></i>
+                        <strong>Nota:</strong> La contraseña no se modifica desde esta pantalla. Use la opción "Cambiar Contraseña" si es necesario.
+                    </div>
+
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Guardar Cambios
+                            </button>
+                            <a asp-action="Detalles" asp-route-id="@Model.Id" class="btn btn-info ms-2">
+                                <i class="fas fa-eye"></i> Ver Detalles
+                            </a>
+                            <a asp-action="Index" class="btn btn-secondary ms-2">
+                                <i class="fas fa-arrow-left"></i> Volver al Listado
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="card">
+            <div class="card-header">
+                <i class="fas fa-info me-1"></i>
+                Información del Usuario
+            </div>
+            <div class="card-body">
+                <table class="table table-sm">
+                    <tr>
+                        <td><strong>ID:</strong></td>
+                        <td>@Model.Id</td>
+                    </tr>
+                    <tr>
+                        <td><strong>RUT Completo:</strong></td>
+                        <td>@Model.RutCompleto</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Registro:</strong></td>
+                        <td>@Model.FechaRegistro.ToString("dd/MM/yyyy")</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Estado Actual:</strong></td>
+                        <td>
+                            @if (Model.Activo)
+                            {
+                                <span class="badge bg-success">Activo</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-secondary">Inactivo</span>
+                            }
+                        </td>
+                    </tr>
+                </table>
+
+                <div class="alert alert-warning" role="alert">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <strong>Advertencia:</strong> Los cambios en el rol afectarán los permisos del usuario.
+                </div>
+            </div>
+        </div>
+
+        <div class="card mt-3">
+            <div class="card-header">
+                <i class="fas fa-cogs me-1"></i>
+                Acciones Adicionales
+            </div>
+            <div class="card-body">
+                <a asp-action="Eliminar" asp-route-id="@Model.Id" class="btn btn-danger btn-sm w-100 mb-2">
+                    <i class="fas fa-trash"></i> Eliminar Usuario
+                </a>
+                <small class="form-text text-muted">
+                    Esta acción requerirá confirmación adicional.
+                </small>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

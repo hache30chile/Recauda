@@ -1,0 +1,165 @@
+﻿@model Usuario
+
+@{
+    ViewData["Title"] = "Detalles del Usuario";
+}
+
+<h1 class="mt-4">@ViewData["Title"]</h1>
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Dashboard</a></li>
+    <li class="breadcrumb-item"><a asp-action="Index">Usuarios</a></li>
+    <li class="breadcrumb-item active">Detalles</li>
+</ol>
+
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header">
+                <i class="fas fa-info-circle me-1"></i>
+                Información Detallada del Usuario
+                <div class="float-end">
+                    @if (Model.Activo)
+                    {
+                        <span class="badge bg-success">Activo</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-secondary">Inactivo</span>
+                    }
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row mb-4">
+                    <div class="col-md-3">
+                        <div class="text-center">
+                            <div class="bg-primary rounded-circle d-inline-flex align-items-center justify-content-center"
+                                 style="width: 80px; height: 80px;">
+                                <i class="fas fa-user fa-2x text-white"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <h3 class="mb-2">@Model.Nombre</h3>
+                        <p class="text-muted mb-3">
+                            <i class="fas fa-user-circle"></i> @Model.Login
+                        </p>
+
+                        <table class="table table-borderless">
+                            <tr>
+                                <td><strong>ID del Usuario:</strong></td>
+                                <td>@Model.Id</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Login:</strong></td>
+                                <td>@Model.Login</td>
+                            </tr>
+                            <tr>
+                                <td><strong>RUT:</strong></td>
+                                <td>@Model.RutCompleto</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Nombre Completo:</strong></td>
+                                <td>@Model.Nombre</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Rol Asignado:</strong></td>
+                                <td>
+                                    @if (Model.Rol != null)
+                                    {
+                                        <span class="badge bg-info">@Model.Rol.Nombre</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary">Sin Rol Asignado</span>
+                                    }
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>Estado:</strong></td>
+                                <td>
+                                    @if (Model.Activo)
+                                    {
+                                        <span class="badge bg-success"><i class="fas fa-check-circle"></i> Activo</span>
+                                        <small class="text-muted ms-2">Usuario habilitado para acceder al sistema</small>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary"><i class="fas fa-pause-circle"></i> Inactivo</span>
+                                        <small class="text-muted ms-2">Usuario deshabilitado</small>
+                                    }
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>Fecha de Registro:</strong></td>
+                                <td>@Model.FechaRegistro.ToString("dddd, dd 'de' MMMM 'de' yyyy 'a las' HH:mm", new System.Globalization.CultureInfo("es-ES"))</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="row mt-4">
+                    <div class="col-12">
+                        <h5><i class="fas fa-shield-alt"></i> Información de Seguridad</h5>
+                        <div class="alert alert-info" role="alert">
+                            <i class="fas fa-info-circle"></i>
+                            Este usuario tiene asignado el rol <strong>@(Model.Rol?.Nombre ?? "Sin Rol")</strong>,
+                            que determina sus permisos y accesos dentro del sistema.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="card">
+            <div class="card-header">
+                <i class="fas fa-cogs me-1"></i>
+                Acciones Disponibles
+            </div>
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    <a asp-action="Editar" asp-route-id="@Model.Id" class="btn btn-warning">
+                        <i class="fas fa-edit"></i> Editar Usuario
+                    </a>
+                    <a asp-action="Eliminar" asp-route-id="@Model.Id" class="btn btn-danger">
+                        <i class="fas fa-trash"></i> Eliminar Usuario
+                    </a>
+                    <a asp-action="Index" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Volver al Listado
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="card mt-3">
+            <div class="card-header">
+                <i class="fas fa-key me-1"></i>
+                Gestión de Contraseña
+            </div>
+            <div class="card-body">
+                <div class="alert alert-secondary" role="alert">
+                    <i class="fas fa-info-circle"></i>
+                    Funcionalidad para cambio de contraseña próximamente disponible.
+                </div>
+
+                <button class="btn btn-outline-primary btn-sm w-100" disabled>
+                    <i class="fas fa-key"></i> Cambiar Contraseña
+                </button>
+            </div>
+        </div>
+
+        <div class="card mt-3">
+            <div class="card-header">
+                <i class="fas fa-history me-1"></i>
+                Actividad Reciente
+            </div>
+            <div class="card-body">
+                <small class="text-muted">
+                    <i class="fas fa-plus-circle text-success"></i> Usuario creado el @Model.FechaRegistro.ToString("dd/MM/yyyy")<br>
+                    <i class="fas fa-clock"></i> Último acceso: Información no disponible
+                </small>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,12 +1,706 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\augus\\source\\repos\\Recauda\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|c:\\users\\augus\\source\\repos\\recauda\\recauda\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|solutionrelative:recauda\\controllers\\homecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|c:\\users\\augus\\source\\repos\\recauda\\recauda\\views\\shared\\_layoutauth.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|solutionrelative:recauda\\views\\shared\\_layoutauth.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|c:\\users\\augus\\source\\repos\\recauda\\recauda\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|solutionrelative:recauda\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|c:\\users\\augus\\source\\repos\\recauda\\recauda\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|solutionrelative:recauda\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|c:\\users\\augus\\source\\repos\\recauda\\recauda\\controllers\\autenticacioncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|solutionrelative:recauda\\controllers\\autenticacioncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|c:\\users\\augus\\source\\repos\\recauda\\recauda\\models\\dtos\\logindto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|solutionrelative:recauda\\models\\dtos\\logindto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|c:\\users\\augus\\source\\repos\\recauda\\recauda\\models\\dtos\\cambiarclavedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|solutionrelative:recauda\\models\\dtos\\cambiarclavedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|c:\\users\\augus\\source\\repos\\recauda\\recauda\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|solutionrelative:recauda\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|c:\\users\\augus\\source\\repos\\recauda\\recauda\\views\\autenticacion\\accesodenegado.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|solutionrelative:recauda\\views\\autenticacion\\accesodenegado.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|c:\\users\\augus\\source\\repos\\recauda\\recauda\\views\\autenticacion\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|solutionrelative:recauda\\views\\autenticacion\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|c:\\users\\augus\\source\\repos\\recauda\\recauda\\views\\autenticacion\\cambiarclave.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|solutionrelative:recauda\\views\\autenticacion\\cambiarclave.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|c:\\users\\augus\\source\\repos\\recauda\\recauda\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|solutionrelative:recauda\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|c:\\users\\augus\\source\\repos\\recauda\\recauda\\services\\autenticacionservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|solutionrelative:recauda\\services\\autenticacionservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|c:\\users\\augus\\source\\repos\\recauda\\recauda\\views\\shared\\_validationscriptspartial.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|solutionrelative:recauda\\views\\shared\\_validationscriptspartial.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|c:\\users\\augus\\source\\repos\\recauda\\recauda\\views\\_viewimports.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|solutionrelative:recauda\\views\\_viewimports.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|c:\\users\\augus\\source\\repos\\recauda\\recauda\\views\\_viewstart.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|solutionrelative:recauda\\views\\_viewstart.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|c:\\users\\augus\\source\\repos\\recauda\\recauda\\data\\dbinitializer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|solutionrelative:recauda\\data\\dbinitializer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|c:\\users\\augus\\source\\repos\\recauda\\recauda\\services\\usuarioservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|solutionrelative:recauda\\services\\usuarioservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|c:\\users\\augus\\source\\repos\\recauda\\recauda\\controllers\\usuariocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|solutionrelative:recauda\\controllers\\usuariocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|c:\\users\\augus\\source\\repos\\recauda\\recauda\\controllers\\rolcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|solutionrelative:recauda\\controllers\\rolcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|c:\\users\\augus\\source\\repos\\recauda\\recauda\\interfaces\\iautenticacionservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|solutionrelative:recauda\\interfaces\\iautenticacionservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|c:\\users\\augus\\source\\repos\\recauda\\recauda\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|solutionrelative:recauda\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|c:\\users\\augus\\source\\repos\\recauda\\recauda\\views\\usuario\\eliminar.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|solutionrelative:recauda\\views\\usuario\\eliminar.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|c:\\users\\augus\\source\\repos\\recauda\\recauda\\views\\usuario\\detalles.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|solutionrelative:recauda\\views\\usuario\\detalles.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|c:\\users\\augus\\source\\repos\\recauda\\recauda\\views\\usuario\\editar.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|solutionrelative:recauda\\views\\usuario\\editar.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|c:\\users\\augus\\source\\repos\\recauda\\recauda\\views\\usuario\\crear.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|solutionrelative:recauda\\views\\usuario\\crear.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|c:\\users\\augus\\source\\repos\\recauda\\recauda\\views\\usuario\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|solutionrelative:recauda\\views\\usuario\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|c:\\users\\augus\\source\\repos\\recauda\\recauda\\models\\usuario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|solutionrelative:recauda\\models\\usuario.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|c:\\users\\augus\\source\\repos\\recauda\\recauda\\interfaces\\iusuarioservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|solutionrelative:recauda\\interfaces\\iusuarioservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|c:\\users\\augus\\source\\repos\\recauda\\recauda\\views\\rol\\eliminar.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|solutionrelative:recauda\\views\\rol\\eliminar.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|c:\\users\\augus\\source\\repos\\recauda\\recauda\\views\\rol\\editar.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|solutionrelative:recauda\\views\\rol\\editar.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|c:\\users\\augus\\source\\repos\\recauda\\recauda\\views\\rol\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|solutionrelative:recauda\\views\\rol\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|c:\\users\\augus\\source\\repos\\recauda\\recauda\\views\\rol\\detalles.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|solutionrelative:recauda\\views\\rol\\detalles.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|c:\\users\\augus\\source\\repos\\recauda\\recauda\\models\\rol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|solutionrelative:recauda\\models\\rol.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|c:\\users\\augus\\source\\repos\\recauda\\recauda\\views\\rol\\crear.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|solutionrelative:recauda\\views\\rol\\crear.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|c:\\users\\augus\\source\\repos\\recauda\\recauda\\interfaces\\irolservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|solutionrelative:recauda\\interfaces\\irolservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|c:\\users\\augus\\source\\repos\\recauda\\recauda\\services\\rolservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|solutionrelative:recauda\\services\\rolservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|c:\\users\\augus\\source\\repos\\recauda\\recauda\\views\\shared\\_alerts.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|solutionrelative:recauda\\views\\shared\\_alerts.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|c:\\users\\augus\\source\\repos\\recauda\\recauda\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|solutionrelative:recauda\\data\\appdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|c:\\users\\augus\\source\\repos\\recauda\\recauda\\models\\errorviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|solutionrelative:recauda\\models\\errorviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|c:\\users\\augus\\source\\repos\\recauda\\recauda\\migrations\\20250530145835_creaciontablausuarios.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|solutionrelative:recauda\\migrations\\20250530145835_creaciontablausuarios.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|c:\\users\\augus\\source\\repos\\recauda\\recauda\\migrations\\20250530142400_migracioninicial.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6179A5D7-782A-407A-A900-BD95DBA11372}|Recauda\\Recauda.csproj|solutionrelative:recauda\\migrations\\20250530142400_migracioninicial.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": []
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 6,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "Recauda\\Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "Recauda\\Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-30T15:06:50.455Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "AccesoDenegado.cshtml",
+              "DocumentMoniker": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Views\\Autenticacion\\AccesoDenegado.cshtml",
+              "RelativeDocumentMoniker": "Recauda\\Views\\Autenticacion\\AccesoDenegado.cshtml",
+              "ToolTip": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Views\\Autenticacion\\AccesoDenegado.cshtml",
+              "RelativeToolTip": "Recauda\\Views\\Autenticacion\\AccesoDenegado.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAABJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-30T17:15:02.603Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "CambiarClaveDto.cs",
+              "DocumentMoniker": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Models\\DTOs\\CambiarClaveDto.cs",
+              "RelativeDocumentMoniker": "Recauda\\Models\\DTOs\\CambiarClaveDto.cs",
+              "ToolTip": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Models\\DTOs\\CambiarClaveDto.cs",
+              "RelativeToolTip": "Recauda\\Models\\DTOs\\CambiarClaveDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-30T17:08:42.413Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "LoginDto.cs",
+              "DocumentMoniker": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Models\\DTOs\\LoginDto.cs",
+              "RelativeDocumentMoniker": "Recauda\\Models\\DTOs\\LoginDto.cs",
+              "ToolTip": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Models\\DTOs\\LoginDto.cs",
+              "RelativeToolTip": "Recauda\\Models\\DTOs\\LoginDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAABBAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-30T17:08:19.758Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\appsettings.json",
+              "RelativeDocumentMoniker": "Recauda\\appsettings.json",
+              "ToolTip": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\appsettings.json",
+              "RelativeToolTip": "Recauda\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-05-30T14:03:19.707Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "_LayoutAuth.cshtml",
+              "DocumentMoniker": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Views\\Shared\\_LayoutAuth.cshtml",
+              "RelativeDocumentMoniker": "Recauda\\Views\\Shared\\_LayoutAuth.cshtml",
+              "ToolTip": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Views\\Shared\\_LayoutAuth.cshtml",
+              "RelativeToolTip": "Recauda\\Views\\Shared\\_LayoutAuth.cshtml",
+              "ViewState": "AgIAABUAAAAAAAAAAAAAACAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-30T17:11:38.403Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "HomeController.cs",
+              "DocumentMoniker": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Controllers\\HomeController.cs",
+              "RelativeDocumentMoniker": "Recauda\\Controllers\\HomeController.cs",
+              "ToolTip": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Controllers\\HomeController.cs",
+              "RelativeToolTip": "Recauda\\Controllers\\HomeController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-30T15:44:50.251Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "launchSettings.json",
+              "DocumentMoniker": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Properties\\launchSettings.json",
+              "RelativeDocumentMoniker": "Recauda\\Properties\\launchSettings.json",
+              "ToolTip": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Properties\\launchSettings.json",
+              "RelativeToolTip": "Recauda\\Properties\\launchSettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-05-30T19:00:30.349Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "Login.cshtml",
+              "DocumentMoniker": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Views\\Autenticacion\\Login.cshtml",
+              "RelativeDocumentMoniker": "Recauda\\Views\\Autenticacion\\Login.cshtml",
+              "ToolTip": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Views\\Autenticacion\\Login.cshtml",
+              "RelativeToolTip": "Recauda\\Views\\Autenticacion\\Login.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAABBAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-30T18:36:08.747Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "CambiarClave.cshtml",
+              "DocumentMoniker": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Views\\Autenticacion\\CambiarClave.cshtml",
+              "RelativeDocumentMoniker": "Recauda\\Views\\Autenticacion\\CambiarClave.cshtml",
+              "ToolTip": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Views\\Autenticacion\\CambiarClave.cshtml",
+              "RelativeToolTip": "Recauda\\Views\\Autenticacion\\CambiarClave.cshtml",
+              "ViewState": "AgIAABwAAAAAAAAAAAAQwCwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-30T17:12:06.231Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "AutenticacionController.cs",
+              "DocumentMoniker": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Controllers\\AutenticacionController.cs",
+              "RelativeDocumentMoniker": "Recauda\\Controllers\\AutenticacionController.cs",
+              "ToolTip": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Controllers\\AutenticacionController.cs",
+              "RelativeToolTip": "Recauda\\Controllers\\AutenticacionController.cs",
+              "ViewState": "AgIAABsAAAAAAAAAAAAYwEsAAAA7AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-30T17:09:59.494Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "AutenticacionService.cs",
+              "DocumentMoniker": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Services\\AutenticacionService.cs",
+              "RelativeDocumentMoniker": "Recauda\\Services\\AutenticacionService.cs",
+              "ToolTip": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Services\\AutenticacionService.cs",
+              "RelativeToolTip": "Recauda\\Services\\AutenticacionService.cs",
+              "ViewState": "AgIAAGYAAAAAAAAAAAAowHgAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-30T17:09:24.504Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Program.cs",
+              "RelativeDocumentMoniker": "Recauda\\Program.cs",
+              "ToolTip": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Program.cs",
+              "RelativeToolTip": "Recauda\\Program.cs",
+              "ViewState": "AgIAABIAAAAAAAAAAAAnwB0AAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-30T14:19:40.371Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "DbInitializer.cs",
+              "DocumentMoniker": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Data\\DbInitializer.cs",
+              "RelativeDocumentMoniker": "Recauda\\Data\\DbInitializer.cs",
+              "ToolTip": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Data\\DbInitializer.cs",
+              "RelativeToolTip": "Recauda\\Data\\DbInitializer.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABwAAAAwAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-30T17:18:55.463Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "_ValidationScriptsPartial.cshtml",
+              "DocumentMoniker": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Views\\Shared\\_ValidationScriptsPartial.cshtml",
+              "RelativeDocumentMoniker": "Recauda\\Views\\Shared\\_ValidationScriptsPartial.cshtml",
+              "ToolTip": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Views\\Shared\\_ValidationScriptsPartial.cshtml",
+              "RelativeToolTip": "Recauda\\Views\\Shared\\_ValidationScriptsPartial.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-30T18:47:31.55Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "_ViewStart.cshtml",
+              "DocumentMoniker": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Views\\_ViewStart.cshtml",
+              "RelativeDocumentMoniker": "Recauda\\Views\\_ViewStart.cshtml",
+              "ToolTip": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Views\\_ViewStart.cshtml",
+              "RelativeToolTip": "Recauda\\Views\\_ViewStart.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-30T18:08:00.417Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "_ViewImports.cshtml",
+              "DocumentMoniker": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Views\\_ViewImports.cshtml",
+              "RelativeDocumentMoniker": "Recauda\\Views\\_ViewImports.cshtml",
+              "ToolTip": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Views\\_ViewImports.cshtml",
+              "RelativeToolTip": "Recauda\\Views\\_ViewImports.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAA0AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-30T18:08:33.721Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "UsuarioService.cs",
+              "DocumentMoniker": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Services\\UsuarioService.cs",
+              "RelativeDocumentMoniker": "Recauda\\Services\\UsuarioService.cs",
+              "ToolTip": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Services\\UsuarioService.cs",
+              "RelativeToolTip": "Recauda\\Services\\UsuarioService.cs",
+              "ViewState": "AgIAACwAAAAAAAAAAAAjwEcAAAAiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-30T16:45:06.701Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "RolController.cs",
+              "DocumentMoniker": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Controllers\\RolController.cs",
+              "RelativeDocumentMoniker": "Recauda\\Controllers\\RolController.cs",
+              "ToolTip": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Controllers\\RolController.cs",
+              "RelativeToolTip": "Recauda\\Controllers\\RolController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-30T15:15:45.51Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "UsuarioController.cs",
+              "DocumentMoniker": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Controllers\\UsuarioController.cs",
+              "RelativeDocumentMoniker": "Recauda\\Controllers\\UsuarioController.cs",
+              "ToolTip": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Controllers\\UsuarioController.cs",
+              "RelativeToolTip": "Recauda\\Controllers\\UsuarioController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-30T16:45:46.864Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "IAutenticacionService.cs",
+              "DocumentMoniker": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Interfaces\\IAutenticacionService.cs",
+              "RelativeDocumentMoniker": "Recauda\\Interfaces\\IAutenticacionService.cs",
+              "ToolTip": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Interfaces\\IAutenticacionService.cs",
+              "RelativeToolTip": "Recauda\\Interfaces\\IAutenticacionService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAABBAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-30T17:07:19.488Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Views\\Home\\Index.cshtml",
+              "RelativeDocumentMoniker": "Recauda\\Views\\Home\\Index.cshtml",
+              "ToolTip": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Views\\Home\\Index.cshtml",
+              "RelativeToolTip": "Recauda\\Views\\Home\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-30T16:58:06.993Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "Eliminar.cshtml",
+              "DocumentMoniker": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Views\\Usuario\\Eliminar.cshtml",
+              "RelativeDocumentMoniker": "Recauda\\Views\\Usuario\\Eliminar.cshtml",
+              "ToolTip": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Views\\Usuario\\Eliminar.cshtml",
+              "RelativeToolTip": "Recauda\\Views\\Usuario\\Eliminar.cshtml",
+              "ViewState": "AgIAAF0AAAAAAAAAAAAAAGQAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-30T16:50:25.225Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "Detalles.cshtml",
+              "DocumentMoniker": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Views\\Usuario\\Detalles.cshtml",
+              "RelativeDocumentMoniker": "Recauda\\Views\\Usuario\\Detalles.cshtml",
+              "ToolTip": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Views\\Usuario\\Detalles.cshtml",
+              "RelativeToolTip": "Recauda\\Views\\Usuario\\Detalles.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAA3AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-30T16:49:57.917Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "Editar.cshtml",
+              "DocumentMoniker": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Views\\Usuario\\Editar.cshtml",
+              "RelativeDocumentMoniker": "Recauda\\Views\\Usuario\\Editar.cshtml",
+              "ToolTip": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Views\\Usuario\\Editar.cshtml",
+              "RelativeToolTip": "Recauda\\Views\\Usuario\\Editar.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-30T16:49:39.626Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "Crear.cshtml",
+              "DocumentMoniker": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Views\\Usuario\\Crear.cshtml",
+              "RelativeDocumentMoniker": "Recauda\\Views\\Usuario\\Crear.cshtml",
+              "ToolTip": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Views\\Usuario\\Crear.cshtml",
+              "RelativeToolTip": "Recauda\\Views\\Usuario\\Crear.cshtml",
+              "ViewState": "AgIAABIAAAAAAAAAAAAAADMAAABOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-30T16:49:09.045Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Views\\Usuario\\Index.cshtml",
+              "RelativeDocumentMoniker": "Recauda\\Views\\Usuario\\Index.cshtml",
+              "ToolTip": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Views\\Usuario\\Index.cshtml",
+              "RelativeToolTip": "Recauda\\Views\\Usuario\\Index.cshtml",
+              "ViewState": "AgIAADMAAAAAAAAAAAAAAFUAAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-30T16:48:28.923Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
+              "Title": "IUsuarioService.cs",
+              "DocumentMoniker": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Interfaces\\IUsuarioService.cs",
+              "RelativeDocumentMoniker": "Recauda\\Interfaces\\IUsuarioService.cs",
+              "ToolTip": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Interfaces\\IUsuarioService.cs",
+              "RelativeToolTip": "Recauda\\Interfaces\\IUsuarioService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAABLAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-30T16:44:20.933Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 36,
+              "Title": "RolService.cs",
+              "DocumentMoniker": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Services\\RolService.cs",
+              "RelativeDocumentMoniker": "Recauda\\Services\\RolService.cs",
+              "ToolTip": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Services\\RolService.cs",
+              "RelativeToolTip": "Recauda\\Services\\RolService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACYAAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-30T15:18:22.856Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 35,
+              "Title": "IRolService.cs",
+              "DocumentMoniker": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Interfaces\\IRolService.cs",
+              "RelativeDocumentMoniker": "Recauda\\Interfaces\\IRolService.cs",
+              "ToolTip": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Interfaces\\IRolService.cs",
+              "RelativeToolTip": "Recauda\\Interfaces\\IRolService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-30T15:18:01.456Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 33,
+              "Title": "Rol.cs",
+              "DocumentMoniker": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Models\\Rol.cs",
+              "RelativeDocumentMoniker": "Recauda\\Models\\Rol.cs",
+              "ToolTip": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Models\\Rol.cs",
+              "RelativeToolTip": "Recauda\\Models\\Rol.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-30T14:08:10.268Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 32,
+              "Title": "Detalles.cshtml",
+              "DocumentMoniker": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Views\\Rol\\Detalles.cshtml",
+              "RelativeDocumentMoniker": "Recauda\\Views\\Rol\\Detalles.cshtml",
+              "ToolTip": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Views\\Rol\\Detalles.cshtml",
+              "RelativeToolTip": "Recauda\\Views\\Rol\\Detalles.cshtml",
+              "ViewState": "AgIAADAAAAAAAAAAAAAAAD0AAABdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-30T15:25:04.832Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "Usuario.cs",
+              "DocumentMoniker": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Models\\Usuario.cs",
+              "RelativeDocumentMoniker": "Recauda\\Models\\Usuario.cs",
+              "ToolTip": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Models\\Usuario.cs",
+              "RelativeToolTip": "Recauda\\Models\\Usuario.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAYwBoAAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-30T14:51:02.42Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 30,
+              "Title": "Editar.cshtml",
+              "DocumentMoniker": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Views\\Rol\\Editar.cshtml",
+              "RelativeDocumentMoniker": "Recauda\\Views\\Rol\\Editar.cshtml",
+              "ToolTip": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Views\\Rol\\Editar.cshtml",
+              "RelativeToolTip": "Recauda\\Views\\Rol\\Editar.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAA6AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-30T15:24:12.408Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 29,
+              "Title": "Eliminar.cshtml",
+              "DocumentMoniker": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Views\\Rol\\Eliminar.cshtml",
+              "RelativeDocumentMoniker": "Recauda\\Views\\Rol\\Eliminar.cshtml",
+              "ToolTip": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Views\\Rol\\Eliminar.cshtml",
+              "RelativeToolTip": "Recauda\\Views\\Rol\\Eliminar.cshtml",
+              "ViewState": "AgIAADkAAAAAAAAAAAAAAEMAAAA4AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-30T15:25:49.444Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 31,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Views\\Rol\\Index.cshtml",
+              "RelativeDocumentMoniker": "Recauda\\Views\\Rol\\Index.cshtml",
+              "ToolTip": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Views\\Rol\\Index.cshtml",
+              "RelativeToolTip": "Recauda\\Views\\Rol\\Index.cshtml",
+              "ViewState": "AgIAADYAAAAAAAAAAAAAABcAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-30T15:22:51.499Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 34,
+              "Title": "Crear.cshtml",
+              "DocumentMoniker": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Views\\Rol\\Crear.cshtml",
+              "RelativeDocumentMoniker": "Recauda\\Views\\Rol\\Crear.cshtml",
+              "ToolTip": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Views\\Rol\\Crear.cshtml",
+              "RelativeToolTip": "Recauda\\Views\\Rol\\Crear.cshtml",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAACEAAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-30T15:23:34.776Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 37,
+              "Title": "_Alerts.cshtml",
+              "DocumentMoniker": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Views\\Shared\\_Alerts.cshtml",
+              "RelativeDocumentMoniker": "Recauda\\Views\\Shared\\_Alerts.cshtml",
+              "ToolTip": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Views\\Shared\\_Alerts.cshtml",
+              "RelativeToolTip": "Recauda\\Views\\Shared\\_Alerts.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-05-30T15:26:45.125Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 40,
+              "Title": "20250530145835_CreacionTablaUsuarios.cs",
+              "DocumentMoniker": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Migrations\\20250530145835_CreacionTablaUsuarios.cs",
+              "RelativeDocumentMoniker": "Recauda\\Migrations\\20250530145835_CreacionTablaUsuarios.cs",
+              "ToolTip": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Migrations\\20250530145835_CreacionTablaUsuarios.cs",
+              "RelativeToolTip": "Recauda\\Migrations\\20250530145835_CreacionTablaUsuarios.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAABCAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-30T14:58:35.365Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 41,
+              "Title": "20250530142400_MigracionInicial.cs",
+              "DocumentMoniker": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Migrations\\20250530142400_MigracionInicial.cs",
+              "RelativeDocumentMoniker": "Recauda\\Migrations\\20250530142400_MigracionInicial.cs",
+              "ToolTip": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Migrations\\20250530142400_MigracionInicial.cs",
+              "RelativeToolTip": "Recauda\\Migrations\\20250530142400_MigracionInicial.cs",
+              "ViewState": "AgIAABYAAAAAAAAAAAAQwCIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-30T14:24:01.397Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 39,
+              "Title": "ErrorViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Models\\ErrorViewModel.cs",
+              "RelativeDocumentMoniker": "Recauda\\Models\\ErrorViewModel.cs",
+              "ToolTip": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Models\\ErrorViewModel.cs",
+              "RelativeToolTip": "Recauda\\Models\\ErrorViewModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-30T14:14:23.78Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 38,
+              "Title": "AppDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Data\\AppDbContext.cs",
+              "RelativeDocumentMoniker": "Recauda\\Data\\AppDbContext.cs",
+              "ToolTip": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\Data\\AppDbContext.cs",
+              "RelativeToolTip": "Recauda\\Data\\AppDbContext.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-30T14:06:58.816Z"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

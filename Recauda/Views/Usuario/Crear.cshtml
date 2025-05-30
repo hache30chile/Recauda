@@ -1,0 +1,184 @@
+﻿@model Usuario
+
+@{
+    ViewData["Title"] = "Crear Nuevo Usuario";
+}
+
+<h1 class="mt-4">@ViewData["Title"]</h1>
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Dashboard</a></li>
+    <li class="breadcrumb-item"><a asp-action="Index">Usuarios</a></li>
+    <li class="breadcrumb-item active">Crear</li>
+</ol>
+
+@* Mostrar mensajes de error/éxito *@
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="fas fa-exclamation-circle"></i>
+        @TempData["ErrorMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header">
+                <i class="fas fa-user-plus me-1"></i>
+                Información del Nuevo Usuario
+            </div>
+            <div class="card-body">
+                @* Debug: Mostrar errores del ModelState *@
+                @if (!ViewData.ModelState.IsValid)
+                {
+                    <div class="alert alert-warning">
+                        <h6>Errores de validación:</h6>
+                        <ul>
+                            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                            {
+                                <li>@error.ErrorMessage</li>
+                            }
+                        </ul>
+                    </div>
+                }
+
+                <form asp-controller="Usuario" asp-action="Crear" method="post">
+                    @Html.AntiForgeryToken()
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Login" class="form-label">
+                                <i class="fas fa-user"></i> Login de Usuario *
+                            </label>
+                            <input asp-for="Login" class="form-control" placeholder="Ej: juanperez" />
+                            <span asp-validation-for="Login" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Nombre" class="form-label">
+                                <i class="fas fa-id-card"></i> Nombre Completo *
+                            </label>
+                            <input asp-for="Nombre" class="form-control" placeholder="Ej: Juan Pérez González" />
+                            <span asp-validation-for="Nombre" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label asp-for="Rut" class="form-label">
+                                <i class="fas fa-id-badge"></i> RUT *
+                            </label>
+                            <input asp-for="Rut" class="form-control" placeholder="12345678" type="number" />
+                            <span asp-validation-for="Rut" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-2 mb-3">
+                            <label asp-for="Dv" class="form-label">
+                                <i class="fas fa-check"></i> DV *
+                            </label>
+                            <input asp-for="Dv" class="form-control" placeholder="5" maxlength="1" />
+                            <span asp-validation-for="Dv" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="RolId" class="form-label">
+                                <i class="fas fa-user-tag"></i> Rol *
+                            </label>
+                            <select asp-for="RolId" asp-items="ViewBag.Roles" class="form-select">
+                                <option value="">-- Seleccione un Rol --</option>
+                            </select>
+                            <span asp-validation-for="RolId" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Clave" class="form-label">
+                                <i class="fas fa-lock"></i> Contraseña *
+                            </label>
+                            <input asp-for="Clave" type="password" class="form-control" placeholder="Mínimo 6 caracteres" />
+                            <span asp-validation-for="Clave" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="form-check form-switch mt-4">
+                                <input asp-for="Activo" class="form-check-input" type="checkbox" checked />
+                                <label asp-for="Activo" class="form-check-label">
+                                    <i class="fas fa-toggle-on"></i> Usuario Activo
+                                </label>
+                            </div>
+                            <small class="form-text text-muted">
+                                Los usuarios inactivos no podrán acceder al sistema.
+                            </small>
+                        </div>
+                    </div>
+
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-success">
+                                <i class="fas fa-save"></i> Crear Usuario
+                            </button>
+                            <a asp-action="Index" class="btn btn-secondary ms-2">
+                                <i class="fas fa-arrow-left"></i> Cancelar
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="card">
+            <div class="card-header">
+                <i class="fas fa-info-circle me-1"></i>
+                Información Importante
+            </div>
+            <div class="card-body">
+                <h6 class="card-title">Consejos para crear usuarios:</h6>
+                <ul class="card-text">
+                    <li>Use logins únicos y descriptivos</li>
+                    <li>Verifique que el RUT sea correcto</li>
+                    <li>Asigne el rol apropiado al usuario</li>
+                    <li>Use contraseñas seguras</li>
+                </ul>
+
+                <div class="mt-3">
+                    <h6 class="card-title">Validación de RUT:</h6>
+                    <p class="text-muted small">
+                        Ingrese solo los números del RUT (sin puntos ni guión) y el dígito verificador por separado.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        // Formatear RUT mientras se escribe
+        document.addEventListener('DOMContentLoaded', function() {
+            const rutInput = document.querySelector('input[name="Rut"]');
+
+            if (rutInput) {
+                rutInput.addEventListener('input', function(e) {
+                    // Validar que solo sean números
+                    let value = e.target.value.replace(/\D/g, '');
+                    e.target.value = value;
+                });
+            }
+
+            // Validar DV
+            const dvInput = document.querySelector('input[name="Dv"]');
+            if (dvInput) {
+                dvInput.addEventListener('input', function(e) {
+                    let value = e.target.value.toUpperCase();
+                    if (!/^[0-9K]$/.test(value)) {
+                        e.target.value = value.slice(0, -1);
+                    }
+                });
+            }
+        });
+    </script>
+}

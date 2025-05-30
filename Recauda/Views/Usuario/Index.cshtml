@@ -1,0 +1,128 @@
+﻿@model IEnumerable<Usuario>
+
+@{
+    ViewData["Title"] = "Gestión de Usuarios";
+}
+
+<h1 class="mt-4">@ViewData["Title"]</h1>
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Dashboard</a></li>
+    <li class="breadcrumb-item active">Usuarios</li>
+</ol>
+
+@await Html.PartialAsync("_Alerts")
+
+<div class="card mb-4">
+    <div class="card-header">
+        <i class="fas fa-users me-1"></i>
+        Lista de Usuarios del Sistema
+        <div class="float-end">
+            <a asp-action="Crear" class="btn btn-primary btn-sm">
+                <i class="fas fa-plus"></i> Nuevo Usuario
+            </a>
+        </div>
+    </div>
+    <div class="card-body">
+        @if (Model.Any())
+        {
+            <table id="datatablesSimple" class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Login</th>
+                        <th>RUT</th>
+                        <th>Nombre</th>
+                        <th>Rol</th>
+                        <th>Estado</th>
+                        <th>Fecha Registro</th>
+                        <th class="text-center">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var usuario in Model)
+                    {
+                        <tr>
+                            <td>@usuario.Id</td>
+                            <td>
+                                <strong>@usuario.Login</strong>
+                            </td>
+                            <td>@usuario.RutCompleto</td>
+                            <td>@usuario.Nombre</td>
+                            <td>
+                                @if (usuario.Rol != null)
+                                {
+                                    <span class="badge bg-info">@usuario.Rol.Nombre</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-secondary">Sin Rol</span>
+                                }
+                            </td>
+                            <td>
+                                @if (usuario.Activo)
+                                {
+                                    <span class="badge bg-success">Activo</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-secondary">Inactivo</span>
+                                }
+                            </td>
+                            <td>@usuario.FechaRegistro.ToString("dd/MM/yyyy")</td>
+                            <td class="text-center">
+                                <div class="btn-group" role="group">
+                                    <a asp-action="Detalles" asp-route-id="@usuario.Id"
+                                       class="btn btn-info btn-sm" title="Ver detalles">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a asp-action="Editar" asp-route-id="@usuario.Id"
+                                       class="btn btn-warning btn-sm" title="Editar">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a asp-action="Eliminar" asp-route-id="@usuario.Id"
+                                       class="btn btn-danger btn-sm" title="Eliminar">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div class="alert alert-info" role="alert">
+                <i class="fas fa-info-circle"></i>
+                No hay usuarios registrados en el sistema.
+                <a asp-action="Crear" class="btn btn-primary btn-sm ms-2">
+                    <i class="fas fa-plus"></i> Crear primer usuario
+                </a>
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js"></script>
+    <script>
+        // Initialize DataTable
+        window.addEventListener('DOMContentLoaded', event => {
+            const datatablesSimple = document.getElementById('datatablesSimple');
+            if (datatablesSimple) {
+                new simpleDatatables.DataTable(datatablesSimple, {
+                    searchable: true,
+                    sortable: true,
+                    paging: true,
+                    perPage: 10,
+                    labels: {
+                        placeholder: "Buscar usuarios...",
+                        perPage: "usuarios por página",
+                        noRows: "No se encontraron usuarios",
+                        info: "Mostrando {start} a {end} de {rows} usuarios"
+                    }
+                });
+            }
+        });
+    </script>
+}

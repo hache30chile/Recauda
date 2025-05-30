@@ -1,0 +1,141 @@
+﻿@model Recauda.Models.DTOs.CambiarClaveDto
+
+@{
+    ViewData["Title"] = "Cambiar Contraseña";
+}
+
+<h1 class="mt-4">@ViewData["Title"]</h1>
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Dashboard</a></li>
+    <li class="breadcrumb-item active">Cambiar Contraseña</li>
+</ol>
+
+<div class="row justify-content-center">
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-header">
+                <i class="fas fa-key me-1"></i>
+                Cambiar Contraseña
+            </div>
+            <div class="card-body">
+                @* Mostrar errores de validación *@
+                @if (!ViewData.ModelState.IsValid)
+                {
+                    <div class="alert alert-danger">
+                        <h6>Errores de validación:</h6>
+                        <ul class="mb-0">
+                            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                            {
+                                <li>@error.ErrorMessage</li>
+                            }
+                        </ul>
+                    </div>
+                }
+
+                <form asp-controller="Autenticacion" asp-action="CambiarClave" method="post">
+                    @Html.AntiForgeryToken()
+
+                    <div class="mb-3">
+                        <label asp-for="ClaveActual" class="form-label">
+                            <i class="fas fa-lock"></i> Contraseña Actual *
+                        </label>
+                        <input asp-for="ClaveActual" type="password" class="form-control" />
+                        <span asp-validation-for="ClaveActual" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="ClaveNueva" class="form-label">
+                            <i class="fas fa-key"></i> Nueva Contraseña *
+                        </label>
+                        <input asp-for="ClaveNueva" type="password" class="form-control" />
+                        <span asp-validation-for="ClaveNueva" class="text-danger"></span>
+                        <div class="form-text">
+                            La contraseña debe tener al menos 6 caracteres.
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="ConfirmarClave" class="form-label">
+                            <i class="fas fa-check-double"></i> Confirmar Nueva Contraseña *
+                        </label>
+                        <input asp-for="ConfirmarClave" type="password" class="form-control" />
+                        <span asp-validation-for="ConfirmarClave" class="text-danger"></span>
+                    </div>
+
+                    <div class="alert alert-info" role="alert">
+                        <i class="fas fa-info-circle"></i>
+                        <strong>Consejos de seguridad:</strong>
+                        <ul class="mb-0 mt-2">
+                            <li>Use una combinación de letras, números y símbolos</li>
+                            <li>Evite usar información personal</li>
+                            <li>No comparta su contraseña con nadie</li>
+                        </ul>
+                    </div>
+
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Cambiar Contraseña
+                            </button>
+                            <a asp-controller="Home" asp-action="Index" class="btn btn-secondary ms-2">
+                                <i class="fas fa-arrow-left"></i> Cancelar
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="card">
+            <div class="card-header">
+                <i class="fas fa-shield-alt me-1"></i>
+                Información de Seguridad
+            </div>
+            <div class="card-body">
+                <h6>Usuario Actual:</h6>
+                <p><strong>@User.Identity?.Name</strong></p>
+                <p class="text-muted">@User.FindFirstValue("FullName")</p>
+
+                <hr>
+
+                <h6>Recomendaciones:</h6>
+                <ul class="text-muted small">
+                    <li>Cambie su contraseña regularmente</li>
+                    <li>Use contraseñas únicas para cada sistema</li>
+                    <li>Mantenga su contraseña en secreto</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        // Validación en tiempo real
+        document.addEventListener('DOMContentLoaded', function() {
+            const claveNueva = document.querySelector('input[name="ClaveNueva"]');
+            const confirmarClave = document.querySelector('input[name="ConfirmarClave"]');
+
+            function validarCoincidencia() {
+                if (claveNueva.value && confirmarClave.value) {
+                    if (claveNueva.value === confirmarClave.value) {
+                        confirmarClave.classList.remove('is-invalid');
+                        confirmarClave.classList.add('is-valid');
+                    } else {
+                        confirmarClave.classList.remove('is-valid');
+                        confirmarClave.classList.add('is-invalid');
+                    }
+                }
+            }
+
+            claveNueva?.addEventListener('input', validarCoincidencia);
+            confirmarClave?.addEventListener('input', validarCoincidencia);
+        });
+    </script>
+}

@@ -1,0 +1,57 @@
+﻿@model Recauda.Models.Rol
+
+@{
+    ViewData["Title"] = "Crear Nuevo Rol";
+}
+
+<h1 class="mt-4">@ViewData["Title"]</h1>
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Dashboard</a></li>
+    <li class="breadcrumb-item"><a asp-action="Index">Roles</a></li>
+    <li class="breadcrumb-item active">Crear</li>
+</ol>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <i class="fas fa-user-plus me-1"></i>
+                Información del Nuevo Rol
+            </div>
+            <div class="card-body">
+                <form asp-controller="Rol" asp-action="Crear" method="post">
+                    @Html.AntiForgeryToken()
+
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                            <label asp-for="Nombre" class="form-label">
+                                <i class="fas fa-tag"></i> Nombre del Rol
+                            </label>
+                            <input asp-for="Nombre" class="form-control" placeholder="Ej: Administrador, Usuario, Supervisor..." />
+                            <span asp-validation-for="Nombre" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-success">
+                                <i class="fas fa-save"></i> Crear Rol
+                            </button>
+                            <a asp-action="Index" class="btn btn-secondary ms-2">
+                                <i class="fas fa-arrow-left"></i> Cancelar
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,0 +1,126 @@
+﻿@model Recauda.Models.DTOs.LoginDto
+
+@{
+    ViewData["Title"] = "Iniciar Sesión";
+    Layout = "_LayoutAuth"; // Layout especial para login
+}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-5">
+            <div class="card shadow-lg border-0 rounded-lg mt-5">
+                <div class="card-header">
+                    <div class="text-center">
+                        <i class="fas fa-sign-in-alt fa-2x text-primary mb-2"></i>
+                        <h3 class="text-center font-weight-light my-2">Sistema Recauda</h3>
+                        <p class="text-center text-muted">Inicie sesión para continuar</p>
+                    </div>
+                </div>
+                <div class="card-body">
+                    @* Mostrar mensajes *@
+                    @if (TempData["ErrorMessage"] != null)
+                    {
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <i class="fas fa-exclamation-circle"></i>
+                            @TempData["ErrorMessage"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    }
+
+                    @if (TempData["InfoMessage"] != null)
+                    {
+                        <div class="alert alert-info alert-dismissible fade show" role="alert">
+                            <i class="fas fa-info-circle"></i>
+                            @TempData["InfoMessage"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    }
+
+                    @* Mostrar errores de validación *@
+                    @if (!ViewData.ModelState.IsValid)
+                    {
+                        <div class="alert alert-danger">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <strong>Error:</strong>
+                            <ul class="mb-0 mt-2">
+                                @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                                {
+                                    <li>@error.ErrorMessage</li>
+                                }
+                            </ul>
+                        </div>
+                    }
+
+                    <form asp-controller="Autenticacion" asp-action="Login" method="post">
+                        @Html.AntiForgeryToken()
+                        <input asp-for="UrlRetorno" type="hidden" />
+
+                        <div class="form-floating mb-3">
+                            <input asp-for="Login" class="form-control" placeholder="Usuario" autofocus />
+                            <label asp-for="Login">
+                                <i class="fas fa-user"></i> Usuario
+                            </label>
+                            <span asp-validation-for="Login" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input asp-for="Clave" type="password" class="form-control" placeholder="Contraseña" />
+                            <label asp-for="Clave">
+                                <i class="fas fa-lock"></i> Contraseña
+                            </label>
+                            <span asp-validation-for="Clave" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-check mb-3">
+                            <input asp-for="RecordarMe" class="form-check-input" />
+                            <label asp-for="RecordarMe" class="form-check-label">
+                                Recordarme por 30 días
+                            </label>
+                        </div>
+
+                        <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
+                            <button type="submit" class="btn btn-primary w-100">
+                                <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div class="card-footer text-center py-3">
+                    <div class="small">
+                        <i class="fas fa-shield-alt text-muted"></i>
+                        Sistema seguro con autenticación
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        // Auto-focus en el campo usuario
+        document.addEventListener('DOMContentLoaded', function() {
+            const loginInput = document.querySelector('input[name="Login"]');
+            if (loginInput) {
+                loginInput.focus();
+            }
+
+            // Mostrar/ocultar contraseña
+            const togglePassword = document.querySelector('#togglePassword');
+            const passwordInput = document.querySelector('input[name="Clave"]');
+
+            if (togglePassword && passwordInput) {
+                togglePassword.addEventListener('click', function() {
+                    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+                    passwordInput.setAttribute('type', type);
+                    this.classList.toggle('fa-eye');
+                    this.classList.toggle('fa-eye-slash');
+                });
+            }
+        });
+    </script>
+}
