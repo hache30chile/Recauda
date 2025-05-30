@@ -111,8 +111,6 @@ namespace Recauda.Services
                 existingUsuario.Nombre = usuario.Nombre;
                 existingUsuario.RolId = usuario.RolId;
                 existingUsuario.Activo = usuario.Activo;
-                // NO actualizar la clave aquí a menos que sea específicamente requerido
-                // existingUsuario.Clave = usuario.Clave;
 
                 var result = await _context.SaveChangesAsync();
                 _logger.LogInformation($"Usuario editado exitosamente. Filas afectadas: {result}");

@@ -100,8 +100,6 @@ namespace Recauda.Services
         {
             try
             {
-                // Si la contraseña almacenada no está hasheada (legacy), compara directamente
-                // ESTO ES TEMPORAL - deberías migrar todas las contraseñas a hash
                 if (!hashAlmacenado.StartsWith("$2"))
                 {
                     _logger.LogWarning("Contraseña sin hashear detectada - considerar migración");
