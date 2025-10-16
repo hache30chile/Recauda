@@ -16,11 +16,19 @@ jobs:
       with:
         dotnet-version: 8.0.x
     
-    - name: Build and Publish
+    - name: Build
       run: |
         dotnet restore
         dotnet build --no-restore -c Release
-        dotnet publish -c Release -o ./publish
+    
+    - name: Apply EF Core Migrations
+      env:
+        ConnectionStrings__DefaultConnection: ${{ secrets.PROD_CONNECTION_STRING }}
+      run: |
+        dotnet ef database update --no-build --connection "$ConnectionStrings__DefaultConnection"
+    
+    - name: Publish
+      run: dotnet publish -c Release -o ./publish --no-build
     
     - name: Deploy to Server
       uses: appleboy/scp-action@master
@@ -41,3 +49,4 @@ jobs:
         script: |
           sudo systemctl restart recauda
           sudo systemctl restart nginx
+
