@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Editar Usuario";
+    bool esGenerador = ViewBag.EsGenerador ?? false;
 }
 
 <h1 class="mt-4">@ViewData["Title"]</h1>
@@ -27,6 +28,12 @@
             <div class="card-header">
                 <i class="fas fa-edit me-1"></i>
                 Editar Usuario: <strong>@Model.Login</strong>
+                @if (esGenerador)
+                {
+                    <span class="badge bg-info ms-2">
+                        <i class="fas fa-bolt"></i> Generador
+                    </span>
+                }
             </div>
             <div class="card-body">
                 @* Debug: Mostrar errores del ModelState *@
@@ -104,10 +111,39 @@
                         </div>
                     </div>
 
+                    <!-- Nueva sección para Generador -->
+                    <div class="row">
+                        <div class="col-12 mb-3">
+                            <div class="card border-info">
+                                <div class="card-header bg-info text-white">
+                                    <i class="fas fa-bolt"></i> Configuración de Generador
+                                </div>
+                                <div class="card-body">
+                                    <div class="form-check form-switch">
+                                        <input name="esGenerador" class="form-check-input" type="checkbox" id="esGenerador" value="true" @(esGenerador ? "checked" : "") />
+                                        <label class="form-check-label" for="esGenerador">
+                                            <i class="fas fa-industry"></i> Este usuario es un generador
+                                        </label>
+                                    </div>
+                                    <small class="form-text text-muted">
+                                        Los usuarios generadores tienen permisos especiales para crear y gestionar cobros.
+                                    </small>
+                                    @if (esGenerador)
+                                    {
+                                        <div class="alert alert-info mt-2 mb-0" role="alert">
+                                            <i class="fas fa-info-circle"></i>
+                                            <strong>Estado actual:</strong> Este usuario está configurado como generador activo.
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+@* 
                     <div class="alert alert-info" role="alert">
                         <i class="fas fa-info-circle"></i>
                         <strong>Nota:</strong> La contraseña no se modifica desde esta pantalla. Use la opción "Cambiar Contraseña" si es necesario.
-                    </div>
+                    </div> *@
 
                     <div class="row mt-4">
                         <div class="col-12">
@@ -160,11 +196,26 @@
                             }
                         </td>
                     </tr>
+                    <tr>
+                        <td><strong>Es Generador:</strong></td>
+                        <td>
+                            @if (esGenerador)
+                            {
+                                <span class="badge bg-info">
+                                    <i class="fas fa-bolt"></i> Sí
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-secondary">No</span>
+                            }
+                        </td>
+                    </tr>
                 </table>
 
                 <div class="alert alert-warning" role="alert">
                     <i class="fas fa-exclamation-triangle"></i>
-                    <strong>Advertencia:</strong> Los cambios en el rol afectarán los permisos del usuario.
+                    <strong>Advertencia:</strong> Los cambios en el rol o la configuración de generador afectarán los permisos del usuario.
                 </div>
             </div>
         </div>
@@ -179,7 +230,7 @@
                     <i class="fas fa-trash"></i> Eliminar Usuario
                 </a>
                 <small class="form-text text-muted">
-                    Esta acción requerirá confirmación adicional.
+                    Esta acción requerirá confirmación adicional y desactivará cualquier registro de generador asociado.
                 </small>
             </div>
         </div>

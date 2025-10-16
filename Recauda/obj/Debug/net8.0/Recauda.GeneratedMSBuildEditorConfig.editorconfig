@@ -40,12 +40,124 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXV0ZW50aWNhY2lvblxMb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/augus/source/repos/Recauda/Recauda/Views/Compania/Crear.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29tcGFuaWFcQ3JlYXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/augus/source/repos/Recauda/Recauda/Views/Compania/Detalles.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29tcGFuaWFcRGV0YWxsZXMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/augus/source/repos/Recauda/Recauda/Views/Compania/Editar.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29tcGFuaWFcRWRpdGFyLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/augus/source/repos/Recauda/Recauda/Views/Compania/Eliminar.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29tcGFuaWFcRWxpbWluYXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/augus/source/repos/Recauda/Recauda/Views/Compania/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29tcGFuaWFcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/augus/source/repos/Recauda/Recauda/Views/Contribuyente/Crear.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29udHJpYnV5ZW50ZVxDcmVhci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/augus/source/repos/Recauda/Recauda/Views/Contribuyente/Detalles.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29udHJpYnV5ZW50ZVxEZXRhbGxlcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/augus/source/repos/Recauda/Recauda/Views/Contribuyente/Editar.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29udHJpYnV5ZW50ZVxFZGl0YXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/augus/source/repos/Recauda/Recauda/Views/Contribuyente/Eliminar.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29udHJpYnV5ZW50ZVxFbGltaW5hci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/augus/source/repos/Recauda/Recauda/Views/Contribuyente/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29udHJpYnV5ZW50ZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/augus/source/repos/Recauda/Recauda/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/augus/source/repos/Recauda/Recauda/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/augus/source/repos/Recauda/Recauda/Views/MotivoDeCobro/Crear.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTW90aXZvRGVDb2Jyb1xDcmVhci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/augus/source/repos/Recauda/Recauda/Views/MotivoDeCobro/Detalles.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTW90aXZvRGVDb2Jyb1xEZXRhbGxlcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/augus/source/repos/Recauda/Recauda/Views/MotivoDeCobro/Editar.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTW90aXZvRGVDb2Jyb1xFZGl0YXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/augus/source/repos/Recauda/Recauda/Views/MotivoDeCobro/Eliminar.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTW90aXZvRGVDb2Jyb1xFbGltaW5hci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/augus/source/repos/Recauda/Recauda/Views/MotivoDeCobro/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTW90aXZvRGVDb2Jyb1xJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/augus/source/repos/Recauda/Recauda/Views/Persona/Crear.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGVyc29uYVxDcmVhci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/augus/source/repos/Recauda/Recauda/Views/Persona/Detalles.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGVyc29uYVxEZXRhbGxlcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/augus/source/repos/Recauda/Recauda/Views/Persona/Editar.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGVyc29uYVxFZGl0YXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/augus/source/repos/Recauda/Recauda/Views/Persona/Eliminar.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGVyc29uYVxFbGltaW5hci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/augus/source/repos/Recauda/Recauda/Views/Persona/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGVyc29uYVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/augus/source/repos/Recauda/Recauda/Views/Recaudador/Crear.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVjYXVkYWRvclxDcmVhci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/augus/source/repos/Recauda/Recauda/Views/Recaudador/Detalles.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVjYXVkYWRvclxEZXRhbGxlcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/augus/source/repos/Recauda/Recauda/Views/Recaudador/Editar.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVjYXVkYWRvclxFZGl0YXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/augus/source/repos/Recauda/Recauda/Views/Recaudador/Eliminar.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVjYXVkYWRvclxFbGltaW5hci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/augus/source/repos/Recauda/Recauda/Views/Recaudador/GenerarCobros.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVjYXVkYWRvclxHZW5lcmFyQ29icm9zLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/augus/source/repos/Recauda/Recauda/Views/Recaudador/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVjYXVkYWRvclxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/augus/source/repos/Recauda/Recauda/Views/Recaudador/Pagos.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVjYXVkYWRvclxQYWdvcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/augus/source/repos/Recauda/Recauda/Views/Reporte/ReporteIngresos.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVwb3J0ZVxSZXBvcnRlSW5ncmVzb3MuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/augus/source/repos/Recauda/Recauda/Views/Rol/Crear.cshtml]

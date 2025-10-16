@@ -17,10 +17,594 @@ namespace Recauda.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.5")
+                .HasAnnotation("ProductVersion", "9.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("Recauda.Models.Anulaciones", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("FechaRegistro")
+                        .HasColumnType("datetime");
+
+                    b.Property<bool>("anu_activo")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("anu_descripcion")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar(255)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("anu_activo")
+                        .HasDatabaseName("IX_Anulaciones_Activo");
+
+                    b.HasIndex("anu_descripcion")
+                        .HasDatabaseName("IX_Anulaciones_Descripcion");
+
+                    b.ToTable("Anulaciones", (string)null);
+                });
+
+            modelBuilder.Entity("Recauda.Models.Cobros", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("ContribuyenteId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("FechaRegistro")
+                        .HasColumnType("datetime");
+
+                    b.Property<DateTime>("cob_fecha_emision")
+                        .HasColumnType("datetime");
+
+                    b.Property<DateTime>("cob_fecha_vencimiento")
+                        .HasColumnType("datetime");
+
+                    b.Property<decimal>("cob_valor")
+                        .HasColumnType("decimal(12,2)");
+
+                    b.Property<int>("com_id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("con_id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("gen_id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("mdc_id")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ContribuyenteId");
+
+                    b.HasIndex("cob_fecha_emision")
+                        .HasDatabaseName("IX_Cobros_FechaEmision");
+
+                    b.HasIndex("cob_fecha_vencimiento")
+                        .HasDatabaseName("IX_Cobros_FechaVencimiento");
+
+                    b.HasIndex("com_id")
+                        .HasDatabaseName("IX_Cobros_Compania");
+
+                    b.HasIndex("con_id")
+                        .HasDatabaseName("IX_Cobros_Contribuyente");
+
+                    b.HasIndex("gen_id")
+                        .HasDatabaseName("IX_Cobros_Generador");
+
+                    b.HasIndex("mdc_id")
+                        .HasDatabaseName("IX_Cobros_MotivoCobro");
+
+                    b.HasIndex("cob_fecha_vencimiento", "com_id")
+                        .HasDatabaseName("IX_Cobros_FechaVencimiento_Compania");
+
+                    b.HasIndex("com_id", "cob_fecha_emision")
+                        .HasDatabaseName("IX_Cobros_Compania_FechaEmision");
+
+                    b.HasIndex("con_id", "cob_fecha_vencimiento")
+                        .HasDatabaseName("IX_Cobros_Contribuyente_FechaVencimiento");
+
+                    b.ToTable("Cobros", (string)null);
+                });
+
+            modelBuilder.Entity("Recauda.Models.CobrosAnulados", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("FechaRegistro")
+                        .HasColumnType("datetime");
+
+                    b.Property<int>("anu_id")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("caa_fecha_anulacion")
+                        .HasColumnType("datetime");
+
+                    b.Property<int>("cob_id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("gen_id")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("anu_id")
+                        .HasDatabaseName("IX_CobrosAnulados_Anulacion");
+
+                    b.HasIndex("caa_fecha_anulacion")
+                        .HasDatabaseName("IX_CobrosAnulados_FechaAnulacion");
+
+                    b.HasIndex("cob_id")
+                        .HasDatabaseName("IX_CobrosAnulados_Cobro");
+
+                    b.HasIndex("gen_id")
+                        .HasDatabaseName("IX_CobrosAnulados_Generador");
+
+                    b.HasIndex("anu_id", "caa_fecha_anulacion")
+                        .HasDatabaseName("IX_CobrosAnulados_Anulacion_FechaAnulacion");
+
+                    b.HasIndex("cob_id", "caa_fecha_anulacion")
+                        .HasDatabaseName("IX_CobrosAnulados_Cobro_FechaAnulacion");
+
+                    b.ToTable("CobrosAnulados", (string)null);
+                });
+
+            modelBuilder.Entity("Recauda.Models.Compania", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("com_nombre")
+                        .IsRequired()
+                        .HasMaxLength(80)
+                        .HasColumnType("varchar(80)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Companias", (string)null);
+                });
+
+            modelBuilder.Entity("Recauda.Models.ComprobantesPago", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime?>("FechaModificacion")
+                        .HasColumnType("datetime");
+
+                    b.Property<DateTime>("FechaRegistro")
+                        .HasColumnType("datetime");
+
+                    b.Property<bool>("comp_activo")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(true);
+
+                    b.Property<string>("comp_descripcion")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<string>("comp_extension")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.Property<string>("comp_nombre_original")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<string>("comp_ruta_archivo")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<decimal?>("comp_tamaño_kb")
+                        .HasColumnType("decimal(10,2)");
+
+                    b.Property<string>("comp_tipo_comprobante")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("pag_id")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FechaRegistro")
+                        .HasDatabaseName("IX_ComprobantesPago_FechaRegistro");
+
+                    b.HasIndex("comp_activo")
+                        .HasDatabaseName("IX_ComprobantesPago_Activo");
+
+                    b.HasIndex("comp_tipo_comprobante")
+                        .HasDatabaseName("IX_ComprobantesPago_TipoComprobante");
+
+                    b.HasIndex("pag_id")
+                        .HasDatabaseName("IX_ComprobantesPago_Pago");
+
+                    b.HasIndex("comp_activo", "FechaRegistro")
+                        .HasDatabaseName("IX_ComprobantesPago_Activo_FechaRegistro");
+
+                    b.HasIndex("pag_id", "comp_activo")
+                        .HasDatabaseName("IX_ComprobantesPago_Pago_Activo");
+
+                    b.HasIndex("pag_id", "comp_tipo_comprobante")
+                        .HasDatabaseName("IX_ComprobantesPago_Pago_TipoComprobante");
+
+                    b.ToTable("ComprobantesPago", (string)null);
+                });
+
+            modelBuilder.Entity("Recauda.Models.Contribuyente", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("CompaniaId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("FechaRegistro")
+                        .HasColumnType("datetime")
+                        .HasColumnName("FechaRegistro");
+
+                    b.Property<int?>("MotivoDeCobroId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Personaper_rut")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("RecaudadorId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("com_id")
+                        .HasColumnType("int")
+                        .HasColumnName("com_id");
+
+                    b.Property<bool>("con_activo")
+                        .HasColumnType("bit")
+                        .HasColumnName("con_activo");
+
+                    b.Property<int>("con_dia_del_cargo")
+                        .HasColumnType("int")
+                        .HasColumnName("con_dia_del_cargo");
+
+                    b.Property<DateTime?>("con_fecha_fin")
+                        .HasColumnType("datetime")
+                        .HasColumnName("con_fecha_fin");
+
+                    b.Property<DateTime>("con_fecha_inicio")
+                        .HasColumnType("datetime")
+                        .HasColumnName("con_fecha_inicio");
+
+                    b.Property<string>("con_periodicidad_cobro")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)")
+                        .HasColumnName("con_periodicidad_cobro");
+
+                    b.Property<decimal>("con_valor_aporte")
+                        .HasColumnType("decimal(12,0)")
+                        .HasColumnName("con_valor_aporte");
+
+                    b.Property<int>("mdc_id")
+                        .HasColumnType("int")
+                        .HasColumnName("mdc_id");
+
+                    b.Property<int>("per_rut")
+                        .HasColumnType("int")
+                        .HasColumnName("per_rut");
+
+                    b.Property<int>("rec_id")
+                        .HasColumnType("int")
+                        .HasColumnName("rec_id");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CompaniaId");
+
+                    b.HasIndex("MotivoDeCobroId");
+
+                    b.HasIndex("Personaper_rut");
+
+                    b.HasIndex("RecaudadorId");
+
+                    b.ToTable("Contribuyentes", (string)null);
+                });
+
+            modelBuilder.Entity("Recauda.Models.FormasDeRecaudacion", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("fdr_nombre")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("FormasDeRecaudacion", (string)null);
+                });
+
+            modelBuilder.Entity("Recauda.Models.Generadores", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("FechaRegistro")
+                        .HasColumnType("datetime");
+
+                    b.Property<int>("com_id")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("gen_activo")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("usu_id")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("com_id")
+                        .HasDatabaseName("IX_Generadores_Compania");
+
+                    b.HasIndex("gen_activo")
+                        .HasDatabaseName("IX_Generadores_Activo");
+
+                    b.HasIndex("usu_id")
+                        .HasDatabaseName("IX_Generadores_Usuario");
+
+                    b.HasIndex("com_id", "gen_activo")
+                        .HasDatabaseName("IX_Generadores_Compania_Activo");
+
+                    b.ToTable("Generadores", (string)null);
+                });
+
+            modelBuilder.Entity("Recauda.Models.MotivoDeCobro", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("mdc_activo")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("mdc_nombre")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MotivosDeCobro", (string)null);
+                });
+
+            modelBuilder.Entity("Recauda.Models.Pagos", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("FechaRegistro")
+                        .HasColumnType("datetime");
+
+                    b.Property<int>("cob_id")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("pag_fecha")
+                        .HasColumnType("datetime");
+
+                    b.Property<decimal>("pag_valor_pagado")
+                        .HasColumnType("decimal(12,2)");
+
+                    b.Property<int>("rec_id")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("cob_id")
+                        .HasDatabaseName("IX_Pagos_Cobro");
+
+                    b.HasIndex("pag_fecha")
+                        .HasDatabaseName("IX_Pagos_Fecha");
+
+                    b.HasIndex("pag_valor_pagado")
+                        .HasDatabaseName("IX_Pagos_Valor");
+
+                    b.HasIndex("rec_id")
+                        .HasDatabaseName("IX_Pagos_Recaudador");
+
+                    b.HasIndex("cob_id", "pag_fecha")
+                        .HasDatabaseName("IX_Pagos_Cobro_Fecha");
+
+                    b.HasIndex("pag_fecha", "pag_valor_pagado")
+                        .HasDatabaseName("IX_Pagos_Fecha_Valor");
+
+                    b.HasIndex("rec_id", "pag_fecha")
+                        .HasDatabaseName("IX_Pagos_Recaudador_Fecha");
+
+                    b.HasIndex("rec_id", "pag_fecha", "pag_valor_pagado")
+                        .HasDatabaseName("IX_Pagos_Recaudador_Fecha_Valor");
+
+                    b.ToTable("Pagos", (string)null);
+                });
+
+            modelBuilder.Entity("Recauda.Models.PagosAnulados", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("FechaRegistro")
+                        .HasColumnType("datetime");
+
+                    b.Property<int>("anu_id")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("caa_fecha_anulacion")
+                        .HasColumnType("datetime");
+
+                    b.Property<int>("pag_id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("rec_id")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("anu_id")
+                        .HasDatabaseName("IX_PagosAnulados_Anulacion");
+
+                    b.HasIndex("caa_fecha_anulacion")
+                        .HasDatabaseName("IX_PagosAnulados_FechaAnulacion");
+
+                    b.HasIndex("pag_id")
+                        .IsUnique()
+                        .HasDatabaseName("IX_PagosAnulados_Pago_Unique");
+
+                    b.HasIndex("rec_id")
+                        .HasDatabaseName("IX_PagosAnulados_Recaudador");
+
+                    b.HasIndex("anu_id", "caa_fecha_anulacion")
+                        .HasDatabaseName("IX_PagosAnulados_Anulacion_FechaAnulacion");
+
+                    b.HasIndex("pag_id", "caa_fecha_anulacion")
+                        .HasDatabaseName("IX_PagosAnulados_Pago_FechaAnulacion");
+
+                    b.HasIndex("rec_id", "caa_fecha_anulacion")
+                        .HasDatabaseName("IX_PagosAnulados_Recaudador_FechaAnulacion");
+
+                    b.ToTable("PagosAnulados", (string)null);
+                });
+
+            modelBuilder.Entity("Recauda.Models.Persona", b =>
+                {
+                    b.Property<int>("per_rut")
+                        .HasColumnType("int");
+
+                    b.Property<string>("per_block")
+                        .HasMaxLength(35)
+                        .HasColumnType("nvarchar(35)");
+
+                    b.Property<string>("per_calle")
+                        .HasMaxLength(80)
+                        .HasColumnType("nvarchar(80)");
+
+                    b.Property<string>("per_comuna")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("per_depto")
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.Property<string>("per_email")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime?>("per_fecnac")
+                        .HasColumnType("date");
+
+                    b.Property<string>("per_materno")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("per_movil")
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("per_nombres")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("per_numero")
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("per_paterno")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("per_vrut")
+                        .HasMaxLength(1)
+                        .HasColumnType("nvarchar(1)");
+
+                    b.Property<string>("sex_codigo")
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
+
+                    b.HasKey("per_rut");
+
+                    b.ToTable("Personas", (string)null);
+                });
+
+            modelBuilder.Entity("Recauda.Models.Recaudador", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("FechaRegistro")
+                        .HasColumnType("datetime");
+
+                    b.Property<int>("com_id")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("rec_activo")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("usu_id")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("com_id");
+
+                    b.HasIndex("usu_id", "com_id")
+                        .IsUnique()
+                        .HasDatabaseName("IX_Recaudadores_Usuario_Compania");
+
+                    b.ToTable("Recaudadores", (string)null);
+                });
 
             modelBuilder.Entity("Recauda.Models.Rol", b =>
                 {
@@ -40,7 +624,7 @@ namespace Recauda.Migrations
                     b.ToTable("Roles");
                 });
 
-            modelBuilder.Entity("Usuario", b =>
+            modelBuilder.Entity("Recauda.Models.Usuario", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -87,7 +671,447 @@ namespace Recauda.Migrations
                     b.ToTable("Usuarios", (string)null);
                 });
 
-            modelBuilder.Entity("Usuario", b =>
+            modelBuilder.Entity("Recauda.Models.VCobros", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("FechaRegistro")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("cob_fecha_emision")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("cob_fecha_vencimiento")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("cob_valor")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("com_id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("com_nombre")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("con_activo")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("con_dia_del_cargo")
+                        .HasColumnType("int");
+
+                    b.Property<int>("con_id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("con_periodicidad_cobro")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("gen_id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("gen_nombre")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("mdc_id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("mdc_nombre")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("per_email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("per_materno")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("per_movil")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("per_nombres")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("per_paterno")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("per_rut")
+                        .HasColumnType("int");
+
+                    b.Property<string>("per_vrut")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable((string)null);
+
+                    b.ToView("VCobros", (string)null);
+                });
+
+            modelBuilder.Entity("Recauda.Models.VContribuyente", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("FechaRegistro")
+                        .HasColumnType("datetime");
+
+                    b.Property<int>("com_id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("com_nombre")
+                        .HasMaxLength(80)
+                        .HasColumnType("nvarchar(80)");
+
+                    b.Property<bool>("con_activo")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("con_dia_del_cargo")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("con_fecha_fin")
+                        .HasColumnType("datetime");
+
+                    b.Property<DateTime>("con_fecha_inicio")
+                        .HasColumnType("datetime");
+
+                    b.Property<string>("con_periodicidad_cobro")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<decimal>("con_valor_aporte")
+                        .HasColumnType("decimal(12,0)");
+
+                    b.Property<int>("mdc_id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("mdc_nombre")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("per_block")
+                        .HasMaxLength(35)
+                        .HasColumnType("nvarchar(35)");
+
+                    b.Property<string>("per_calle")
+                        .HasMaxLength(80)
+                        .HasColumnType("nvarchar(80)");
+
+                    b.Property<string>("per_comuna")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("per_depto")
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
+
+                    b.Property<string>("per_direccion_completa")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("per_email")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime?>("per_fecnac")
+                        .HasColumnType("date");
+
+                    b.Property<string>("per_materno")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("per_movil")
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("per_nombre_completo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("per_nombres")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("per_numero")
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("per_paterno")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("per_rut")
+                        .HasColumnType("int");
+
+                    b.Property<string>("per_rut_completo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("per_vrut")
+                        .IsRequired()
+                        .HasMaxLength(1)
+                        .HasColumnType("nvarchar(1)");
+
+                    b.Property<int>("rec_id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("sex_codigo")
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable((string)null);
+
+                    b.ToView("VContribuyentes", (string)null);
+                });
+
+            modelBuilder.Entity("Recauda.Models.VRecaudador", b =>
+                {
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("FechaRegistro")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("com_id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("com_nombre")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("rec_activo")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("usu_id")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable((string)null);
+
+                    b.ToView("Vrecaudadores", (string)null);
+                });
+
+            modelBuilder.Entity("Recauda.Models.Voluntarios", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+
+                    b.Property<int>("com_id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("per_rut")
+                        .HasColumnType("int");
+
+                    b.Property<string>("vol_estado")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("com_id")
+                        .HasDatabaseName("IX_Voluntarios_Compania");
+
+                    b.HasIndex("per_rut")
+                        .HasDatabaseName("IX_Voluntarios_Persona");
+
+                    b.HasIndex("vol_estado")
+                        .HasDatabaseName("IX_Voluntarios_Estado");
+
+                    b.HasIndex("com_id", "vol_estado")
+                        .HasDatabaseName("IX_Voluntarios_Compania_Estado");
+
+                    b.ToTable("Voluntarios", (string)null);
+                });
+
+            modelBuilder.Entity("Recauda.Models.Cobros", b =>
+                {
+                    b.HasOne("Recauda.Models.Contribuyente", "Contribuyente")
+                        .WithMany()
+                        .HasForeignKey("ContribuyenteId");
+
+                    b.HasOne("Recauda.Models.Compania", "Compania")
+                        .WithMany("Cobros")
+                        .HasForeignKey("com_id")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Recauda.Models.Generadores", "Generador")
+                        .WithMany("Cobros")
+                        .HasForeignKey("gen_id")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Recauda.Models.MotivoDeCobro", "MotivoCobro")
+                        .WithMany("Cobros")
+                        .HasForeignKey("mdc_id")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Compania");
+
+                    b.Navigation("Contribuyente");
+
+                    b.Navigation("Generador");
+
+                    b.Navigation("MotivoCobro");
+                });
+
+            modelBuilder.Entity("Recauda.Models.CobrosAnulados", b =>
+                {
+                    b.HasOne("Recauda.Models.Anulaciones", "Anulacion")
+                        .WithMany("CobrosAnulados")
+                        .HasForeignKey("anu_id")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Recauda.Models.Cobros", "Cobro")
+                        .WithMany("CobrosAnulados")
+                        .HasForeignKey("cob_id")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Recauda.Models.Generadores", "Generador")
+                        .WithMany("CobrosAnulados")
+                        .HasForeignKey("gen_id")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Anulacion");
+
+                    b.Navigation("Cobro");
+
+                    b.Navigation("Generador");
+                });
+
+            modelBuilder.Entity("Recauda.Models.ComprobantesPago", b =>
+                {
+                    b.HasOne("Recauda.Models.Pagos", "Pago")
+                        .WithMany("ComprobantesPago")
+                        .HasForeignKey("pag_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Pago");
+                });
+
+            modelBuilder.Entity("Recauda.Models.Contribuyente", b =>
+                {
+                    b.HasOne("Recauda.Models.Compania", null)
+                        .WithMany("Contribuyentes")
+                        .HasForeignKey("CompaniaId");
+
+                    b.HasOne("Recauda.Models.MotivoDeCobro", null)
+                        .WithMany("Contribuyente")
+                        .HasForeignKey("MotivoDeCobroId");
+
+                    b.HasOne("Recauda.Models.Persona", null)
+                        .WithMany("Contribuyentes")
+                        .HasForeignKey("Personaper_rut");
+
+                    b.HasOne("Recauda.Models.Recaudador", null)
+                        .WithMany("Contribuyente")
+                        .HasForeignKey("RecaudadorId");
+                });
+
+            modelBuilder.Entity("Recauda.Models.Generadores", b =>
+                {
+                    b.HasOne("Recauda.Models.Compania", "Compania")
+                        .WithMany("Generadores")
+                        .HasForeignKey("com_id")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Recauda.Models.Usuario", "Usuario")
+                        .WithMany("Generadores")
+                        .HasForeignKey("usu_id")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Compania");
+
+                    b.Navigation("Usuario");
+                });
+
+            modelBuilder.Entity("Recauda.Models.Pagos", b =>
+                {
+                    b.HasOne("Recauda.Models.Cobros", "Cobro")
+                        .WithMany("Pagos")
+                        .HasForeignKey("cob_id")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Recauda.Models.Recaudador", "Recaudador")
+                        .WithMany("Pagos")
+                        .HasForeignKey("rec_id")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Cobro");
+
+                    b.Navigation("Recaudador");
+                });
+
+            modelBuilder.Entity("Recauda.Models.PagosAnulados", b =>
+                {
+                    b.HasOne("Recauda.Models.Anulaciones", "Anulacion")
+                        .WithMany("PagosAnulados")
+                        .HasForeignKey("anu_id")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Recauda.Models.Pagos", "Pago")
+                        .WithMany("PagosAnulados")
+                        .HasForeignKey("pag_id")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Recauda.Models.Recaudador", "Recaudador")
+                        .WithMany("PagosAnulados")
+                        .HasForeignKey("rec_id")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Anulacion");
+
+                    b.Navigation("Pago");
+
+                    b.Navigation("Recaudador");
+                });
+
+            modelBuilder.Entity("Recauda.Models.Recaudador", b =>
+                {
+                    b.HasOne("Recauda.Models.Compania", "Compania")
+                        .WithMany("Recaudadores")
+                        .HasForeignKey("com_id")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Recauda.Models.Usuario", "Usuario")
+                        .WithMany("Recaudadores")
+                        .HasForeignKey("usu_id")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Compania");
+
+                    b.Navigation("Usuario");
+                });
+
+            modelBuilder.Entity("Recauda.Models.Usuario", b =>
                 {
                     b.HasOne("Recauda.Models.Rol", "Rol")
                         .WithMany("Usuarios")
@@ -98,9 +1122,99 @@ namespace Recauda.Migrations
                     b.Navigation("Rol");
                 });
 
+            modelBuilder.Entity("Recauda.Models.Voluntarios", b =>
+                {
+                    b.HasOne("Recauda.Models.Compania", "Compania")
+                        .WithMany("Voluntarios")
+                        .HasForeignKey("com_id")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Recauda.Models.Persona", "Persona")
+                        .WithMany("Voluntarios")
+                        .HasForeignKey("per_rut")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Compania");
+
+                    b.Navigation("Persona");
+                });
+
+            modelBuilder.Entity("Recauda.Models.Anulaciones", b =>
+                {
+                    b.Navigation("CobrosAnulados");
+
+                    b.Navigation("PagosAnulados");
+                });
+
+            modelBuilder.Entity("Recauda.Models.Cobros", b =>
+                {
+                    b.Navigation("CobrosAnulados");
+
+                    b.Navigation("Pagos");
+                });
+
+            modelBuilder.Entity("Recauda.Models.Compania", b =>
+                {
+                    b.Navigation("Cobros");
+
+                    b.Navigation("Contribuyentes");
+
+                    b.Navigation("Generadores");
+
+                    b.Navigation("Recaudadores");
+
+                    b.Navigation("Voluntarios");
+                });
+
+            modelBuilder.Entity("Recauda.Models.Generadores", b =>
+                {
+                    b.Navigation("Cobros");
+
+                    b.Navigation("CobrosAnulados");
+                });
+
+            modelBuilder.Entity("Recauda.Models.MotivoDeCobro", b =>
+                {
+                    b.Navigation("Cobros");
+
+                    b.Navigation("Contribuyente");
+                });
+
+            modelBuilder.Entity("Recauda.Models.Pagos", b =>
+                {
+                    b.Navigation("ComprobantesPago");
+
+                    b.Navigation("PagosAnulados");
+                });
+
+            modelBuilder.Entity("Recauda.Models.Persona", b =>
+                {
+                    b.Navigation("Contribuyentes");
+
+                    b.Navigation("Voluntarios");
+                });
+
+            modelBuilder.Entity("Recauda.Models.Recaudador", b =>
+                {
+                    b.Navigation("Contribuyente");
+
+                    b.Navigation("Pagos");
+
+                    b.Navigation("PagosAnulados");
+                });
+
             modelBuilder.Entity("Recauda.Models.Rol", b =>
                 {
                     b.Navigation("Usuarios");
+                });
+
+            modelBuilder.Entity("Recauda.Models.Usuario", b =>
+                {
+                    b.Navigation("Generadores");
+
+                    b.Navigation("Recaudadores");
                 });
 #pragma warning restore 612, 618
         }

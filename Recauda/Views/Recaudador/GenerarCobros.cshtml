@@ -1,0 +1,393 @@
+﻿@using Recauda.Models
+@{
+    ViewData["Title"] = "Generar Cobros Mensuales";
+}
+
+<h1 class="mt-4">@ViewData["Title"]</h1>
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Dashboard</a></li>
+    <li class="breadcrumb-item"><a asp-action="Index">Recaudador</a></li>
+    <li class="breadcrumb-item active">Generar Cobros</li>
+</ol>
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="fas fa-exclamation-circle"></i>
+        @TempData["ErrorMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="fas fa-check-circle"></i>
+        @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+@if (TempData["InfoMessage"] != null)
+{
+    <div class="alert alert-info alert-dismissible fade show" role="alert">
+        <i class="fas fa-info-circle"></i>
+        @TempData["InfoMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<div class="row">
+    <!-- Formulario de Generación de Cobros -->
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header">
+                <i class="fas fa-calendar-alt me-1"></i>
+                Generación de Cobros Mensuales
+            </div>
+            <div class="card-body">
+                @if (!ViewData.ModelState.IsValid)
+                {
+                    <div class="alert alert-warning">
+                        <h6>Errores de validación:</h6>
+                        <ul>
+                            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                            {
+                                <li>@error.ErrorMessage</li>
+                            }
+                        </ul>
+                    </div>
+                }
+
+                <form asp-controller="Recaudador" asp-action="GenerarCobros" method="post">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="rutBusqueda" value="@ViewBag.RutBusqueda" />
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="anio" class="form-label">
+                                <i class="fas fa-calendar-alt"></i> Año *
+                            </label>
+                            <select name="anio" id="anio" class="form-select" required>
+                                <option value="">-- Seleccione un Año --</option>
+                                @for (int i = 2020; i <= DateTime.Now.Year + 5; i++)
+                                {
+                                    <option value="@i" selected="@(ViewBag.AnioSeleccionado != null && ViewBag.AnioSeleccionado == i ? "selected" : null)">
+                                        @i
+                                    </option>
+                                }
+                            </select>
+                            @if (ViewData.ModelState["anio"]?.Errors.Count > 0)
+                            {
+                                <span class="text-danger">
+                                    @ViewData.ModelState["anio"].Errors[0].ErrorMessage
+                                </span>
+                            }
+                            <small class="form-text text-muted">
+                                Seleccione el año para el cual desea generar los cobros mensuales.
+                            </small>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label for="contribuyenteId" class="form-label">
+                                <i class="fas fa-user"></i> Contribuyente (Solo Mensuales) *
+                            </label>
+                            <select name="contribuyenteId" id="contribuyenteId" asp-items="ViewBag.Contribuyentes" class="form-select" required>
+                                <option value="">-- Seleccione un Contribuyente --</option>
+                            </select>
+                            @if (ViewData.ModelState["contribuyenteId"]?.Errors.Count > 0)
+                            {
+                                <span class="text-danger">
+                                    @ViewData.ModelState["contribuyenteId"].Errors[0].ErrorMessage
+                                </span>
+                            }
+                            <small class="form-text text-muted">
+                                Solo se muestran contribuyentes con periodicidad mensual activos.
+                            </small>
+                        </div>
+                    </div>
+
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-calendar-plus"></i> Generar Cobros 
+                            </button>
+                            <a asp-action="Index" class="btn btn-secondary btn-lg ms-2">
+                                <i class="fas fa-arrow-left"></i> Volver al Listado
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+<!-- Sección de Listado de Cobros -->
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <div>
+                    <i class="fas fa-list me-1"></i>
+                    Listado de Cobros
+                    @if (ViewBag.Cobros != null)
+                    {
+                        <span class="badge bg-primary ms-2">@(((List<VCobros>)ViewBag.Cobros).Count) cobros</span>
+                    }
+                </div>
+
+                <!-- Buscador por RUT -->
+                <div class="d-flex align-items-center">
+                    <form asp-action="BuscarCobrosPorRut" method="post" class="d-flex" id="formBuscarRut">
+                        @Html.AntiForgeryToken()
+                        <div class="input-group">
+                            <input type="text"
+                                   name="rutBusqueda"
+                                   id="rutBusqueda"
+                                   class="form-control"
+                                   placeholder="Buscar por RUT (ej: 12345678-9)"
+                                   value="@ViewBag.RutBusqueda"
+                                   style="width: 200px;">
+                            <button type="submit" class="btn btn-outline-primary">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </form>
+
+                    @if (!string.IsNullOrEmpty(ViewBag.RutBusqueda as string))
+                    {
+                        <a asp-action="GenerarCobros" class="btn btn-outline-secondary ms-2" title="Limpiar filtro">
+                            <i class="fas fa-times"></i>
+                        </a>
+                    }
+                </div>
+            </div>
+
+            <div class="card-body">
+                @if (ViewBag.Cobros != null)
+                {
+                    var cobros = (List<VCobros>)ViewBag.Cobros;
+
+                    @if (cobros.Count == 0)
+                    {
+                        <div class="alert alert-info text-center">
+                            <i class="fas fa-info-circle"></i>
+                            @if (!string.IsNullOrEmpty(ViewBag.RutBusqueda as string))
+                            {
+                                <text>No se encontraron cobros para el RUT: <strong>@ViewBag.RutBusqueda</strong></text>
+                            }
+                            else
+                            {
+                                <text>No hay cobros registrados en el sistema.</text>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <!-- Información del filtro actual -->
+                        @if (!string.IsNullOrEmpty(ViewBag.RutBusqueda as string))
+                        {
+                            <div class="alert alert-success mb-3">
+                                <i class="fas fa-filter"></i>
+                                Mostrando cobros para el RUT: <strong>@ViewBag.RutBusqueda</strong>
+                            </div>
+                        }
+
+                        <!-- Tabla responsiva -->
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>RUT</th>
+                                        <th>Contribuyente</th>
+                                        <th>Motivo</th>
+                                        <th>Fecha Emisión</th>
+                                        <th>Fecha Vencimiento</th>
+                                        <th>Valor</th>
+                                        <th>Estado</th>
+                                        <th>Compañía</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var cobro in cobros)
+                                    {
+                                        <tr>
+                                            <td class="fw-bold">@cobro.per_rut_formateado</td>
+                                            <td>@cobro.per_nombre_completo</td>
+                                            <td>@cobro.mdc_nombre</td>
+                                            <td>@cobro.cob_fecha_emision.ToString("dd/MM/yyyy")</td>
+                                            <td>
+                                                @cobro.cob_fecha_vencimiento.ToString("dd/MM/yyyy")
+                                                @if (cobro.esta_vencido)
+                                                {
+                                                    <span class="badge bg-danger ms-1">Vencido</span>
+                                                }
+                                                else if (cobro.dias_para_vencimiento <= 7)
+                                                {
+                                                    <span class="badge bg-warning ms-1">Por vencer</span>
+                                                }
+                                            </td>
+                                            <td class="fw-bold text-success">$@cobro.cob_valor.ToString("N0")</td>
+                                            <td>
+                                                @if (cobro.esta_vencido)
+                                                {
+                                                    <span class="badge bg-danger">Vencido (@(Math.Abs(cobro.dias_para_vencimiento)) días)</span>
+                                                }
+                                                else if (cobro.dias_para_vencimiento <= 7)
+                                                {
+                                                    <span class="badge bg-warning">Vence en @cobro.dias_para_vencimiento días</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge bg-success">Vigente</span>
+                                                }
+                                            </td>
+                                            <td>@cobro.com_nombre</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Resumen de estados -->
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                <div class="alert alert-light">
+                                    <div class="row text-center">
+                                        <div class="col-md-3">
+                                            <div class="text-success fw-bold">
+                                                @cobros.Count(c => !c.esta_vencido && c.dias_para_vencimiento > 7)
+                                            </div>
+                                            <small class="text-muted">Vigentes</small>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="text-warning fw-bold">
+                                                @cobros.Count(c => !c.esta_vencido && c.dias_para_vencimiento <= 7)
+                                            </div>
+                                            <small class="text-muted">Por vencer</small>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="text-danger fw-bold">
+                                                @cobros.Count(c => c.esta_vencido)
+                                            </div>
+                                            <small class="text-muted">Vencidos</small>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="text-primary fw-bold">
+                                                $@cobros.Sum(c => c.cob_valor).ToString("N0")
+                                            </div>
+                                            <small class="text-muted">Valor Total</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="alert alert-warning text-center">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        Error al cargar los cobros. Por favor, intente nuevamente.
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            // Preseleccionar el año actual por defecto
+            @if (ViewBag.AnioSeleccionado == null)
+            {
+                <text>
+                    $('#anio').val('@ViewBag.AnioActual');
+                </text>
+            }
+
+            // Preseleccionar el contribuyente si viene en el ViewBag
+            @if (ViewBag.ContribuyenteSeleccionado != null)
+            {
+                <text>
+                            $('#contribuyenteId').val('@ViewBag.ContribuyenteSeleccionado');
+                </text>
+            }
+
+            // Validación del formulario de generación de cobros
+            $('form[asp-action="GenerarCobros"]').on('submit', function(e) {
+                var anio = $('#anio').val();
+                var contribuyente = $('#contribuyenteId').val();
+
+                if (!anio || !contribuyente) {
+                    e.preventDefault();
+                    alert('Por favor, seleccione tanto el año como el contribuyente antes de continuar.');
+                    return false;
+                }
+
+                // Confirmación específica para cobros mensuales
+                if (!confirm('¿Está seguro que desea generar los 12 cobros mensuales para el año ' + anio + '?\n\nSolo se crearán los cobros que no existan previamente.')) {
+                    e.preventDefault();
+                    return false;
+                }
+            });
+
+            // Validación del formulario de búsqueda por RUT
+            $('#formBuscarRut').on('submit', function(e) {
+                var rut = $('#rutBusqueda').val().trim();
+
+                if (!rut) {
+                    e.preventDefault();
+                    alert('Por favor, ingrese un RUT para buscar.');
+                    $('#rutBusqueda').focus();
+                    return false;
+                }
+
+                // Validación básica de formato RUT
+                var rutLimpio = rut.replace(/[.\-\s]/g, '');
+                if (rutLimpio.length < 7 || rutLimpio.length > 9) {
+                    e.preventDefault();
+                    alert('El RUT debe tener entre 7 y 9 caracteres (sin contar puntos y guión).');
+                    $('#rutBusqueda').focus();
+                    return false;
+                }
+            });
+
+            // Formatear RUT mientras se escribe
+            $('#rutBusqueda').on('input', function() {
+                var valor = $(this).val().replace(/[^\d\-kK]/g, '');
+                $(this).val(valor);
+            });
+
+            // Limpiar filtro con Enter en el campo de búsqueda
+            $('#rutBusqueda').on('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    $(this).val('');
+                    window.location.href = '@Url.Action("GenerarCobros")';
+                }
+            });
+
+            // Tooltip para botones
+            $('[data-bs-toggle="tooltip"]').tooltip();
+        });
+
+        // Función para formatear RUT (opcional, para mejorar UX)
+        function formatearRut(rut) {
+            // Eliminar caracteres no válidos
+            var rutLimpio = rut.replace(/[^\dkK]/g, '');
+
+            // Si tiene menos de 2 caracteres, no formatear
+            if (rutLimpio.length < 2) return rutLimpio;
+
+            // Separar dígito verificador
+            var cuerpo = rutLimpio.slice(0, -1);
+            var dv = rutLimpio.slice(-1);
+
+            // Formatear con puntos
+            var cuerpoFormateado = cuerpo.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+
+            return cuerpoFormateado + '-' + dv;
+        }
+    </script>
+}

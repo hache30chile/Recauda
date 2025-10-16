@@ -1,0 +1,145 @@
+﻿@model Recauda.Models.Persona
+
+@{
+    ViewData["Title"] = "Eliminar Persona";
+}
+
+<h1 class="mt-4">@ViewData["Title"]</h1>
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Dashboard</a></li>
+    <li class="breadcrumb-item"><a asp-action="Index">Personas</a></li>
+    <li class="breadcrumb-item active">Eliminar</li>
+</ol>
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card border-danger">
+            <div class="card-header bg-danger text-white">
+                <i class="fas fa-exclamation-triangle me-1"></i>
+                Confirmar Eliminación de Persona
+            </div>
+            <div class="card-body">
+                <div class="alert alert-danger" role="alert">
+                    <h5 class="alert-heading">
+                        <i class="fas fa-exclamation-triangle"></i> ¡Atención!
+                    </h5>
+                    <p>Estás a punto de eliminar permanentemente la siguiente persona del sistema. Esta acción <strong>NO</strong> se puede deshacer.</p>
+                    <hr>
+                    <p class="mb-0">Por favor, revisa cuidadosamente la información antes de confirmar.</p>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-2 text-center">
+                        <div class="bg-danger rounded-circle d-inline-flex align-items-center justify-content-center"
+                             style="width: 60px; height: 60px;">
+                            <i class="fas fa-user fa-lg text-white"></i>
+                        </div>
+                    </div>
+                    <div class="col-md-10">
+                        <h4 class="mb-3">@($"{Model.per_nombres} {Model.per_paterno} {Model.per_materno}".Trim())</h4>
+
+                        <table class="table table-bordered">
+                            <tr>
+                                <td class="bg-light" width="30%"><strong>RUT:</strong></td>
+                                <td>@($"{Model.per_rut:N0}-{Model.per_vrut}")</td>
+                            </tr>
+                            <tr>
+                                <td class="bg-light"><strong>Nombres:</strong></td>
+                                <td>@(Model.per_nombres ?? "No especificado")</td>
+                            </tr>
+                            <tr>
+                                <td class="bg-light"><strong>Apellido Paterno:</strong></td>
+                                <td>@(Model.per_paterno ?? "No especificado")</td>
+                            </tr>
+                            <tr>
+                                <td class="bg-light"><strong>Apellido Materno:</strong></td>
+                                <td>@(Model.per_materno ?? "No especificado")</td>
+                            </tr>
+                            <tr>
+                                <td class="bg-light"><strong>Email:</strong></td>
+                                <td>@(Model.per_email ?? "No especificado")</td>
+                            </tr>
+                            <tr>
+                                <td class="bg-light"><strong>Teléfono:</strong></td>
+                                <td>@(Model.per_movil ?? "No especificado")</td>
+                            </tr>
+                            <tr>
+                                <td class="bg-light"><strong>Comuna:</strong></td>
+                                <td>@(Model.per_comuna ?? "No especificado")</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="alert alert-warning mt-4" role="alert">
+                    <h6 class="alert-heading">
+                        <i class="fas fa-info-circle"></i> Consideraciones importantes:
+                    </h6>
+                    <ul class="mb-0">
+                        <li>Si hay información o relaciones asociadas a esta persona, pueden perderse o quedar huérfanas</li>
+                        <li>Esta acción eliminará permanentemente toda la información de la persona</li>
+                        <li>No podrás recuperar esta información una vez confirmada la eliminación</li>
+                        <li>Se recomienda revisar si hay dependencias antes de eliminar</li>
+                        <li>Los datos históricos relacionados podrían verse afectados</li>
+                    </ul>
+                </div>
+
+                <form asp-action="Eliminar" method="post" class="mt-4">
+                    @Html.AntiForgeryToken()
+                    <input asp-for="per_rut" type="hidden" />
+                    <div class="row">
+                        <div class="col-12 text-center">
+                            <button type="submit" class="btn btn-danger me-3" onclick="return confirm('¿Estás completamente seguro de que deseas eliminar esta persona? Esta acción NO se puede deshacer.');">
+                                <i class="fas fa-trash"></i> Sí, Eliminar Definitivamente
+                            </button>
+                            <a asp-action="Detalles" asp-route-per_rut="@Model.per_rut" class="btn btn-info me-3">
+                                <i class="fas fa-eye"></i> Ver Detalles
+                            </a>
+                            <a asp-action="Index" class="btn btn-secondary">
+                                <i class="fas fa-times"></i> Cancelar
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="card border-warning">
+            <div class="card-header bg-warning text-dark">
+                <i class="fas fa-lightbulb me-1"></i>
+                Alternativas Recomendadas
+            </div>
+            <div class="card-body">
+                <h6>En lugar de eliminar, considera:</h6>
+                <ul>
+                    <li><strong>Editar datos:</strong> Si sólo necesitas corregir información</li>
+                    <li><strong>Actualizar contacto:</strong> Si cambió email o teléfono</li>
+                    <li><strong>Modificar dirección:</strong> Si se mudó</li>
+                </ul>
+
+                <div class="mt-3">
+                    <a asp-action="Editar" asp-route-per_rut="@Model.per_rut" class="btn btn-warning btn-sm w-100">
+                        <i class="fas fa-edit"></i> Editar en su lugar
+                    </a>
+                </div>
+
+                <hr>
+
+                <h6 class="mt-3">Información adicional:</h6>
+                <small class="text-muted">
+                    La persona <strong>@($"{Model.per_rut:N0}-{Model.per_vrut}")</strong> fue registrada en el sistema.
+                    @if (!string.IsNullOrEmpty(Model.per_email))
+                    {
+                        <text><br />Tiene email de contacto registrado.</text>
+                    }
+                    @if (!string.IsNullOrEmpty(Model.per_movil))
+                    {
+                        <text><br />Tiene teléfono de contacto registrado.</text>
+                    }
+                </small>
+            </div>
+        </div>
+    </div>
+</div>

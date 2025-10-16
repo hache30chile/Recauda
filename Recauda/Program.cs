@@ -4,6 +4,9 @@ using Recauda.Data;
 using Recauda.Interfaces;
 using Recauda.Services;
 
+OfficeOpenXml.ExcelPackage.LicenseContext = OfficeOpenXml.LicenseContext.NonCommercial;
+
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -28,9 +31,17 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     });
 
 // Registrar servicios
+
+builder.Services.AddScoped<IRecaudadorService, RecaudadorService>();
+builder.Services.AddScoped<IMotivoDeCobroService, MotivoDeCobroService>();
+builder.Services.AddScoped<IPersonaService, PersonaService>();
+builder.Services.AddScoped<ICompaniaService, CompaniaService>();
 builder.Services.AddScoped<IRolService, RolService>();
 builder.Services.AddScoped<IUsuarioService, UsuarioService>();
 builder.Services.AddScoped<IAuthService, AutenticacionService>();
+builder.Services.AddScoped<IContribuyenteService, ContribuyenteService>();
+builder.Services.AddScoped<IReporteService, ReporteService>();
+builder.Services.AddScoped<ComprobantePagoService>();
 
 var app = builder.Build();
 

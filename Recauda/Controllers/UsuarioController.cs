@@ -40,10 +40,10 @@ namespace Recauda.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Crear([Bind("Login,Rut,Dv,Nombre,Clave,RolId,Activo")] Usuario usuario)
+        public async Task<IActionResult> Crear([Bind("Login,Rut,Dv,Nombre,Clave,RolId,Activo")] Usuario usuario, bool esGenerador = false)
         {
             _logger.LogInformation("POST Crear - Iniciando creación de usuario");
-            _logger.LogInformation($"Datos recibidos - Login: '{usuario?.Login}', RUT: {usuario?.Rut}");
+            _logger.LogInformation($"Datos recibidos - Login: '{usuario?.Login}', RUT: {usuario?.Rut}, Es Generador: {esGenerador}");
 
             // Limpiar errores de navegación del ModelState
             ModelState.Remove("Rol");
@@ -68,9 +68,16 @@ namespace Recauda.Controllers
                         return View(usuario);
                     }
 
-                    await _usuarioService.CrearUsuarioAsync(usuario);
+                    await _usuarioService.CrearUsuarioAsync(usuario, esGenerador);
 
-                    TempData["SuccessMessage"] = $"El usuario '{usuario.Login}' ha sido creado exitosamente.";
+                    string mensaje = $"El usuario '{usuario.Login}' ha sido creado exitosamente";
+                    if (esGenerador)
+                    {
+                        mensaje += " y configurado como generador";
+                    }
+                    mensaje += ".";
+
+                    TempData["SuccessMessage"] = mensaje;
                     return RedirectToAction(nameof(Index));
                 }
                 else
@@ -108,6 +115,10 @@ namespace Recauda.Controllers
                 }
 
                 await CargarRoles();
+
+                // Verificar si el usuario es generador
+                ViewBag.EsGenerador = await _usuarioService.EsUsuarioGenerador(id);
+
                 return View(usuario);
             }
             catch (Exception ex)
@@ -119,9 +130,17 @@ namespace Recauda.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Editar([Bind("Id,Login,Rut,Dv,Nombre,RolId,Activo")] Usuario usuario)
+        public async Task<IActionResult> Editar([Bind("Id,Login,Rut,Dv,Nombre,RolId,Activo")] Usuario usuario, bool esGenerador = false)
         {
-            _logger.LogInformation($"POST Editar - ID: {usuario.Id}, Login: '{usuario.Login}'");
+            _logger.LogInformation($"POST Editar - ID: {usuario.Id}, Login: '{usuario.Login}', Es Generador: {esGenerador}");
+
+            // **DEBUGGING: Verificar qué se está recibiendo del formulario**
+            _logger.LogInformation($"DEBUG: Parámetro esGenerador recibido en controller: {esGenerador}");
+            _logger.LogInformation($"DEBUG: Request.Form contiene 'esGenerador': {Request.Form.ContainsKey("esGenerador")}");
+            if (Request.Form.ContainsKey("esGenerador"))
+            {
+                _logger.LogInformation($"DEBUG: Valores de esGenerador en Form: [{string.Join(", ", Request.Form["esGenerador"])}]");
+            }
 
             // Limpiar errores de navegación del ModelState
             ModelState.Remove("Rol");
@@ -137,6 +156,7 @@ namespace Recauda.Controllers
                     {
                         ModelState.AddModelError("Login", "Ya existe otro usuario con este login.");
                         await CargarRoles();
+                        ViewBag.EsGenerador = esGenerador;
                         return View(usuario);
                     }
 
@@ -144,12 +164,21 @@ namespace Recauda.Controllers
                     {
                         ModelState.AddModelError("Rut", "Ya existe otro usuario con este RUT.");
                         await CargarRoles();
+                        ViewBag.EsGenerador = esGenerador;
                         return View(usuario);
                     }
 
-                    await _usuarioService.EditarUsuarioAsync(usuario);
+                    _logger.LogInformation($"DEBUG: Llamando a EditarUsuarioAsync con esGenerador: {esGenerador}");
+                    await _usuarioService.EditarUsuarioAsync(usuario, esGenerador);
 
-                    TempData["SuccessMessage"] = $"El usuario '{usuario.Login}' ha sido actualizado exitosamente.";
+                    string mensaje = $"El usuario '{usuario.Login}' ha sido actualizado exitosamente";
+                    if (esGenerador)
+                    {
+                        mensaje += " y configurado como generador";
+                    }
+                    mensaje += ".";
+
+                    TempData["SuccessMessage"] = mensaje;
                     return RedirectToAction(nameof(Index));
                 }
                 else
@@ -172,6 +201,7 @@ namespace Recauda.Controllers
             }
 
             await CargarRoles();
+            ViewBag.EsGenerador = esGenerador;
             return View(usuario);
         }
 
@@ -228,6 +258,10 @@ namespace Recauda.Controllers
                     TempData["ErrorMessage"] = "El usuario solicitado no existe.";
                     return RedirectToAction(nameof(Index));
                 }
+
+                // Verificar si el usuario es generador
+                ViewBag.EsGenerador = await _usuarioService.EsUsuarioGenerador(id);
+
                 return View(usuario);
             }
             catch (Exception ex)

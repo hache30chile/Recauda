@@ -1,0 +1,444 @@
+﻿@model Recauda.Models.Contribuyente
+
+@{
+    ViewData["Title"] = "Crear Nuevo Contribuyente";
+}
+
+<h1 class="mt-4">@ViewData["Title"]</h1>
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Dashboard</a></li>
+    <li class="breadcrumb-item"><a asp-action="Index">Contribuyentes</a></li>
+    <li class="breadcrumb-item active">Crear</li>
+</ol>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <i class="fas fa-user-plus me-1"></i>
+                Información de Nuevo Contribuyente
+            </div>
+            <div class="card-body">
+                <form asp-controller="Contribuyente" asp-action="Crear" method="post">
+                    @Html.AntiForgeryToken()
+
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+                    <!-- Información de la Persona -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-light">
+                            <i class="fas fa-user"></i> Información de la Persona
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">
+                                        <i class="fas fa-id-card"></i> RUT de la Persona *
+                                    </label>
+                                    <input type="text" class="form-control" placeholder="Ej: 123456789" id="rutInput" />
+                                    <!-- Campo oculto que contendrá solo el RUT numérico para el modelo -->
+                                    <input asp-for="per_rut" type="hidden" id="rutHidden" />
+                                    <span asp-validation-for="per_rut" class="text-danger"></span>
+                                    <small class="form-text text-muted">Ingrese el RUT completo con dígito verificador, sin puntos ni guión</small>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <button type="button" class="btn btn-info mt-4" id="buscarPersonaBtn">
+                                        <i class="fas fa-search"></i> Buscar Persona
+                                    </button>
+                                </div>
+                            </div>
+                            <div id="personaInfo" class="alert alert-info" style="display: none;">
+                                <strong>Persona encontrada:</strong> <span id="nombrePersona"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Información del Contribuyente -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-light">
+                            <i class="fas fa-money-bill"></i> Información del Aporte
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label asp-for="mdc_id" class="form-label">
+                                        <i class="fas fa-list"></i> Motivo de Cobro *
+                                    </label>
+                                    <select asp-for="mdc_id" class="form-control">
+                                        <option value="">-- Seleccione un motivo --</option>
+                                        @foreach (var motivo in ViewBag.MotivosCobro)
+                                        {
+                                            <option value="@motivo.Value">@motivo.Text</option>
+                                        }
+                                    </select>
+                                    <span asp-validation-for="mdc_id" class="text-danger"></span>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">
+                                        <i class="fas fa-dollar-sign"></i> Valor del Aporte *
+                                    </label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">$</span>
+                                        <input type="text" class="form-control" placeholder="0" id="valorAporteInput" />
+                                    </div>
+                                    <!-- Campo oculto que contendrá el valor real para el modelo -->
+                                    <input asp-for="con_valor_aporte" type="hidden" id="valorAporteHidden" />
+                                    <span asp-validation-for="con_valor_aporte" class="text-danger"></span>
+                                    <small class="form-text text-muted">Ingrese el valor en pesos chilenos</small>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    <label asp-for="con_periodicidad_cobro" class="form-label">
+                                        <i class="fas fa-calendar-alt"></i> Periodicidad *
+                                    </label>
+                                    <select asp-for="con_periodicidad_cobro" class="form-control">
+                                        <option value="Mensual" selected>Mensual</option>
+                                    </select>
+                                    <span asp-validation-for="con_periodicidad_cobro" class="text-danger"></span>
+                                    <small class="form-text text-muted">Solo se permite periodicidad mensual</small>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label asp-for="con_dia_del_cargo" class="form-label">
+                                        <i class="fas fa-calendar-day"></i> Día del Cargo *
+                                    </label>
+                                    <select asp-for="con_dia_del_cargo" class="form-control">
+                                        <option value="">-- Seleccione --</option>
+                                        @for (int i = 1; i <= 31; i++)
+                                        {
+                                            <option value="@i">@i</option>
+                                        }
+                                    </select>
+                                    <span asp-validation-for="con_dia_del_cargo" class="text-danger"></span>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label asp-for="con_activo" class="form-label">
+                                        <i class="fas fa-toggle-on"></i> Estado
+                                    </label>
+                                    <select asp-for="con_activo" class="form-control">
+                                        <option value="true" selected>Activo</option>
+                                        <option value="false">Inactivo</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Fechas -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-light">
+                            <i class="fas fa-calendar"></i> Fechas
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label asp-for="con_fecha_inicio" class="form-label">
+                                        <i class="fas fa-play"></i> Fecha de Inicio *
+                                    </label>
+                                    <input asp-for="con_fecha_inicio" class="form-control" type="date" value="@DateTime.Now.ToString("yyyy-MM-dd")" />
+                                    <span asp-validation-for="con_fecha_inicio" class="text-danger"></span>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label asp-for="con_fecha_fin" class="form-label">
+                                        <i class="fas fa-stop"></i> Fecha de Fin
+                                    </label>
+                                    <input asp-for="con_fecha_fin" class="form-control" type="date" />
+                                    <span asp-validation-for="con_fecha_fin" class="text-danger"></span>
+                                    <small class="form-text text-muted">Opcional - Dejar vacío si no aplica</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Asignaciones -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-light">
+                            <i class="fas fa-users-cog"></i> Asignaciones
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label asp-for="rec_id" class="form-label">
+                                        <i class="fas fa-user-tie"></i> Recaudador *
+                                    </label>
+                                    <select asp-for="rec_id" class="form-control">
+                                        <option value="">-- Seleccione un recaudador --</option>
+                                        @foreach (var recaudador in ViewBag.Recaudadores)
+                                        {
+                                            <option value="@recaudador.Value">@recaudador.Text</option>
+                                        }
+                                    </select>
+                                    <span asp-validation-for="rec_id" class="text-danger"></span>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label asp-for="com_id" class="form-label">
+                                        <i class="fas fa-building"></i> Compañía *
+                                    </label>
+                                    <select asp-for="com_id" class="form-control">
+                                        <option value="">-- Seleccione una compañía --</option>
+                                        @foreach (var compania in ViewBag.Companias)
+                                        {
+                                            <option value="@compania.Value">@compania.Text</option>
+                                        }
+                                    </select>
+                                    <span asp-validation-for="com_id" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-success">
+                                <i class="fas fa-save"></i> Crear Contribuyente
+                            </button>
+                            <a asp-action="Index" class="btn btn-secondary ms-2">
+                                <i class="fas fa-arrow-left"></i> Cancelar
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para registrar nueva persona -->
+<div class="modal fade" id="modalNuevaPersona" tabindex="-1" aria-labelledby="modalNuevaPersonaLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalNuevaPersonaLabel">
+                    <i class="fas fa-user-plus"></i> Registrar Nueva Persona
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="formNuevaPersona">
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle"></i>
+                        La persona con RUT <strong id="rutPersona"></strong> no está registrada. Complete los datos básicos para continuar.
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">RUT *</label>
+                            <input type="number" class="form-control" id="modalPerRut" readonly />
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">DV</label>
+                            <input type="text" class="form-control" id="modalPerVrut" maxlength="1" placeholder="K o dígito" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Nombres *</label>
+                            <input type="text" class="form-control" id="modalPerNombres" required />
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Apellido Paterno *</label>
+                            <input type="text" class="form-control" id="modalPerPaterno" required />
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Apellido Materno</label>
+                            <input type="text" class="form-control" id="modalPerMaterno" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-control" id="modalPerEmail" />
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Teléfono Móvil</label>
+                            <input type="text" class="form-control" id="modalPerMovil" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Sexo</label>
+                            <select class="form-control" id="modalSexCodigo">
+                                <option value="">-- Seleccione --</option>
+                                <option value="M">Masculino</option>
+                                <option value="F">Femenino</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Fecha de Nacimiento</label>
+                            <input type="date" class="form-control" id="modalPerFecnac" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="fas fa-times"></i> Cancelar
+                </button>
+                <button type="button" class="btn btn-primary" id="guardarPersonaBtn">
+                    <i class="fas fa-save"></i> Guardar Persona
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        $(document).ready(function() {
+
+            // Función para formatear número como pesos chilenos
+            function formatearPesosChilenos(numero) {
+                if (!numero) return '';
+                let valor = numero.toString().replace(/\D/g, '');
+                if (!valor) return '';
+                return valor.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+            }
+
+            // Función para obtener solo los números (sin formato)
+            function obtenerValorNumerico(valorFormateado) {
+                if (!valorFormateado) return '';
+                return valorFormateado.replace(/\./g, '');
+            }
+
+            // Formatear mientras el usuario escribe
+            $('#valorAporteInput').on('input', function() {
+                let valor = $(this).val();
+                let posicionCursor = this.selectionStart;
+                let valorFormateado = formatearPesosChilenos(valor);
+
+                $(this).val(valorFormateado);
+                let valorNumerico = obtenerValorNumerico(valorFormateado);
+                $('#valorAporteHidden').val(valorNumerico);
+
+                let nuevaPosicion = posicionCursor + (valorFormateado.length - valor.length);
+                if (nuevaPosicion < 0) nuevaPosicion = 0;
+                if (nuevaPosicion > valorFormateado.length) nuevaPosicion = valorFormateado.length;
+                this.setSelectionRange(nuevaPosicion, nuevaPosicion);
+            });
+
+            // Solo permitir números en el campo de valor
+            $('#valorAporteInput').on('keypress', function(e) {
+                if ($.inArray(e.keyCode, [46, 8, 9, 27, 13]) !== -1 ||
+                    (e.keyCode === 65 && e.ctrlKey === true) ||
+                    (e.keyCode === 67 && e.ctrlKey === true) ||
+                    (e.keyCode === 86 && e.ctrlKey === true) ||
+                    (e.keyCode === 88 && e.ctrlKey === true)) {
+                    return;
+                }
+                if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+                    e.preventDefault();
+                }
+            });
+
+            // Si hay un valor inicial, formatearlo
+            let valorInicial = $('#valorAporteHidden').val();
+            if (valorInicial) {
+                $('#valorAporteInput').val(formatearPesosChilenos(valorInicial));
+            }
+
+            // FUNCIONALIDAD DEL RUT CORREGIDA
+            $('#buscarPersonaBtn').on('click', function() {
+                const rutCompleto = $('#rutInput').val().trim();
+                if (!rutCompleto || rutCompleto.length < 8) {
+                    alert('Debe ingresar un RUT válido (mínimo 8 caracteres)');
+                    return;
+                }
+
+                // Separar RUT y DV
+                const rutNumerico = rutCompleto.slice(0, -1);
+                const dv = rutCompleto.slice(-1);
+
+                // Actualizar campo oculto con RUT sin DV
+                $('#rutHidden').val(parseInt(rutNumerico));
+
+                buscarPersona(parseInt(rutNumerico), dv);
+            });
+
+            $('#guardarPersonaBtn').on('click', function() {
+                guardarNuevaPersona();
+            });
+
+            // Buscar persona al presionar Enter en el campo RUT
+            $('#rutInput').on('keypress', function(e) {
+                if (e.which === 13) {
+                    e.preventDefault();
+                    $('#buscarPersonaBtn').click();
+                }
+            });
+        });
+
+        function buscarPersona(rut, dv) {
+            $.ajax({
+                url: '@Url.Action("BuscarPersona", "Contribuyente")',
+                type: 'GET',
+                data: { rut: rut },
+                success: function(response) {
+                    if (response.success) {
+                        if (response.persona) {
+                            $('#nombrePersona').text(response.persona.nombreCompleto);
+                            $('#personaInfo').show();
+                        } else {
+                            // Mostrar RUT completo formateado en el modal
+                            $('#rutPersona').text(rut + '-' + dv);
+                            $('#modalPerRut').val(rut);  // Solo números
+                            $('#modalPerVrut').val(dv);  // Solo DV
+                            $('#modalNuevaPersona').modal('show');
+                            $('#personaInfo').hide();
+                        }
+                    } else {
+                        alert('Error al buscar la persona: ' + response.message);
+                    }
+                },
+                error: function() {
+                    alert('Error al comunicarse con el servidor');
+                }
+            });
+        }
+
+        function guardarNuevaPersona() {
+            const personaData = {
+                per_rut: parseInt($('#modalPerRut').val()),
+                per_vrut: $('#modalPerVrut').val(),
+                per_nombres: $('#modalPerNombres').val(),
+                per_paterno: $('#modalPerPaterno').val(),
+                per_materno: $('#modalPerMaterno').val(),
+                per_email: $('#modalPerEmail').val(),
+                per_movil: $('#modalPerMovil').val(),
+                sex_codigo: $('#modalSexCodigo').val(),
+                per_fecnac: $('#modalPerFecnac').val()
+            };
+
+            if (!personaData.per_nombres || !personaData.per_paterno) {
+                alert('Debe completar al menos los campos obligatorios (Nombres y Apellido Paterno)');
+                return;
+            }
+
+            $.ajax({
+                url: '@Url.Action("CrearPersona", "Contribuyente")',
+                type: 'POST',
+                data: JSON.stringify(personaData),
+                contentType: 'application/json',
+                headers: {
+                    'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val()
+                },
+                success: function(response) {
+                    if (response.success) {
+                        $('#modalNuevaPersona').modal('hide');
+                        $('#nombrePersona').text(response.nombreCompleto);
+                        $('#personaInfo').show();
+                        alert('Persona registrada exitosamente');
+                        $('#formNuevaPersona')[0].reset();
+                    } else {
+                        alert('Error al registrar la persona: ' + response.message);
+                    }
+                },
+                error: function() {
+                    alert('Error al comunicarse con el servidor');
+                }
+            });
+        }
+    </script>
+}

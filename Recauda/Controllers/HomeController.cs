@@ -21,7 +21,7 @@ namespace Recauda.Controllers
             // Pasar información del usuario a la vista
             ViewBag.UsuarioNombre = User.FindFirstValue("FullName");
             ViewBag.UsuarioLogin = User.Identity?.Name;
-            ViewBag.UsuarioRol = User.FindFirstValue(ClaimTypes.Role);
+            ViewBag.UsuarioRol = User.FindFirstValue(ClaimTypes.Role);            
 
             return View();
         }

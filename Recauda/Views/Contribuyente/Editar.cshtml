@@ -1,0 +1,328 @@
+﻿@model Recauda.Models.Contribuyente
+
+@{
+    ViewData["Title"] = "Editar Contribuyente";
+}
+
+<h1 class="mt-4">@ViewData["Title"]</h1>
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Dashboard</a></li>
+    <li class="breadcrumb-item"><a asp-action="Index">Contribuyentes</a></li>
+    <li class="breadcrumb-item active">Editar</li>
+</ol>
+
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header">
+                <i class="fas fa-edit me-1"></i>
+                Editar Contribuyente: <strong>ID @Model.Id</strong>
+            </div>
+            <div class="card-body">
+                <form asp-action="Editar" method="post">
+                    @Html.AntiForgeryToken()
+                    <input asp-for="Id" type="hidden" />
+                    <input asp-for="FechaRegistro" type="hidden" />
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+                    <!-- Información de la Persona (Solo lectura) -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-light">
+                            <i class="fas fa-user"></i> Información de la Persona
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="alert alert-info">
+                                        <i class="fas fa-info-circle"></i>
+                                        <strong>RUT:</strong> @Model.per_rut
+                                        <br>
+                                        <small class="text-muted">La persona asociada no puede modificarse desde aquí.</small>
+                                    </div>
+                                    <input asp-for="per_rut" type="hidden" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Información del Contribuyente -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-light">
+                            <i class="fas fa-money-bill"></i> Información del Aporte
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label asp-for="mdc_id" class="form-label">
+                                        <i class="fas fa-list"></i> Motivo de Cobro *
+                                    </label>
+                                    <select asp-for="mdc_id" class="form-control">
+                                        <option value="">-- Seleccione un motivo --</option>
+                                        @foreach (var motivo in ViewBag.MotivosCobro)
+                                        {
+                                            <option value="@motivo.Value" selected="@(motivo.Value == Model.mdc_id.ToString())">@motivo.Text</option>
+                                        }
+                                    </select>
+                                    <span asp-validation-for="mdc_id" class="text-danger"></span>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">
+                                        <i class="fas fa-dollar-sign"></i> Valor del Aporte *
+                                    </label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">$</span>
+                                        <input type="text" class="form-control" placeholder="0" id="valorAporteInput" />
+                                    </div>
+                                    <!-- Campo oculto que contendrá el valor real para el modelo -->
+                                    <input asp-for="con_valor_aporte" type="hidden" id="valorAporteHidden" />
+                                    <span asp-validation-for="con_valor_aporte" class="text-danger"></span>
+                                    <small class="form-text text-muted">Ingrese el valor en pesos chilenos</small>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    <label asp-for="con_periodicidad_cobro" class="form-label">
+                                        <i class="fas fa-calendar-alt"></i> Periodicidad *
+                                    </label>
+                                    <select asp-for="con_periodicidad_cobro" class="form-control">
+                                        <option value="Mensual" selected>Mensual</option>
+                                    </select>
+                                    <span asp-validation-for="con_periodicidad_cobro" class="text-danger"></span>
+                                    <small class="form-text text-muted">Solo se permite periodicidad mensual</small>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label asp-for="con_dia_del_cargo" class="form-label">
+                                        <i class="fas fa-calendar-day"></i> Día del Cargo *
+                                    </label>
+                                    <select asp-for="con_dia_del_cargo" class="form-control">
+                                        <option value="">-- Seleccione --</option>
+                                        @for (int i = 1; i <= 31; i++)
+                                        {
+                                            <option value="@i" selected="@(Model.con_dia_del_cargo == i)">@i</option>
+                                        }
+                                    </select>
+                                    <span asp-validation-for="con_dia_del_cargo" class="text-danger"></span>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <label asp-for="con_activo" class="form-label">
+                                        <i class="fas fa-toggle-on"></i> Estado
+                                    </label>
+                                    <select asp-for="con_activo" class="form-control">
+                                        <option value="true" selected="@Model.con_activo">Activo</option>
+                                        <option value="false" selected="@(!Model.con_activo)">Inactivo</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Fechas -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-light">
+                            <i class="fas fa-calendar"></i> Fechas
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label asp-for="con_fecha_inicio" class="form-label">
+                                        <i class="fas fa-play"></i> Fecha de Inicio *
+                                    </label>
+                                    <input asp-for="con_fecha_inicio" class="form-control" type="date" />
+                                    <span asp-validation-for="con_fecha_inicio" class="text-danger"></span>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label asp-for="con_fecha_fin" class="form-label">
+                                        <i class="fas fa-stop"></i> Fecha de Fin
+                                    </label>
+                                    <input asp-for="con_fecha_fin" class="form-control" type="date" />
+                                    <span asp-validation-for="con_fecha_fin" class="text-danger"></span>
+                                    <small class="form-text text-muted">Opcional</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Asignaciones -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-light">
+                            <i class="fas fa-users-cog"></i> Asignaciones
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label asp-for="rec_id" class="form-label">
+                                        <i class="fas fa-user-tie"></i> Recaudador *
+                                    </label>
+                                    <select asp-for="rec_id" class="form-control">
+                                        <option value="">-- Seleccione un recaudador --</option>
+                                        @foreach (var recaudador in ViewBag.Recaudadores)
+                                        {
+                                            <option value="@recaudador.Value" selected="@(recaudador.Value == Model.rec_id.ToString())">@recaudador.Text</option>
+                                        }
+                                    </select>
+                                    <span asp-validation-for="rec_id" class="text-danger"></span>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label asp-for="com_id" class="form-label">
+                                        <i class="fas fa-building"></i> Compañía *
+                                    </label>
+                                    <select asp-for="com_id" class="form-control">
+                                        <option value="">-- Seleccione una compañía --</option>
+                                        @foreach (var compania in ViewBag.Companias)
+                                        {
+                                            <option value="@compania.Value" selected="@(compania.Value == Model.com_id.ToString())">@compania.Text</option>
+                                        }
+                                    </select>
+                                    <span asp-validation-for="com_id" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Guardar Cambios
+                            </button>
+                            <a asp-action="Detalles" asp-route-id="@Model.Id" class="btn btn-info ms-2">
+                                <i class="fas fa-eye"></i> Ver Detalles
+                            </a>
+                            <a asp-action="Index" class="btn btn-secondary ms-2">
+                                <i class="fas fa-arrow-left"></i> Volver al Listado
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="card">
+            <div class="card-header">
+                <i class="fas fa-info-circle me-1"></i>
+                Información Actual
+            </div>
+            <div class="card-body">
+                <table class="table table-borderless table-sm">
+                    <tr>
+                        <td><strong>ID:</strong></td>
+                        <td>@Model.Id</td>
+                    </tr>
+                    <tr>
+                        <td><strong>RUT:</strong></td>
+                        <td>@Model.per_rut</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Fecha Registro:</strong></td>
+                        <td>@Model.FechaRegistro.ToString("dd/MM/yyyy")</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Estado Actual:</strong></td>
+                        <td>
+                            @if (Model.con_activo)
+                            {
+                                <span class="badge bg-success">Activo</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-danger">Inactivo</span>
+                            }
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="card mt-3">
+            <div class="card-header">
+                <i class="fas fa-cogs me-1"></i>
+                Acciones Adicionales
+            </div>
+            <div class="card-body">
+                <a asp-action="Eliminar" asp-route-id="@Model.Id" class="btn btn-danger btn-sm w-100">
+                    <i class="fas fa-trash"></i> Eliminar Contribuyente
+                </a>
+                <small class="form-text text-muted mt-2">
+                    Esta acción requerirá confirmación adicional.
+                </small>
+            </div>
+        </div>
+
+        <div class="card mt-3 border-warning">
+            <div class="card-header bg-warning text-dark">
+                <i class="fas fa-exclamation-triangle me-1"></i>
+                Advertencias
+            </div>
+            <div class="card-body">
+                <ul class="mb-0 small">
+                    <li>No se puede cambiar el RUT de la persona asociada</li>
+                    <li>Los cambios en fechas afectan los próximos cobros</li>
+                    <li>El cambio de estado afecta la generación de cobros</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        $(document).ready(function() {
+
+            // Función para formatear número como pesos chilenos
+            function formatearPesosChilenos(numero) {
+                if (!numero) return '';
+                let valor = numero.toString().replace(/\D/g, '');
+                if (!valor) return '';
+                return valor.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+            }
+
+            // Función para obtener solo los números (sin formato)
+            function obtenerValorNumerico(valorFormateado) {
+                if (!valorFormateado) return '';
+                return valorFormateado.replace(/\./g, '');
+            }
+
+            // Formatear mientras el usuario escribe
+            $('#valorAporteInput').on('input', function() {
+                let valor = $(this).val();
+                let posicionCursor = this.selectionStart;
+                let valorFormateado = formatearPesosChilenos(valor);
+
+                $(this).val(valorFormateado);
+                let valorNumerico = obtenerValorNumerico(valorFormateado);
+                $('#valorAporteHidden').val(valorNumerico);
+
+                let nuevaPosicion = posicionCursor + (valorFormateado.length - valor.length);
+                if (nuevaPosicion < 0) nuevaPosicion = 0;
+                if (nuevaPosicion > valorFormateado.length) nuevaPosicion = valorFormateado.length;
+                this.setSelectionRange(nuevaPosicion, nuevaPosicion);
+            });
+
+            // Solo permitir números en el campo de valor
+            $('#valorAporteInput').on('keypress', function(e) {
+                if ($.inArray(e.keyCode, [46, 8, 9, 27, 13]) !== -1 ||
+                    (e.keyCode === 65 && e.ctrlKey === true) ||
+                    (e.keyCode === 67 && e.ctrlKey === true) ||
+                    (e.keyCode === 86 && e.ctrlKey === true) ||
+                    (e.keyCode === 88 && e.ctrlKey === true)) {
+                    return;
+                }
+                if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+                    e.preventDefault();
+                }
+            });
+
+            // Cargar valor inicial del modelo y formatearlo
+            let valorInicial = '@Model.con_valor_aporte';
+            if (valorInicial && valorInicial !== '0') {
+                $('#valorAporteHidden').val(valorInicial);
+                $('#valorAporteInput').val(formatearPesosChilenos(valorInicial));
+            }
+        });
+    </script>
+}

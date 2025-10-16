@@ -1,0 +1,532 @@
+﻿@using Recauda.Models
+@{
+    ViewData["Title"] = "Registrar Pagos";
+}
+
+<h1 class="mt-4">@ViewData["Title"]</h1>
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Dashboard</a></li>
+    <li class="breadcrumb-item"><a asp-action="Index">Recaudador</a></li>
+    <li class="breadcrumb-item active">Registrar Pagos</li>
+</ol>
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="fas fa-exclamation-circle"></i>
+        @TempData["ErrorMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="fas fa-check-circle"></i>
+        @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+@if (TempData["InfoMessage"] != null)
+{
+    <div class="alert alert-info alert-dismissible fade show" role="alert">
+        <i class="fas fa-info-circle"></i>
+        @TempData["InfoMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<div class="row">
+    <!-- Selector de Contribuyente -->
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <i class="fas fa-user me-1"></i>
+                Seleccionar Contribuyente
+            </div>
+            <div class="card-body">
+                <form asp-controller="Recaudador" asp-action="Pagos" method="post" class="row g-3">
+                    @Html.AntiForgeryToken()
+
+                    <div class="col-12">
+                        <label for="contribuyenteId" class="form-label">
+                            <i class="fas fa-user"></i> Contribuyente *
+                        </label>
+                        <div class="input-group">
+                            <select name="contribuyenteId" id="contribuyenteId" asp-items="ViewBag.Contribuyentes" class="form-select" required>
+                                <option value="">-- Seleccione un Contribuyente --</option>
+                            </select>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-search"></i> Buscar Cobros
+                            </button>
+                            <a asp-action="Index" class="btn btn-secondary">
+                                <i class="fas fa-arrow-left"></i> Volver
+                            </a>
+                        </div>
+                        <small class="form-text text-muted">
+                            Seleccione el contribuyente para ver sus cobros pendientes.
+                        </small>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Lista de Cobros del Contribuyente -->
+@if (ViewBag.Cobros != null)
+{
+    var cobros = (List<VCobros>)ViewBag.Cobros;
+
+    if (cobros.Count > 0)
+    {
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <div>
+                            <i class="fas fa-file-invoice-dollar me-1"></i>
+                            Cobros del Contribuyente
+                            <span class="badge bg-primary ms-2">@cobros.Count cobros</span>
+                        </div>
+                        <div class="text-muted">
+                            <strong>@cobros.First().per_nombre_completo</strong> (RUT: @cobros.First().per_rut_formateado)
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>Período</th>
+                                        <th>Motivo</th>
+                                        <th>Fecha Emisión</th>
+                                        <th>Fecha Vencimiento</th>
+                                        <th>Valor Cobro</th>
+                                        <th>Saldo Pendiente</th>
+                                        <th>Estado</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var cobro in cobros)
+                                    {
+                                        <tr id="cobro-@cobro.Id">
+                                            <td>
+                                                @cobro.cob_fecha_emision.ToString("MM/yyyy")
+                                            </td>
+                                            <td>@cobro.mdc_nombre</td>
+                                            <td>@cobro.cob_fecha_emision.ToString("dd/MM/yyyy")</td>
+                                            <td>
+                                                @cobro.cob_fecha_vencimiento.ToString("dd/MM/yyyy")
+                                                @if (cobro.esta_vencido)
+                                                {
+                                                    <span class="badge bg-danger ms-1">Vencido</span>
+                                                }
+                                                else if (cobro.dias_para_vencimiento <= 7)
+                                                {
+                                                    <span class="badge bg-warning ms-1">Por vencer</span>
+                                                }
+                                            </td>
+                                            <td class="fw-bold">$@cobro.cob_valor.ToString("N0")</td>
+                                            <td class="saldo-pendiente" data-cobro-id="@cobro.Id">
+                                                <i class="fas fa-spinner fa-spin"></i> Cargando...
+                                            </td>
+                                            <td>
+                                                @if (cobro.esta_vencido)
+                                                {
+                                                    <span class="badge bg-danger">Vencido</span>
+                                                }
+                                                else if (cobro.dias_para_vencimiento <= 7)
+                                                {
+                                                    <span class="badge bg-warning text-dark">Por vencer</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge bg-success">Vigente</span>
+                                                }
+                                            </td>
+                                            <td>
+                                                <button type="button"
+                                                        class="btn btn-success btn-sm btn-pagar"
+                                                        data-cobro-id="@cobro.Id"
+                                                        data-cobro-valor="@cobro.cob_valor.ToString("N0")"
+                                                        data-contribuyente-nombre="@cobro.per_nombre_completo"
+                                                        data-periodo="@cobro.cob_fecha_emision.ToString("MM/yyyy")"
+                                                        data-contribuyente-id="@cobro.con_id">
+                                                    <i class="fas fa-credit-card"></i> Pagar
+                                                </button>
+
+                                                <button type="button"
+                                                        class="btn btn-info btn-sm ms-1 btn-ver-pagos"
+                                                        data-cobro-id="@cobro.Id"
+                                                        title="Ver pagos y comprobantes">
+                                                    <i class="fas fa-eye"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Resumen -->
+                        <div class="row mt-3">
+                            <div class="col-12">
+                                <div class="alert alert-light">
+                                    <div class="row text-center">
+                                        <div class="col-md-3">
+                                            <div class="text-primary fw-bold fs-5">
+                                                @cobros.Count
+                                            </div>
+                                            <small class="text-muted">Total Cobros</small>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="text-success fw-bold fs-5">
+                                                @cobros.Count(c => !c.esta_vencido && c.dias_para_vencimiento > 7)
+                                            </div>
+                                            <small class="text-muted">Vigentes</small>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="text-warning fw-bold fs-5">
+                                                @cobros.Count(c => !c.esta_vencido && c.dias_para_vencimiento <= 7)
+                                            </div>
+                                            <small class="text-muted">Por Vencer</small>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="text-danger fw-bold fs-5">
+                                                @cobros.Count(c => c.esta_vencido)
+                                            </div>
+                                            <small class="text-muted">Vencidos</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+}
+
+<!-- Modal para Registrar Pago -->
+<div class="modal fade" id="modalRegistrarPago" tabindex="-1" aria-labelledby="modalRegistrarPagoLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="formRegistrarPago" asp-action="RegistrarPago" method="post">
+                @Html.AntiForgeryToken()
+                <input type="hidden" id="cobroId" name="cobroId" />
+                <input type="hidden" id="contribuyenteIdPago" name="contribuyenteId" value="@ViewBag.ContribuyenteSeleccionado" />
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalRegistrarPagoLabel">
+                        <i class="fas fa-credit-card"></i> Registrar Pago
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <strong>Contribuyente:</strong> <span id="contribuyenteNombre"></span>
+                    </div>
+                    <div class="mb-3">
+                        <strong>Período:</strong> <span id="periodo"></span>
+                    </div>
+                    <div class="mb-3">
+                        <strong>Valor del Cobro:</strong> $<span id="valorCobro"></span>
+                    </div>
+                    <div class="mb-3">
+                        <strong>Saldo Pendiente:</strong> $<span id="saldoPendiente" class="text-danger fw-bold"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="valorPago" class="form-label">
+                            <i class="fas fa-dollar-sign"></i> Valor a Pagar *
+                        </label>
+                        <input type="number"
+                               class="form-control"
+                               id="valorPago"
+                               name="valorPago"
+                               step="0.01"
+                               min="0.01"
+                               required>
+                        <small class="form-text text-muted">
+                            Ingrese el monto que desea pagar. No puede exceder el saldo pendiente.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="fas fa-times"></i> Cancelar
+                    </button>
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-check"></i> Registrar Pago
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para Ver Pagos Realizados y Comprobantes MODIFICADO -->
+<div class="modal fade" id="modalVerPagos" tabindex="-1" aria-labelledby="modalVerPagosLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalVerPagosLabel">
+                    <i class="fas fa-history"></i> Pagos Realizados y Comprobantes
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Contenedor para la lista de pagos -->
+                <div id="listaPagos">
+                    <div class="text-center">
+                        <i class="fas fa-spinner fa-spin"></i> Cargando pagos...
+                    </div>
+                </div>
+
+                <!-- Contenedor para mostrar el PDF del comprobante -->
+                <div id="visorComprobante" style="display: none;">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h6 class="mb-0">
+                                    <i class="fas fa-file-pdf text-danger"></i>
+                                    Comprobante de Pago
+                                </h6>
+                                <div>
+                                    <button type="button" class="btn btn-success btn-sm me-2" id="btnDescargarPDF">
+                                        <i class="fas fa-download"></i> Descargar PDF
+                                    </button>
+                                    <button type="button" class="btn btn-outline-secondary btn-sm" id="btnVolverListaPagos">
+                                        <i class="fas fa-arrow-left"></i> Volver a la lista
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- Contenedor del PDF embebido -->
+                            <div class="embed-responsive" style="height: 600px;">
+                                <iframe id="pdfViewer"
+                                        src=""
+                                        style="width: 100%; height: 100%; border: none;"
+                                        title="Comprobante de Pago">
+                                </iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="fas fa-times"></i> Cerrar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            // Preseleccionar contribuyente si viene en el ViewBag
+        @if (ViewBag.ContribuyenteSeleccionado != null)
+        {
+            <text>
+                                $('#contribuyenteId').val('@ViewBag.ContribuyenteSeleccionado');
+            </text>
+        }
+
+            // Cargar saldos pendientes para cada cobro
+            $('.saldo-pendiente').each(function() {
+                var cobroId = $(this).data('cobro-id');
+                var elemento = $(this);
+
+                $.get('@Url.Action("ObtenerSaldoPendiente")', { cobroId: cobroId })
+                    .done(function(data) {
+                        if (data.success) {
+                            elemento.html('<span class="fw-bold text-success">$' + data.saldo.toLocaleString() + '</span>');
+
+                            // SI EL SALDO ES 0 DESHABILITAR EL BOTON DE PAGAR
+                            if (data.saldo <= 0) {
+                                var botonPagar = $('button[data-cobro-id="' + cobroId + '"]').filter('.btn-pagar');
+                                botonPagar.prop('disabled', true);
+                                botonPagar.html('<i class="fas fa-check"></i> Pagado');
+                                botonPagar.removeClass('btn-success').addClass('btn-secondary');
+                                elemento.html('<span class="fw-bold text-success">PAGADO</span>');
+                            }
+                        } else {
+                            elemento.html('<span class="text-danger">Error al cargar</span>');
+                        }
+                    })
+                    .fail(function() {
+                        elemento.html('<span class="text-danger">Error al cargar</span>');
+                    });
+            });
+
+            // Manejar clic en botón Pagar
+            $('.btn-pagar').on('click', function() {
+                var cobroId = $(this).data('cobro-id');
+                var cobroValor = $(this).data('cobro-valor');
+                var contribuyenteNombre = $(this).data('contribuyente-nombre');
+                var periodo = $(this).data('periodo');
+                var contribuyenteId = $(this).data('contribuyente-id');
+
+                // Llenar datos del modal
+                $('#cobroId').val(cobroId);
+                $('#contribuyenteIdPago').val(contribuyenteId);
+                $('#contribuyenteNombre').text(contribuyenteNombre);
+                $('#periodo').text(periodo);
+                $('#valorCobro').text(cobroValor.toLocaleString());
+
+                // Obtener saldo pendiente actualizado
+                $.get('@Url.Action("ObtenerSaldoPendiente")', { cobroId: cobroId })
+                    .done(function(data) {
+                        if (data.success) {
+                            $('#saldoPendiente').text(data.saldo.toLocaleString());
+                            $('#valorPago').attr('max', data.saldo);
+                            $('#valorPago').val(data.saldo); // Prellenar con el saldo pendiente
+                        }
+                    });
+
+                $('#modalRegistrarPago').modal('show');
+            });
+
+            // Manejar clic en botón Ver Pagos (ACTUALIZADO)
+            $('.btn-ver-pagos').on('click', function() {
+                var cobroId = $(this).data('cobro-id');
+
+                // Resetear el modal
+                $('#listaPagos').show();
+                $('#visorComprobante').hide();
+                $('#listaPagos').html('<div class="text-center"><i class="fas fa-spinner fa-spin"></i> Cargando pagos...</div>');
+
+                $.get('@Url.Action("ObtenerPagosCobro")', { cobroId: cobroId })
+                    .done(function(data) {
+                        if (data.success && data.pagos.length > 0) {
+                            var html = '<div class="table-responsive">';
+                            html += '<table class="table table-sm table-hover">';
+                            html += '<thead class="table-light">';
+                            html += '<tr><th>Fecha</th><th>Valor Pagado</th><th>Recaudador</th><th>Comprobantes</th></tr>';
+                            html += '</thead><tbody>';
+
+                            data.pagos.forEach(function(pago) {
+                                console.log(pago);
+                                var fecha = new Date(pago.pag_fecha).toLocaleDateString('es-CL');
+                                html += '<tr>';
+                                html += '<td>' + fecha + '</td>';
+                                html += '<td class="fw-bold text-success">$' + pago.pag_valor_pagado.toLocaleString() + '</td>';
+                                html += '<td>' + (pago.recaudador || 'N/A') + '</td>';
+                                html += '<td>';
+                                html += '<button type="button" class="btn btn-outline-primary btn-sm btn-ver-comprobante-pdf" ';
+                                html += 'data-pago-id="' + pago.id + '" title="Ver comprobante">';
+                                html += '<i class="fas fa-file-pdf"></i> Ver Comprobante</button>';
+                                html += '</td>';
+                                html += '</tr>';
+                            });
+
+                            html += '</tbody></table></div>';
+                            $('#listaPagos').html(html);
+                        } else {
+                            $('#listaPagos').html('<div class="alert alert-info"><i class="fas fa-info-circle"></i> No hay pagos registrados para este cobro.</div>');
+                        }
+                    })
+                    .fail(function() {
+                        $('#listaPagos').html('<div class="alert alert-danger"><i class="fas fa-exclamation-triangle"></i> Error al cargar los pagos.</div>');
+                    });
+
+                $('#modalVerPagos').modal('show');
+            });
+
+            // NUEVO: Manejar clic en botón Ver Comprobante PDF
+            $(document).on('click', '.btn-ver-comprobante-pdf', function() {
+                var pagoId = $(this).data('pago-id');
+
+                // Ocultar la lista de pagos y mostrar el visor de PDF
+                $('#listaPagos').hide();
+                $('#visorComprobante').show();
+
+                // Guardar el pagoId para el botón de descarga
+                $('#btnDescargarPDF').data('pago-id', pagoId);
+
+                // Cargar el PDF en el iframe para visualización
+                var urlVisualizacion = '@Url.Action("VisualizarComprobante")?pagoId=' + pagoId;
+                $('#pdfViewer').attr('src', urlVisualizacion);
+            });
+
+            // NUEVO: Manejar clic en botón Descargar PDF
+            $('#btnDescargarPDF').on('click', function() {
+                var pagoId = $(this).data('pago-id');
+                if (pagoId) {
+                    // Crear enlace temporal para forzar descarga
+                    var urlDescarga = '@Url.Action("DescargarComprobante")?pagoId=' + pagoId;
+                    var link = document.createElement('a');
+                    link.href = urlDescarga;
+                    link.download = ''; // Esto fuerza la descarga
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                }
+            });
+
+            // NUEVO: Manejar clic en botón Volver a la lista
+            $('#btnVolverListaPagos').on('click', function() {
+                $('#visorComprobante').hide();
+                $('#listaPagos').show();
+                $('#pdfViewer').attr('src', ''); // Limpiar el iframe
+            });
+
+            // Validación del formulario de registro de pago
+            $('#formRegistrarPago').on('submit', function(e) {
+                var valorPago = parseFloat($('#valorPago').val());
+
+                // Obtener el saldo pendiente del atributo data en lugar del texto formateado
+                var saldoPendienteNumerico = parseFloat($('#valorPago').attr('max'));
+
+                if (valorPago <= 0) {
+                    e.preventDefault();
+                    alert('El valor del pago debe ser mayor a cero.');
+                    return false;
+                }
+
+                if (valorPago > saldoPendienteNumerico) {
+                    e.preventDefault();
+                    alert('El valor del pago no puede ser mayor al saldo pendiente ($' + saldoPendienteNumerico.toLocaleString('es-CL') + ').');
+                    return false;
+                }
+
+                if (!confirm('¿Está seguro que desea registrar un pago de $' + valorPago.toLocaleString('es-CL') + '? Se generará automáticamente un comprobante PDF.')) {
+                    e.preventDefault();
+                    return false;
+                }
+            });
+
+            // Limpiar modal al cerrarlo
+            $('#modalRegistrarPago').on('hidden.bs.modal', function() {
+                $('#valorPago').val('');
+            });
+
+            // NUEVO: Limpiar visor PDF al cerrar modal de pagos
+            $('#modalVerPagos').on('hidden.bs.modal', function() {
+                $('#visorComprobante').hide();
+                $('#listaPagos').show();
+                $('#pdfViewer').attr('src', ''); // Limpiar el iframe
+                $('#btnDescargarPDF').removeData('pago-id'); // Limpiar data del botón
+            });
+
+            // Formatear números mientras se escribe en el campo de valor
+            $('#valorPago').on('input', function() {
+                var value = $(this).val();
+                if (value && !isNaN(value)) {
+                    var max = parseFloat($(this).attr('max'));
+                    if (parseFloat(value) > max) {
+                        $(this).val(max);
+                    }
+                }
+            });
+        });
+    </script>
+}

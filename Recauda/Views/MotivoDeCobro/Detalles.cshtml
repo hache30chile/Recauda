@@ -1,0 +1,76 @@
+﻿@model Recauda.Models.MotivoDeCobro
+
+@{
+    ViewData["Title"] = "Detalles del Motivo de Cobro";
+}
+
+<h1 class="mt-4">@ViewData["Title"]</h1>
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Dashboard</a></li>
+    <li class="breadcrumb-item"><a asp-action="Index">Motivo de Cobros</a></li>
+    <li class="breadcrumb-item active">Detalles</li>
+</ol>
+
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header">
+                <i class="fas fa-info-circle me-1"></i>
+                Información Detallada del Motivo de Cobro
+            </div>
+            <div class="card-body">
+                <div class="row mb-4">
+                    <div class="col-md-3">
+                        <div class="text-center">
+                            <div class="bg-primary rounded-circle d-inline-flex align-items-center justify-content-center" 
+                                 style="width: 80px; height: 80px;">
+                                <i class="fas fa-user-tag fa-2x text-white"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <h3 class="mb-2">@Model.mdc_nombre</h3>
+
+                        <table class="table table-borderless">
+                            <tr>
+                                <td><strong>ID:</strong></td>
+                                <td>@Model.Id</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Nombre del Motivo de Cobro:</strong></td>
+                                <td>@Model.mdc_nombre</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Activo:</strong></td>
+                                <td>@Model.mdc_activo</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="card">
+            <div class="card-header">
+                <i class="fas fa-cogs me-1"></i>
+                Acciones Disponibles
+            </div>
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    <a asp-action="Editar" asp-route-id="@Model.Id" class="btn btn-warning">
+                        <i class="fas fa-edit"></i> Editar Motivo
+                    </a>
+                    <a asp-action="Eliminar" asp-route-id="@Model.Id" class="btn btn-danger">
+                        <i class="fas fa-trash"></i> Eliminar Motivo
+                    </a>
+                    <a asp-action="Index" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Volver al Listado
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

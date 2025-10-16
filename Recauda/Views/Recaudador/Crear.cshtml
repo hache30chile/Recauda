@@ -1,0 +1,109 @@
+﻿@model Recaudador
+
+@{
+    ViewData["Title"] = "Crear Nuevo Recaudador";
+}
+
+<h1 class="mt-4">@ViewData["Title"]</h1>
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Dashboard</a></li>
+    <li class="breadcrumb-item"><a asp-action="Index">Recaudador</a></li>
+    <li class="breadcrumb-item active">Crear</li>
+</ol>
+
+@* Mostrar mensajes de error/éxito *@
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="fas fa-exclamation-circle"></i>
+        @TempData["ErrorMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header">
+                <i class="fas fa-user-plus me-1"></i>
+                Información del Nuevo Recaudador
+            </div>
+            <div class="card-body">
+                @* Debug: Mostrar errores del ModelState *@
+                @if (!ViewData.ModelState.IsValid)
+                {
+                    <div class="alert alert-warning">
+                        <h6>Errores de validación:</h6>
+                        <ul>
+                            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                            {
+                                <li>@error.ErrorMessage</li>
+                            }
+                        </ul>
+                    </div>
+                }
+
+                <form asp-controller="Recaudador" asp-action="Crear" method="post">
+                    @Html.AntiForgeryToken()
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <div class="form-check form-switch mt-4">
+                                <input asp-for="rec_activo" class="form-check-input" type="checkbox" checked />
+                                <label asp-for="rec_activo" class="form-check-label">
+                                    <i class="fas fa-toggle-on"></i> Recaudador Activo
+                                </label>
+                            </div>
+                            <small class="form-text text-muted">
+                                Los recaudadores inactivos no podrán acceder al sistema.
+                            </small>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="usu_id" class="form-label">
+                                <i class="fas fa-user-tag"></i> Usuario *
+                            </label>
+                            <select asp-for="usu_id" asp-items="ViewBag.Usuarios" class="form-select">
+                                <option value="">-- Seleccione un Usuario --</option>
+                            </select>
+                            <span asp-validation-for="usu_id" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="com_id" class="form-label">
+                                <i class="fas fa-user-tag"></i> Compania *
+                            </label>
+                            <select asp-for="com_id" asp-items="ViewBag.Companias" class="form-select">
+                                <option value="">-- Seleccione un Compania --</option>
+                            </select>
+                            <span asp-validation-for="com_id" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-success">
+                                <i class="fas fa-save"></i> Crear Recaudador
+                            </button>
+                            <a asp-action="Index" class="btn btn-secondary ms-2">
+                                <i class="fas fa-arrow-left"></i> Cancelar
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="card">
+            <div class="card-header">
+                <i class="fas fa-info-circle me-1"></i>
+                Información Importante
+            </div>
+            <div class="card-body">
+                <h6 class="card-title">Consejos para crear recaudadores:</h6>
+                <ul class="card-text">
+                    <li>Asigne el usuario apropiado al recaudador</li>                    
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

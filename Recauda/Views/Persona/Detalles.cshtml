@@ -1,0 +1,216 @@
+﻿@model Recauda.Models.Persona
+
+@{
+    ViewData["Title"] = "Detalles de la Persona";
+    var persona = Model;
+}
+
+@if (persona == null)
+{
+    <div class="alert alert-danger">
+        No se encontró la persona solicitada o los datos están incompletos.
+    </div>
+}
+else
+{
+    <h1 class="mt-4">@ViewData["Title"]</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Dashboard</a></li>
+        <li class="breadcrumb-item"><a asp-action="Index">Personas</a></li>
+        <li class="breadcrumb-item active">Detalles</li>
+    </ol>
+
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-info-circle me-1"></i>
+                    Información Detallada de la Persona
+                </div>
+                <div class="card-body">
+                    <div class="row mb-4">
+                        <div class="col-md-3">
+                            <div class="text-center">
+                                <div class="bg-primary rounded-circle d-inline-flex align-items-center justify-content-center"
+                                     style="width: 80px; height: 80px;">
+                                    <i class="fas fa-user fa-2x text-white"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-9">
+                            <h3 class="mb-2">@($"{persona.per_nombres} {persona.per_paterno} {persona.per_materno}".Trim())</h3>
+                            <p class="text-muted mb-3">RUT: <strong>@($"{persona.per_rut:N0}-{persona.per_vrut}")</strong></p>
+
+                            <!-- Información Personal -->
+                            <h5><i class="fas fa-user-circle"></i> Información Personal</h5>
+                            <table class="table table-borderless table-sm">
+                                <tr>
+                                    <td width="30%"><strong>RUT:</strong></td>
+                                    <td>@($"{persona.per_rut:N0}-{persona.per_vrut}")</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Nombres:</strong></td>
+                                    <td>@(persona.per_nombres ?? "No especificado")</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Apellido Paterno:</strong></td>
+                                    <td>@(persona.per_paterno ?? "No especificado")</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Apellido Materno:</strong></td>
+                                    <td>@(persona.per_materno ?? "No especificado")</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Sexo:</strong></td>
+                                    <td>
+                                        @switch (persona.sex_codigo)
+                                        {
+                                            case "M":
+                                                <span class="badge bg-info">Masculino</span>
+                                                break;
+                                            case "F":
+                                                <span class="badge bg-warning text-dark">Femenino</span>
+                                                break;
+                                            default:
+                                                <span class="text-muted">No especificado</span>
+                                                break;
+                                        }
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Fecha de Nacimiento:</strong></td>
+                                    <td>
+                                        @if (persona.per_fecnac.HasValue)
+                                        {
+                                            @persona.per_fecnac.Value.ToString("dd/MM/yyyy")
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">No especificado</span>
+                                        }
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <!-- Información de Contacto -->
+                            <h5 class="mt-4"><i class="fas fa-address-book"></i> Información de Contacto</h5>
+                            <table class="table table-borderless table-sm">
+                                <tr>
+                                    <td width="30%"><strong>Email:</strong></td>
+                                    <td>
+                                        @if (!string.IsNullOrEmpty(persona.per_email))
+                                        {
+                                            <a href="mailto:@persona.per_email">@persona.per_email</a>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">No especificado</span>
+                                        }
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Teléfono Móvil:</strong></td>
+                                    <td>
+                                        @if (!string.IsNullOrEmpty(persona.per_movil))
+                                        {
+                                            <a href="tel:@persona.per_movil">@persona.per_movil</a>
+                                        }
+                                        else
+                                        {
+                                            <span class="text-muted">No especificado</span>
+                                        }
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <!-- Información de Dirección -->
+                            <h5 class="mt-4"><i class="fas fa-map-marker-alt"></i> Dirección</h5>
+                            <table class="table table-borderless table-sm">
+                                <tr>
+                                    <td width="30%"><strong>Calle:</strong></td>
+                                    <td>@(persona.per_calle ?? "No especificado")</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Número:</strong></td>
+                                    <td>@(persona.per_numero ?? "No especificado")</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Departamento:</strong></td>
+                                    <td>@(persona.per_depto ?? "No especificado")</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Block/Villa:</strong></td>
+                                    <td>@(persona.per_block ?? "No especificado")</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Comuna:</strong></td>
+                                    <td>@(persona.per_comuna ?? "No especificado")</td>
+                                </tr>
+                            </table>
+
+                            @{
+                                var direccionCompleta = new List<string>();
+                                if (!string.IsNullOrEmpty(persona.per_calle)) direccionCompleta.Add(persona.per_calle);
+                                if (!string.IsNullOrEmpty(persona.per_numero)) direccionCompleta.Add(persona.per_numero);
+                                if (!string.IsNullOrEmpty(persona.per_depto)) direccionCompleta.Add($"Depto. {persona.per_depto}");
+                                if (!string.IsNullOrEmpty(persona.per_block)) direccionCompleta.Add(persona.per_block);
+                                if (!string.IsNullOrEmpty(persona.per_comuna)) direccionCompleta.Add(persona.per_comuna);
+                            }
+
+                            @if (direccionCompleta.Any())
+                            {
+                                <div class="alert alert-info mt-3">
+                                    <strong><i class="fas fa-map"></i> Dirección Completa:</strong><br>
+                                    @string.Join(", ", direccionCompleta)
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-cogs me-1"></i>
+                    Acciones Disponibles
+                </div>
+                <div class="card-body">
+                    <div class="d-grid gap-2">
+                        <a asp-action="Editar" asp-route-per_rut="@persona.per_rut" class="btn btn-warning">
+                            <i class="fas fa-edit"></i> Editar Persona
+                        </a>
+                        <a asp-action="Eliminar" asp-route-per_rut="@persona.per_rut" class="btn btn-danger">
+                            <i class="fas fa-trash"></i> Eliminar Persona
+                        </a>
+                        <a asp-action="Index" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Volver al Listado
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card de información adicional -->
+            <div class="card mt-3">
+                <div class="card-header">
+                    <i class="fas fa-info-circle me-1"></i>
+                    Información del Sistema
+                </div>
+                <div class="card-body">
+                    <small class="text-muted">
+                        Esta persona está registrada en el sistema con RUT <strong>@($"{persona.per_rut:N0}-{persona.per_vrut}")</strong>.
+                        @if (!string.IsNullOrEmpty(persona.per_email))
+                        {
+                            <text><br />Se puede contactar por email.</text>
+                        }
+                        @if (!string.IsNullOrEmpty(persona.per_movil))
+                        {
+                            <text><br />Se puede contactar por teléfono.</text>
+                        }
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+}

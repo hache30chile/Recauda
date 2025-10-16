@@ -1,0 +1,98 @@
+﻿@model Recauda.Models.VRecaudador
+
+@{
+    ViewData["Title"] = "Editar Recaudador";
+}
+
+<h1 class="mt-4">@ViewData["Title"]</h1>
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Dashboard</a></li>
+    <li class="breadcrumb-item"><a asp-action="Index">Recaudadores</a></li>
+    <li class="breadcrumb-item active">Editar</li>
+</ol>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <i class="fas fa-edit me-1"></i>
+                Editar Recaudador: <strong>@($"{Model.Id:N0}")</strong>
+            </div>
+            <div class="card-body">
+                <form asp-action="Editar" method="post">
+                    @Html.AntiForgeryToken()
+                    <input asp-for="Id" type="hidden" />
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Id" class="form-label">
+                                <i class="fas fa-id-card"></i> ID (No editable)
+                            </label>
+                            <input asp-for="Id" class="form-control" readonly style="background-color: #f8f9fa;" />
+                            <small class="form-text text-muted">El ID no puede ser modificado.</small>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="form-check form-switch mt-4">
+                                <input name="rec_activo" type="checkbox" class="form-check-input"
+                                @(Model.rec_activo ? "checked" : "") value="true" />
+                                <input name="rec_activo" type="hidden" value="false" />
+                                <label class="form-check-label">
+                                    <i class="fas fa-toggle-on"></i> Recaudador Activo
+                                </label>
+                            </div>
+                            <small class="form-text text-muted">
+                                Los recaudadores inactivos no podrán acceder al sistema.
+                            </small>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">
+                                <i class="fas fa-user-tag"></i> Usuario *
+                            </label>
+                            <select name="usu_id" class="form-select">
+                                <option value="">-- Seleccione un Usuario --</option>
+                                @foreach (var usuario in ViewBag.Usuarios as SelectList)
+                                {
+                                    <option value="@usuario.Value" selected="@(usuario.Value == Model.usu_id.ToString())">
+                                        @usuario.Text
+                                    </option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">
+                                <i class="fas fa-user-tag"></i> Compania *
+                            </label>
+                            <select name="com_id" class="form-select">
+                                <option value="">-- Seleccione un Compania --</option>
+                                @foreach (var compania in ViewBag.Companias as SelectList)
+                                {
+                                    <option value="@compania.Value" selected="@(compania.Value == Model.com_id.ToString())">
+                                        @compania.Text
+                                    </option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Guardar Cambios
+                            </button>
+                            <a asp-action="Index" class="btn btn-secondary ms-2">
+                                <i class="fas fa-arrow-left"></i> Volver al Listado
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

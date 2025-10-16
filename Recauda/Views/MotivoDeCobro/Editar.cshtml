@@ -1,0 +1,88 @@
+﻿@model Recauda.Models.MotivoDeCobro
+
+@{
+    ViewData["Title"] = "Editar Motivo de Cobro";
+}
+
+<h1 class="mt-4">@ViewData["Title"]</h1>
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Dashboard</a></li>
+    <li class="breadcrumb-item"><a asp-action="Index">Motivos de Cobro</a></li>
+    <li class="breadcrumb-item active">Editar</li>
+</ol>
+
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header">
+                <i class="fas fa-edit me-1"></i>
+                Editar Motivo de Cobro: <strong>@Model.mdc_nombre</strong>
+            </div>
+            <div class="card-body">
+                <form asp-action="Editar" method="post">
+                    @Html.AntiForgeryToken()
+                    <input asp-for="Id" type="hidden" />
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                            <label asp-for="mdc_nombre" class="form-label">
+                                <i class="fas fa-tag"></i> Nombre del Motivo de Cobro
+                            </label>
+                            <input asp-for="mdc_nombre" class="form-control" />
+                            <span asp-validation-for="mdc_nombre" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <label asp-for="mdc_activo" class="form-label">
+                                <i class="fas fa-tag"></i> Activo
+                            </label>
+                            <select asp-for="mdc_activo" class="form-control">
+                                <option value="">Seleccione...</option>
+                                <option value="1">Activo</option>
+                                <option value="0">Inactivo</option>
+                            </select>
+                            <span asp-validation-for="mdc_activo" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Guardar Cambios
+                            </button>
+                            <a asp-action="Detalles" asp-route-id="@Model.Id" class="btn btn-info ms-2">
+                                <i class="fas fa-eye"></i> Ver Detalles
+                            </a>
+                            <a asp-action="Index" class="btn btn-secondary ms-2">
+                                <i class="fas fa-arrow-left"></i> Volver al Listado
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="card">
+            <div class="card-header">
+                <i class="fas fa-cogs me-1"></i>
+                Acciones Adicionales
+            </div>
+            <div class="card-body">
+                <a asp-action="Eliminar" asp-route-id="@Model.Id" class="btn btn-danger btn-sm w-100">
+                    <i class="fas fa-trash"></i> Eliminar Compañía
+                </a>
+                <small class="form-text text-muted mt-2">
+                    Esta acción requerirá confirmación adicional.
+                </small>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -6,9 +6,10 @@ namespace Recauda.Interfaces
     {
         Task<List<Usuario>> ObtenerUsuarios();
         Task<Usuario?> ObtenerUsuarioPorId(int id);
-        Task CrearUsuarioAsync(Usuario usuario);
-        Task EditarUsuarioAsync(Usuario usuario);
+        Task CrearUsuarioAsync(Usuario usuario, bool esGenerador = false);
+        Task EditarUsuarioAsync(Usuario usuario, bool esGenerador = false);
         Task EliminarUsuarioAsync(int id);
-        Task<List<Rol>> ObtenerRolesActivos(); // Para el dropdown de roles
+        Task<List<Rol>> ObtenerRolesActivos(); 
+        Task<bool> EsUsuarioGenerador(int usuarioId); 
     }
 }

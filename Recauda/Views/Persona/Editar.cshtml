@@ -1,0 +1,175 @@
+﻿@model Recauda.Models.Persona
+
+@{
+    ViewData["Title"] = "Editar Persona";
+}
+
+<h1 class="mt-4">@ViewData["Title"]</h1>
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Dashboard</a></li>
+    <li class="breadcrumb-item"><a asp-action="Index">Personas</a></li>
+    <li class="breadcrumb-item active">Editar</li>
+</ol>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <i class="fas fa-edit me-1"></i>
+                Editar Persona: <strong>@($"{Model.per_rut:N0}-{Model.per_vrut}")</strong>
+            </div>
+            <div class="card-body">
+                <form asp-action="Editar" method="post">
+                    @Html.AntiForgeryToken()
+                    <input asp-for="per_rut" type="hidden" />
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+                    <!-- Sección RUT (Solo lectura) -->
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="per_rut" class="form-label">
+                                <i class="fas fa-id-card"></i> R.U.T. (No editable)
+                            </label>
+                            <input asp-for="per_rut" class="form-control" readonly style="background-color: #f8f9fa;" />
+                            <small class="form-text text-muted">El RUT no puede ser modificado.</small>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="per_vrut" class="form-label">
+                                <i class="fas fa-check"></i> Dígito Verificador
+                            </label>
+                            <input asp-for="per_vrut" class="form-control" maxlength="1" />
+                            <span asp-validation-for="per_vrut" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <!-- Sección Nombres -->
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="per_nombres" class="form-label">
+                                <i class="fas fa-user"></i> Nombres
+                            </label>
+                            <input asp-for="per_nombres" class="form-control" />
+                            <span asp-validation-for="per_nombres" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="sex_codigo" class="form-label">
+                                <i class="fas fa-venus-mars"></i> Sexo
+                            </label>
+                            <select asp-for="sex_codigo" class="form-control">
+                                <option value="">Seleccione...</option>
+                                <option value="M">Masculino</option>
+                                <option value="F">Femenino</option>
+                            </select>
+                            <span asp-validation-for="sex_codigo" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <!-- Sección Apellidos -->
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="per_paterno" class="form-label">
+                                <i class="fas fa-user-tag"></i> Apellido Paterno
+                            </label>
+                            <input asp-for="per_paterno" class="form-control" />
+                            <span asp-validation-for="per_paterno" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="per_materno" class="form-label">
+                                <i class="fas fa-user-tag"></i> Apellido Materno
+                            </label>
+                            <input asp-for="per_materno" class="form-control" />
+                            <span asp-validation-for="per_materno" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <!-- Sección Fecha y Contacto -->
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label asp-for="per_fecnac" class="form-label">
+                                <i class="fas fa-calendar"></i> Fecha de Nacimiento
+                            </label>
+                            <input asp-for="per_fecnac" type="date" class="form-control" />
+                            <span asp-validation-for="per_fecnac" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label asp-for="per_email" class="form-label">
+                                <i class="fas fa-envelope"></i> Email
+                            </label>
+                            <input asp-for="per_email" type="email" class="form-control" />
+                            <span asp-validation-for="per_email" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label asp-for="per_movil" class="form-label">
+                                <i class="fas fa-mobile-alt"></i> Teléfono Móvil
+                            </label>
+                            <input asp-for="per_movil" class="form-control" />
+                            <span asp-validation-for="per_movil" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <!-- Sección Dirección -->
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="per_calle" class="form-label">
+                                <i class="fas fa-road"></i> Calle
+                            </label>
+                            <input asp-for="per_calle" class="form-control" />
+                            <span asp-validation-for="per_calle" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label asp-for="per_numero" class="form-label">
+                                <i class="fas fa-hashtag"></i> Número
+                            </label>
+                            <input asp-for="per_numero" class="form-control" />
+                            <span asp-validation-for="per_numero" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label asp-for="per_depto" class="form-label">
+                                <i class="fas fa-building"></i> Depto/Of.
+                            </label>
+                            <input asp-for="per_depto" class="form-control" />
+                            <span asp-validation-for="per_depto" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="per_block" class="form-label">
+                                <i class="fas fa-home"></i> Block/Villa
+                            </label>
+                            <input asp-for="per_block" class="form-control" />
+                            <span asp-validation-for="per_block" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="per_comuna" class="form-label">
+                                <i class="fas fa-map-marker-alt"></i> Comuna
+                            </label>
+                            <input asp-for="per_comuna" class="form-control" />
+                            <span asp-validation-for="per_comuna" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Guardar Cambios
+                            </button>
+                            <a asp-action="Detalles" asp-route-per_rut="@Model.per_rut" class="btn btn-info ms-2">
+                                <i class="fas fa-eye"></i> Ver Detalles
+                            </a>
+                            <a asp-action="Index" class="btn btn-secondary ms-2">
+                                <i class="fas fa-arrow-left"></i> Volver al Listado
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -55,6 +55,14 @@
               "target": "Package",
               "version": "[4.0.3, )"
             },
+            "EPPlus": {
+              "target": "Package",
+              "version": "[6.2.1, )"
+            },
+            "Microsoft.EntityFrameworkCore.InMemory": {
+              "target": "Package",
+              "version": "[9.0.8, )"
+            },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
               "version": "[9.0.5, )"
@@ -64,6 +72,14 @@
               "suppressParent": "All",
               "target": "Package",
               "version": "[9.0.5, )"
+            },
+            "QuestPDF": {
+              "target": "Package",
+              "version": "[2025.7.2, )"
+            },
+            "Stenn.EntityFrameworkCore.InMemory.Extensions.DependencyInjection": {
+              "target": "Package",
+              "version": "[7.9.50, )"
             }
           },
           "imports": [

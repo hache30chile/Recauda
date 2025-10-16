@@ -1,0 +1,91 @@
+﻿@model Recauda.Models.VRecaudador
+@{
+    ViewData["Title"] = "Detalles del Recaudador";
+}
+
+<h1 class="mt-4">@ViewData["Title"]</h1>
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Dashboard</a></li>
+    <li class="breadcrumb-item"><a asp-action="Index">Recaudadores</a></li>
+    <li class="breadcrumb-item active">Detalles</li>
+</ol>
+
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header">
+                <i class="fas fa-info-circle me-1"></i>
+                Información Detallada del Recaudador
+            </div>
+            <div class="card-body">
+                <div class="row mb-4">
+                    <div class="col-md-3">
+                        <div class="text-center">
+                            <div class="bg-primary rounded-circle d-inline-flex align-items-center justify-content-center"
+                                 style="width: 80px; height: 80px;">
+                                <i class="fas fa-user-tag fa-2x text-white"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <h3 class="mb-2">@Model.Id</h3>
+
+                        <table class="table table-borderless">
+                            <tr>
+                                <td><strong>ID recaudador:</strong></td>
+                                <td><strong>@Model.Id</strong></td>
+                            </tr>
+                            <tr>
+                                <td>Activo:</td>
+                                <td>@Model.rec_activo</td>
+                            </tr>
+                            <tr>
+                                <td>ID de usuario:</td>
+                                <td>@Model.usu_id</td>
+                            </tr>
+                            <tr>
+                                <td>Nombre de recaudador:</td>
+                                <td>@Model.Nombre</td>
+                            </tr>
+                            <tr>
+                                <td>Número de Compañía:</td>
+                                <td>@Model.com_id</td>
+                            </tr>
+                            <tr>
+                                <td>Nombre de Compañía:</td>
+                                <td>@Model.com_nombre</td>
+                            </tr>
+                            <tr>
+                                <td>Fecha de registro:</td>
+                                <td>@Model.FechaRegistro</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="card">
+            <div class="card-header">
+                <i class="fas fa-cogs me-1"></i>
+                Acciones Disponibles
+            </div>
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    <a asp-action="Editar" asp-route-id="@Model.Id" class="btn btn-warning">
+                        <i class="fas fa-edit"></i> Editar Recaudador
+                    </a>
+                    <a asp-action="Eliminar" asp-route-id="@Model.Id" class="btn btn-danger">
+                        <i class="fas fa-trash"></i> Eliminar Recaudador
+                    </a>
+                    <a asp-action="Index" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Volver al Listado
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
