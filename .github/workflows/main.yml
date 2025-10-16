@@ -39,5 +39,5 @@ jobs:
         username: ${{ secrets.USERNAME }}
         key: ${{ secrets.SSH_KEY }}
         script: |
-          sudo systemctl restart tuaplicacion
+          sudo systemctl restart recauda
           sudo systemctl restart nginx
