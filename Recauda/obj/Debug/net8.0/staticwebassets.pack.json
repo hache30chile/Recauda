@@ -121,6 +121,10 @@
       "PackagePath": "staticwebassets\\comprobantes\\2025\\09\\Comprobante_Pago_00000033_20250929_33_20250929_111710.pdf"
     },
     {
+      "Id": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\wwwroot\\comprobantes\\2026\\01\\Comprobante_Pago_00000034_20260129_34_20260129_135841.pdf",
+      "PackagePath": "staticwebassets\\comprobantes\\2026\\01\\Comprobante_Pago_00000034_20260129_34_20260129_135841.pdf"
+    },
+    {
       "Id": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\wwwroot\\css\\site.css",
       "PackagePath": "staticwebassets\\css\\site.css"
     },

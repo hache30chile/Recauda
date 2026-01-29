@@ -348,6 +348,18 @@
       <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-0FE/MfPC6TTF1xJOOt8S86g5FHP6LC0/Elp4H4nyNwQ="}]]]></EndpointProperties>
       <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"89148"},{"Name":"Content-Type","Value":"application/pdf"},{"Name":"ETag","Value":"\u00220FE/MfPC6TTF1xJOOt8S86g5FHP6LC0/Elp4H4nyNwQ=\u0022"},{"Name":"Last-Modified","Value":"Mon, 29 Sep 2025 14:17:10 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/Recauda/comprobantes/2026/01/Comprobante_Pago_00000034_20260129_34_20260129_135841.5wj6vnx4tx.pdf">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\comprobantes\2026\01\Comprobante_Pago_00000034_20260129_34_20260129_135841.pdf'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"5wj6vnx4tx"},{"Name":"integrity","Value":"sha256-ywqBnCKwQhPTQzWkLryHjLs7i6zujfWXhWm\u002B6ezZGeA="},{"Name":"label","Value":"_content/Recauda/comprobantes/2026/01/Comprobante_Pago_00000034_20260129_34_20260129_135841.pdf"}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"89759"},{"Name":"Content-Type","Value":"application/pdf"},{"Name":"ETag","Value":"\u0022ywqBnCKwQhPTQzWkLryHjLs7i6zujfWXhWm\u002B6ezZGeA=\u0022"},{"Name":"Last-Modified","Value":"Thu, 29 Jan 2026 16:58:41 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/Recauda/comprobantes/2026/01/Comprobante_Pago_00000034_20260129_34_20260129_135841.pdf">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\comprobantes\2026\01\Comprobante_Pago_00000034_20260129_34_20260129_135841.pdf'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-ywqBnCKwQhPTQzWkLryHjLs7i6zujfWXhWm\u002B6ezZGeA="}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"89759"},{"Name":"Content-Type","Value":"application/pdf"},{"Name":"ETag","Value":"\u0022ywqBnCKwQhPTQzWkLryHjLs7i6zujfWXhWm\u002B6ezZGeA=\u0022"},{"Name":"Last-Modified","Value":"Thu, 29 Jan 2026 16:58:41 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
     <StaticWebAssetEndpoint Include="_content/Recauda/css/site.c2tiyv64ts.css">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\css\site.css'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>

@@ -868,5 +868,46 @@ namespace Recauda.Controllers
             }
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<JsonResult> EditarPago(int pagoId, DateTime nuevaFecha)
+        {
+            try
+            {
+                var pago = await _recaudadorService.ObtenerPagoPorId(pagoId);
+                if (pago == null)
+                {
+                    return Json(new { success = false, message = "El pago especificado no existe." });
+                }
+
+                // Validar que la fecha no sea futura
+                if (nuevaFecha > DateTime.Now)
+                {
+                    return Json(new { success = false, message = "La fecha del pago no puede ser futura." });
+                }
+
+                var resultado = await _recaudadorService.EditarPagoAsync(pagoId, nuevaFecha);
+
+                if (resultado)
+                {
+                    return Json(new
+                    {
+                        success = true,
+                        message = "Fecha del pago actualizada exitosamente.",
+                        nuevaFecha = nuevaFecha.ToString("dd/MM/yyyy")
+                    });
+                }
+                else
+                {
+                    return Json(new { success = false, message = "No se pudo actualizar la fecha del pago." });
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al editar fecha del pago {PagoId}", pagoId);
+                return Json(new { success = false, message = "Error al actualizar la fecha del pago: " + ex.Message });
+            }
+        }
+
     }
 }

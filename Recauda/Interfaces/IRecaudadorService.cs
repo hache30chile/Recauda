@@ -45,5 +45,7 @@ namespace Recauda.Interfaces
         Task<ComprobantesPago?> ObtenerComprobantePorId(int comprobanteId);
         Task<bool> EliminarComprobanteAsync(int comprobanteId);
         Task<byte[]?> ObtenerContenidoComprobante(int comprobanteId);
+        // Agregar este método a la interfaz
+        Task<bool> EditarPagoAsync(int pagoId, DateTime nuevaFecha);
     }
 }

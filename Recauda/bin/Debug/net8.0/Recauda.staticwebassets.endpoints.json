@@ -2463,6 +2463,88 @@
       ]
     },
     {
+      "Route": "comprobantes/2026/01/Comprobante_Pago_00000034_20260129_34_20260129_135841.5wj6vnx4tx.pdf",
+      "AssetFile": "comprobantes/2026/01/Comprobante_Pago_00000034_20260129_34_20260129_135841.pdf",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "89759"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/pdf"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"ywqBnCKwQhPTQzWkLryHjLs7i6zujfWXhWm+6ezZGeA=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 29 Jan 2026 16:58:41 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "5wj6vnx4tx"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-ywqBnCKwQhPTQzWkLryHjLs7i6zujfWXhWm+6ezZGeA="
+        },
+        {
+          "Name": "label",
+          "Value": "comprobantes/2026/01/Comprobante_Pago_00000034_20260129_34_20260129_135841.pdf"
+        }
+      ]
+    },
+    {
+      "Route": "comprobantes/2026/01/Comprobante_Pago_00000034_20260129_34_20260129_135841.pdf",
+      "AssetFile": "comprobantes/2026/01/Comprobante_Pago_00000034_20260129_34_20260129_135841.pdf",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "89759"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/pdf"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"ywqBnCKwQhPTQzWkLryHjLs7i6zujfWXhWm+6ezZGeA=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 29 Jan 2026 16:58:41 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-ywqBnCKwQhPTQzWkLryHjLs7i6zujfWXhWm+6ezZGeA="
+        }
+      ]
+    },
+    {
       "Route": "css/site.c2tiyv64ts.css",
       "AssetFile": "css/site.css",
       "Selectors": [],

@@ -523,5 +523,30 @@ namespace Recauda.Services
                 return null;
             }
         }
+
+        public async Task<bool> EditarPagoAsync(int pagoId, DateTime nuevaFecha)
+        {
+            try
+            {
+                var pago = await _context.Pagos.FindAsync(pagoId);
+                if (pago == null)
+                {
+                    _logger?.LogWarning($"No se encontró el pago con ID {pagoId}");
+                    return false;
+                }
+
+                pago.pag_fecha = nuevaFecha;
+
+                await _context.SaveChangesAsync();
+
+                _logger?.LogInformation($"Fecha del pago {pagoId} actualizada a {nuevaFecha:dd/MM/yyyy}");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger?.LogError(ex, $"Error al editar fecha del pago {pagoId}");
+                return false;
+            }
+        }
     }
 }

@@ -27,6 +27,7 @@ wwwroot\comprobantes\2025\09\Comprobante_Pago_00000030_20250929_30_20250929_1116
 wwwroot\comprobantes\2025\09\Comprobante_Pago_00000031_20250929_31_20250929_111703.pdf
 wwwroot\comprobantes\2025\09\Comprobante_Pago_00000032_20250929_32_20250929_111706.pdf
 wwwroot\comprobantes\2025\09\Comprobante_Pago_00000033_20250929_33_20250929_111710.pdf
+wwwroot\comprobantes\2026\01\Comprobante_Pago_00000034_20260129_34_20260129_135841.pdf
 wwwroot\css\site.css
 wwwroot\css\styles.css
 wwwroot\favicon.ico

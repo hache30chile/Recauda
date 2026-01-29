@@ -329,14 +329,113 @@
     </div>
 </div>
 
+<!-- Modal para Editar Fecha de Pago -->
+<div class="modal fade" id="modalEditarPago" tabindex="-1" aria-labelledby="modalEditarPagoLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="formEditarPago">
+                @Html.AntiForgeryToken()
+                <input type="hidden" id="pagoIdEditar" name="pagoId" />
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalEditarPagoLabel">
+                        <i class="fas fa-calendar-alt"></i> Editar Fecha de Pago
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <strong>Valor Pagado:</strong> $<span id="valorPagoEditar"></span>
+                    </div>
+                    <div class="mb-3">
+                        <strong>Fecha Actual:</strong> <span id="fechaActualPago"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="nuevaFechaPago" class="form-label">
+                            <i class="fas fa-calendar"></i> Nueva Fecha de Pago *
+                        </label>
+                        <input type="date"
+                               class="form-control"
+                               id="nuevaFechaPago"
+                               name="nuevaFecha"
+                               required>
+                        <small class="form-text text-muted">
+                            La fecha no puede ser posterior a hoy.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="fas fa-times"></i> Cancelar
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Guardar Cambios
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 @section Scripts {
     <script>
         $(document).ready(function() {
+            // Función para cargar pagos de un cobro (reutilizable)
+            function cargarPagosDelCobro(cobroId) {
+                $('#listaPagos').show();
+                $('#visorComprobante').hide();
+                $('#listaPagos').html('<div class="text-center"><i class="fas fa-spinner fa-spin"></i> Cargando pagos...</div>');
+
+                $.get('@Url.Action("ObtenerPagosCobro")', { cobroId: cobroId })
+                    .done(function(data) {
+                        if (data.success && data.pagos.length > 0) {
+                            var html = '<div class="table-responsive">';
+                            html += '<table class="table table-sm table-hover">';
+                            html += '<thead class="table-light">';
+                            html += '<tr><th>Fecha</th><th>Valor Pagado</th><th>Recaudador</th><th>Comprobantes</th><th>Acciones</th></tr>';
+                            html += '</thead><tbody>';
+
+                            data.pagos.forEach(function(pago) {
+                                var fecha = new Date(pago.pag_fecha).toLocaleDateString('es-CL');
+                                html += '<tr>';
+                                html += '<td>' + fecha + '</td>';
+                                html += '<td class="fw-bold text-success">$' + pago.pag_valor_pagado.toLocaleString() + '</td>';
+                                html += '<td>' + (pago.recaudador || 'N/A') + '</td>';
+                                html += '<td>';
+                                html += '<button type="button" class="btn btn-outline-primary btn-sm btn-ver-comprobante-pdf" ';
+                                html += 'data-pago-id="' + pago.id + '" title="Ver comprobante">';
+                                html += '<i class="fas fa-file-pdf"></i> Ver Comprobante</button>';
+                                html += '</td>';
+                                html += '<td>';
+                                html += '<button type="button" class="btn btn-outline-warning btn-sm btn-editar-pago" ';
+                                html += 'data-pago-id="' + pago.id + '" ';
+                                html += 'data-pago-valor="' + pago.pag_valor_pagado + '" ';
+                                html += 'data-pago-fecha="' + pago.pag_fecha + '" ';
+                                html += 'title="Editar fecha de pago">';
+                                html += '<i class="fas fa-edit"></i> Editar</button>';
+                                html += '</td>';
+                                html += '</tr>';
+                            });
+
+                            html += '</tbody></table></div>';
+                            $('#listaPagos').html(html);
+                        } else {
+                            $('#listaPagos').html('<div class="alert alert-info"><i class="fas fa-info-circle"></i> No hay pagos registrados para este cobro.</div>');
+                        }
+                    })
+                    .fail(function() {
+                        $('#listaPagos').html('<div class="alert alert-danger"><i class="fas fa-exclamation-triangle"></i> Error al cargar los pagos.</div>');
+                    });
+            }
+
             // Preseleccionar contribuyente si viene en el ViewBag
         @if (ViewBag.ContribuyenteSeleccionado != null)
         {
             <text>
-                                $('#contribuyenteId').val('@ViewBag.ContribuyenteSeleccionado');
+                        $('#contribuyenteId').val('@ViewBag.ContribuyenteSeleccionado');
             </text>
         }
 
@@ -395,53 +494,112 @@
                 $('#modalRegistrarPago').modal('show');
             });
 
-            // Manejar clic en botón Ver Pagos (ACTUALIZADO)
+            // Manejar clic en botón Ver Pagos
             $('.btn-ver-pagos').on('click', function() {
                 var cobroId = $(this).data('cobro-id');
 
-                // Resetear el modal
-                $('#listaPagos').show();
-                $('#visorComprobante').hide();
-                $('#listaPagos').html('<div class="text-center"><i class="fas fa-spinner fa-spin"></i> Cargando pagos...</div>');
+                // Guardar el cobroId actual en el modal para poder recargar después
+                $('#modalVerPagos').data('cobro-id', cobroId);
 
-                $.get('@Url.Action("ObtenerPagosCobro")', { cobroId: cobroId })
-                    .done(function(data) {
-                        if (data.success && data.pagos.length > 0) {
-                            var html = '<div class="table-responsive">';
-                            html += '<table class="table table-sm table-hover">';
-                            html += '<thead class="table-light">';
-                            html += '<tr><th>Fecha</th><th>Valor Pagado</th><th>Recaudador</th><th>Comprobantes</th></tr>';
-                            html += '</thead><tbody>';
+                // Limpiar alertas anteriores
+                $('#modalVerPagos .modal-body .alert').remove();
 
-                            data.pagos.forEach(function(pago) {
-                                console.log(pago);
-                                var fecha = new Date(pago.pag_fecha).toLocaleDateString('es-CL');
-                                html += '<tr>';
-                                html += '<td>' + fecha + '</td>';
-                                html += '<td class="fw-bold text-success">$' + pago.pag_valor_pagado.toLocaleString() + '</td>';
-                                html += '<td>' + (pago.recaudador || 'N/A') + '</td>';
-                                html += '<td>';
-                                html += '<button type="button" class="btn btn-outline-primary btn-sm btn-ver-comprobante-pdf" ';
-                                html += 'data-pago-id="' + pago.id + '" title="Ver comprobante">';
-                                html += '<i class="fas fa-file-pdf"></i> Ver Comprobante</button>';
-                                html += '</td>';
-                                html += '</tr>';
-                            });
-
-                            html += '</tbody></table></div>';
-                            $('#listaPagos').html(html);
-                        } else {
-                            $('#listaPagos').html('<div class="alert alert-info"><i class="fas fa-info-circle"></i> No hay pagos registrados para este cobro.</div>');
-                        }
-                    })
-                    .fail(function() {
-                        $('#listaPagos').html('<div class="alert alert-danger"><i class="fas fa-exclamation-triangle"></i> Error al cargar los pagos.</div>');
-                    });
-
+                cargarPagosDelCobro(cobroId);
                 $('#modalVerPagos').modal('show');
             });
 
-            // NUEVO: Manejar clic en botón Ver Comprobante PDF
+            // Manejar clic en botón Editar Pago
+            $(document).on('click', '.btn-editar-pago', function() {
+                var pagoId = $(this).data('pago-id');
+                var pagoValor = $(this).data('pago-valor');
+                var pagoFecha = $(this).data('pago-fecha');
+
+                // Formatear la fecha para el input type="date" (YYYY-MM-DD)
+                var fecha = new Date(pagoFecha);
+                var fechaFormateada = fecha.toISOString().split('T')[0];
+
+                // Llenar el modal
+                $('#pagoIdEditar').val(pagoId);
+                $('#valorPagoEditar').text(pagoValor.toLocaleString());
+                $('#fechaActualPago').text(fecha.toLocaleDateString('es-CL'));
+                $('#nuevaFechaPago').val(fechaFormateada);
+
+                // Establecer fecha máxima como hoy
+                var hoy = new Date().toISOString().split('T')[0];
+                $('#nuevaFechaPago').attr('max', hoy);
+
+                $('#modalEditarPago').modal('show');
+            });
+
+            // Manejar envío del formulario de edición
+            $('#formEditarPago').on('submit', function(e) {
+                e.preventDefault();
+
+                var pagoId = $('#pagoIdEditar').val();
+                var nuevaFecha = $('#nuevaFechaPago').val();
+
+                if (!confirm('¿Está seguro que desea cambiar la fecha de este pago?')) {
+                    return false;
+                }
+
+                // Mostrar spinner en el botón
+                var btnSubmit = $(this).find('button[type="submit"]');
+                var btnTextOriginal = btnSubmit.html();
+                btnSubmit.html('<i class="fas fa-spinner fa-spin"></i> Guardando...').prop('disabled', true);
+
+                $.ajax({
+                    url: '@Url.Action("EditarPago")',
+                    type: 'POST',
+                    data: {
+                        __RequestVerificationToken: $('input[name="__RequestVerificationToken"]').val(),
+                        pagoId: pagoId,
+                        nuevaFecha: nuevaFecha
+                    },
+                    success: function(response) {
+                        // Restaurar botón
+                        btnSubmit.html(btnTextOriginal).prop('disabled', false);
+
+                        if (response.success) {
+                            // Cerrar el modal de edición
+                            $('#modalEditarPago').modal('hide');
+
+                            // Crear y mostrar alerta de éxito en el modal de pagos
+                            var alertHtml = '<div class="alert alert-success alert-dismissible fade show mb-3" role="alert">';
+                            alertHtml += '<i class="fas fa-check-circle"></i> ' + response.message;
+                            alertHtml += '<button type="button" class="btn-close" data-bs-dismiss="alert"></button>';
+                            alertHtml += '</div>';
+
+                            // Remover alertas anteriores
+                            $('#modalVerPagos .modal-body .alert').remove();
+
+                            // Insertar la alerta al inicio del cuerpo del modal de pagos
+                            $('#modalVerPagos .modal-body').prepend(alertHtml);
+
+                            // Recargar la lista de pagos usando el cobroId guardado
+                            var cobroId = $('#modalVerPagos').data('cobro-id');
+                            if (cobroId) {
+                                cargarPagosDelCobro(cobroId);
+                            }
+
+                            // Auto-cerrar alerta después de 5 segundos
+                            setTimeout(function() {
+                                $('#modalVerPagos .modal-body .alert-success').fadeOut(function() {
+                                    $(this).remove();
+                                });
+                            }, 5000);
+                        } else {
+                            alert('Error: ' + response.message);
+                        }
+                    },
+                    error: function() {
+                        // Restaurar botón
+                        btnSubmit.html(btnTextOriginal).prop('disabled', false);
+                        alert('Error al procesar la solicitud. Por favor, intente nuevamente.');
+                    }
+                });
+            });
+
+            // Manejar clic en botón Ver Comprobante PDF
             $(document).on('click', '.btn-ver-comprobante-pdf', function() {
                 var pagoId = $(this).data('pago-id');
 
@@ -457,7 +615,7 @@
                 $('#pdfViewer').attr('src', urlVisualizacion);
             });
 
-            // NUEVO: Manejar clic en botón Descargar PDF
+            // Manejar clic en botón Descargar PDF
             $('#btnDescargarPDF').on('click', function() {
                 var pagoId = $(this).data('pago-id');
                 if (pagoId) {
@@ -472,7 +630,7 @@
                 }
             });
 
-            // NUEVO: Manejar clic en botón Volver a la lista
+            // Manejar clic en botón Volver a la lista
             $('#btnVolverListaPagos').on('click', function() {
                 $('#visorComprobante').hide();
                 $('#listaPagos').show();
@@ -509,12 +667,18 @@
                 $('#valorPago').val('');
             });
 
-            // NUEVO: Limpiar visor PDF al cerrar modal de pagos
+            // Limpiar visor PDF al cerrar modal de pagos
             $('#modalVerPagos').on('hidden.bs.modal', function() {
                 $('#visorComprobante').hide();
                 $('#listaPagos').show();
                 $('#pdfViewer').attr('src', ''); // Limpiar el iframe
                 $('#btnDescargarPDF').removeData('pago-id'); // Limpiar data del botón
+                $('#modalVerPagos .modal-body .alert').remove(); // Limpiar alertas
+            });
+
+            // Limpiar modal de edición al cerrarlo
+            $('#modalEditarPago').on('hidden.bs.modal', function() {
+                $('#formEditarPago')[0].reset();
             });
 
             // Formatear números mientras se escribe en el campo de valor
