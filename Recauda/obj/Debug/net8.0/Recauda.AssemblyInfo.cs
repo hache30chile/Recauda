@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Recauda")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+692d60ba8e6dc1c82ac9ddf13be11d89cbe7f7f2")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7699b9daddabfe50f6c2e1d9ffa282727f88bd8f")]
 [assembly: System.Reflection.AssemblyProductAttribute("Recauda")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Recauda")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
