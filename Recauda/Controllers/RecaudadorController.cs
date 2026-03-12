@@ -17,7 +17,7 @@ namespace Recauda.Controllers
 
         private readonly IRecaudadorService _recaudadorService;
         private readonly ILogger<RecaudadorController> _logger;
-        private readonly ComprobantePagoService _comprobantePagoService; 
+        private readonly ComprobantePagoService _comprobantePagoService;
         private object _context;
 
 
@@ -277,20 +277,19 @@ namespace Recauda.Controllers
             await CargarContribuyentes();
             ViewBag.AnioActual = DateTime.Now.Year;
 
-            // Cargar cobros
+            var companiaId = await ObtenerCompaniaTesoreroActual();
+
             List<VCobros> cobros;
             if (!string.IsNullOrWhiteSpace(rutBusqueda))
             {
                 var rutFormateado = RecaudadorService.FormatearRutParaBusqueda(rutBusqueda);
                 if (rutFormateado.HasValue)
                 {
-                    cobros = await _recaudadorService.BuscarCobrosPorRut(rutFormateado.Value);
+                    cobros = await ObtenerCobrosSegunRol(rutBusqueda, companiaId);
                     ViewBag.RutBusqueda = rutBusqueda;
 
                     if (cobros.Count == 0)
-                    {
                         TempData["InfoMessage"] = $"No se encontraron cobros para el RUT: {rutBusqueda}";
-                    }
                 }
                 else
                 {
@@ -301,7 +300,7 @@ namespace Recauda.Controllers
             }
             else
             {
-                cobros = await _recaudadorService.ObtenerTodosLosCobros();
+                cobros = await ObtenerCobrosSegunRol(null, companiaId);
             }
 
             ViewBag.Cobros = cobros;
@@ -394,10 +393,56 @@ namespace Recauda.Controllers
             return View();
         }
 
+        /// Helper: obtiene cobros respetando el scope del rol (Tesorero ve solo su compañía)
+        private async Task<List<VCobros>> ObtenerCobrosSegunRol(string? rutBusqueda, int? companiaId)
+        {
+            if (!string.IsNullOrWhiteSpace(rutBusqueda))
+            {
+                var rutFormateado = RecaudadorService.FormatearRutParaBusqueda(rutBusqueda);
+                if (!rutFormateado.HasValue) return new List<VCobros>();
+
+                return companiaId.HasValue
+                    ? await _recaudadorService.BuscarCobrosPorRutYCompania(rutFormateado.Value, companiaId.Value)
+                    : await _recaudadorService.BuscarCobrosPorRut(rutFormateado.Value);
+            }
+
+            return companiaId.HasValue
+                ? await _recaudadorService.ObtenerCobrosPorCompania(companiaId.Value)
+                : await _recaudadorService.ObtenerTodosLosCobros();
+        }
+
+        /// Helper: obtiene el companiaId si el usuario es Tesorero, null si no lo es
+        private async Task<int?> ObtenerCompaniaTesoreroActual()
+        {
+            var rolNombre = User.FindFirst(ClaimTypes.Role)?.Value;
+            if (rolNombre?.ToLower() != "tesorero") return null;
+
+            var usuarioId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "0");
+            return await _recaudadorService.ObtenerCompaniaDeTesorero(usuarioId);
+        }
+
         /// Carga la lista de contribuyentes activos para el dropdown
         private async Task CargarContribuyentes()
         {
-            var contribuyentes = await _recaudadorService.ObtenerContribuyentesActivos();
+            var rolNombre = User.FindFirst(ClaimTypes.Role)?.Value;
+            bool esTesorero = rolNombre?.ToLower() == "tesorero";
+
+            List<VContribuyente> contribuyentes;
+
+            if (esTesorero)
+            {
+                var usuarioId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? "0");
+                var companiaId = await _recaudadorService.ObtenerCompaniaDeTesorero(usuarioId);
+
+                contribuyentes = companiaId.HasValue
+                    ? await _recaudadorService.ObtenerContribuyentesPorCompania(companiaId.Value)
+                    : new List<VContribuyente>();
+            }
+            else
+            {
+                contribuyentes = await _recaudadorService.ObtenerContribuyentesActivos();
+            }
+
             if (contribuyentes != null)
             {
                 ViewBag.Contribuyentes = new SelectList(contribuyentes, "Id", "per_nombre_completo");
@@ -424,29 +469,17 @@ namespace Recauda.Controllers
             if (contribuyenteId.HasValue)
                 ViewBag.ContribuyenteSeleccionado = contribuyenteId.Value;
 
-            // Cargar cobros según el filtro de RUT
-            List<VCobros> cobros;
+            var companiaId = await ObtenerCompaniaTesoreroActual();
+            ViewBag.Cobros = await ObtenerCobrosSegunRol(rutBusqueda, companiaId);
+
             if (!string.IsNullOrWhiteSpace(rutBusqueda))
             {
                 var rutFormateado = RecaudadorService.FormatearRutParaBusqueda(rutBusqueda);
                 if (rutFormateado.HasValue)
-                {
-                    cobros = await _recaudadorService.BuscarCobrosPorRut(rutFormateado.Value);
                     ViewBag.RutBusqueda = rutBusqueda;
-                }
                 else
-                {
-                    cobros = new List<VCobros>();
-                    ViewBag.RutBusqueda = rutBusqueda;
                     TempData["ErrorMessage"] = $"El RUT ingresado '{rutBusqueda}' no tiene un formato válido.";
-                }
             }
-            else
-            {
-                cobros = await _recaudadorService.ObtenerTodosLosCobros();
-            }
-
-            ViewBag.Cobros = cobros;
         }
 
         /// Muestra la vista de pagos
@@ -455,16 +488,27 @@ namespace Recauda.Controllers
             await CargarContribuyentes();
 
             List<VCobros> cobros = new List<VCobros>();
+            var companiaId = await ObtenerCompaniaTesoreroActual();
 
             if (contribuyenteId.HasValue && contribuyenteId.Value > 0)
             {
+                // Si es Tesorero, verificar que el contribuyente pertenece a su compañía
+                if (companiaId.HasValue)
+                {
+                    var contribuyente = await _recaudadorService.ObtenerContribuyentePorId(contribuyenteId.Value);
+                    if (contribuyente == null || contribuyente.com_id != companiaId.Value)
+                    {
+                        TempData["ErrorMessage"] = "No tiene acceso a los cobros de ese contribuyente.";
+                        ViewBag.Cobros = cobros;
+                        return View();
+                    }
+                }
+
                 cobros = await _recaudadorService.ObtenerCobrosPorContribuyente(contribuyenteId.Value);
                 ViewBag.ContribuyenteSeleccionado = contribuyenteId.Value;
 
                 if (cobros.Count == 0)
-                {
                     TempData["InfoMessage"] = "El contribuyente seleccionado no tiene cobros registrados.";
-                }
             }
 
             ViewBag.Cobros = cobros;
@@ -610,7 +654,7 @@ namespace Recauda.Controllers
                     p.Id,
                     p.pag_fecha,
                     p.pag_valor_pagado,
-                    recaudador = p.Recaudador?.rec_activo, 
+                    recaudador = p.Recaudador?.rec_activo,
                     p.FechaRegistro
                 }).ToList();
 

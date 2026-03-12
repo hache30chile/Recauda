@@ -97,6 +97,23 @@ namespace Recauda.Services
                 .ToListAsync();
         }
 
+        /// Obtiene contribuyentes activos mensuales filtrando por compañía (para Tesorero)
+        public async Task<List<VContribuyente>> ObtenerContribuyentesPorCompania(int companiaId)
+        {
+            return await _context.VContribuyentes
+                .Where(c => c.con_activo && c.con_periodicidad_cobro.ToLower() == "mensual" && c.com_id == companiaId)
+                .OrderBy(c => c.per_nombre_completo)
+                .ToListAsync();
+        }
+
+        /// Retorna el com_id del generador activo del usuario (para filtrar por compañía del Tesorero)
+        public async Task<int?> ObtenerCompaniaDeTesorero(int usuarioId)
+        {
+            var generador = await _context.Generadores
+                .FirstOrDefaultAsync(g => g.usu_id == usuarioId && g.gen_activo);
+            return generador?.com_id;
+        }
+
         /// Obtiene un contribuyente por su ID
         public async Task<VContribuyente?> ObtenerContribuyentePorId(int id)
         {
@@ -219,11 +236,29 @@ namespace Recauda.Services
                 .ToListAsync();
         }
 
+        /// Obtiene cobros filtrados por compañía (para Tesorero)
+        public async Task<List<VCobros>> ObtenerCobrosPorCompania(int companiaId)
+        {
+            return await _context.VCobros
+                .Where(c => c.com_id == companiaId)
+                .OrderByDescending(c => c.cob_fecha_emision)
+                .ToListAsync();
+        }
+
         /// Busca cobros por RUT del contribuyente
         public async Task<List<VCobros>> BuscarCobrosPorRut(int rut)
         {
             return await _context.VCobros
                 .Where(c => c.per_rut == rut)
+                .OrderByDescending(c => c.cob_fecha_emision)
+                .ToListAsync();
+        }
+
+        /// Busca cobros por RUT filtrando además por compañía (para Tesorero)
+        public async Task<List<VCobros>> BuscarCobrosPorRutYCompania(int rut, int companiaId)
+        {
+            return await _context.VCobros
+                .Where(c => c.per_rut == rut && c.com_id == companiaId)
                 .OrderByDescending(c => c.cob_fecha_emision)
                 .ToListAsync();
         }

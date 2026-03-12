@@ -360,6 +360,30 @@
       <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-ywqBnCKwQhPTQzWkLryHjLs7i6zujfWXhWm\u002B6ezZGeA="}]]]></EndpointProperties>
       <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"89759"},{"Name":"Content-Type","Value":"application/pdf"},{"Name":"ETag","Value":"\u0022ywqBnCKwQhPTQzWkLryHjLs7i6zujfWXhWm\u002B6ezZGeA=\u0022"},{"Name":"Last-Modified","Value":"Thu, 29 Jan 2026 16:58:41 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/Recauda/comprobantes/2026/01/Comprobante_Pago_00000035_20260129_35_20260129_142449.8n1jbitel8.pdf">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\comprobantes\2026\01\Comprobante_Pago_00000035_20260129_35_20260129_142449.pdf'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"8n1jbitel8"},{"Name":"integrity","Value":"sha256-7K0XYO\u002BRc7HBScFGNT6L68hsKpFrNGlELpPAbTx5Kcs="},{"Name":"label","Value":"_content/Recauda/comprobantes/2026/01/Comprobante_Pago_00000035_20260129_35_20260129_142449.pdf"}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"89869"},{"Name":"Content-Type","Value":"application/pdf"},{"Name":"ETag","Value":"\u00227K0XYO\u002BRc7HBScFGNT6L68hsKpFrNGlELpPAbTx5Kcs=\u0022"},{"Name":"Last-Modified","Value":"Thu, 29 Jan 2026 17:24:49 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/Recauda/comprobantes/2026/01/Comprobante_Pago_00000035_20260129_35_20260129_142449.pdf">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\comprobantes\2026\01\Comprobante_Pago_00000035_20260129_35_20260129_142449.pdf'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-7K0XYO\u002BRc7HBScFGNT6L68hsKpFrNGlELpPAbTx5Kcs="}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"89869"},{"Name":"Content-Type","Value":"application/pdf"},{"Name":"ETag","Value":"\u00227K0XYO\u002BRc7HBScFGNT6L68hsKpFrNGlELpPAbTx5Kcs=\u0022"},{"Name":"Last-Modified","Value":"Thu, 29 Jan 2026 17:24:49 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/Recauda/comprobantes/2026/01/Comprobante_Pago_00000036_20260129_36_20260129_142503.pdf">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\comprobantes\2026\01\Comprobante_Pago_00000036_20260129_36_20260129_142503.pdf'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-crcFgXCDw011nNRhYWCLfhxO8DwwuEztKpBg4q4Bj2M="}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"89510"},{"Name":"Content-Type","Value":"application/pdf"},{"Name":"ETag","Value":"\u0022crcFgXCDw011nNRhYWCLfhxO8DwwuEztKpBg4q4Bj2M=\u0022"},{"Name":"Last-Modified","Value":"Thu, 29 Jan 2026 17:25:03 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
+    <StaticWebAssetEndpoint Include="_content/Recauda/comprobantes/2026/01/Comprobante_Pago_00000036_20260129_36_20260129_142503.ycy6kodob7.pdf">
+      <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\comprobantes\2026\01\Comprobante_Pago_00000036_20260129_36_20260129_142503.pdf'))</AssetFile>
+      <Selectors><![CDATA[[]]]></Selectors>
+      <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"ycy6kodob7"},{"Name":"integrity","Value":"sha256-crcFgXCDw011nNRhYWCLfhxO8DwwuEztKpBg4q4Bj2M="},{"Name":"label","Value":"_content/Recauda/comprobantes/2026/01/Comprobante_Pago_00000036_20260129_36_20260129_142503.pdf"}]]]></EndpointProperties>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"89510"},{"Name":"Content-Type","Value":"application/pdf"},{"Name":"ETag","Value":"\u0022crcFgXCDw011nNRhYWCLfhxO8DwwuEztKpBg4q4Bj2M=\u0022"},{"Name":"Last-Modified","Value":"Thu, 29 Jan 2026 17:25:03 GMT"}]]]></ResponseHeaders>
+    </StaticWebAssetEndpoint>
     <StaticWebAssetEndpoint Include="_content/Recauda/css/site.c2tiyv64ts.css">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\css\site.css'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>

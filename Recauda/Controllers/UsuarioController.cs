@@ -34,47 +34,68 @@ namespace Recauda.Controllers
 
         public async Task<IActionResult> Crear()
         {
-            await CargarRoles();
+            var rolTesoreroId = await _usuarioService.ObtenerIdRolTesorero();
+            await CargarRolesYCompanias(rolTesoreroId);
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Crear([Bind("Login,Rut,Dv,Nombre,Clave,RolId,Activo")] Usuario usuario, bool esGenerador = false)
+        public async Task<IActionResult> Crear(
+            [Bind("Login,Rut,Dv,Nombre,Clave,RolId,Activo")] Usuario usuario,
+            bool esGenerador = false,
+            int? companiaId = null)
         {
-            _logger.LogInformation("POST Crear - Iniciando creación de usuario");
-            _logger.LogInformation($"Datos recibidos - Login: '{usuario?.Login}', RUT: {usuario?.Rut}, Es Generador: {esGenerador}");
+            _logger.LogInformation($"POST Crear - Login: '{usuario?.Login}', Es Generador: {esGenerador}, CompañíaId: {companiaId}");
 
-            // Limpiar errores de navegación del ModelState
             ModelState.Remove("Rol");
+
+            var rolTesoreroId = await _usuarioService.ObtenerIdRolTesorero();
+
+            // Validación de Tesorero: solo uno por compañía
+            if (usuario.RolId == rolTesoreroId)
+            {
+                if (!companiaId.HasValue || companiaId == 0)
+                {
+                    ModelState.AddModelError("", "Debe seleccionar una compañía para asignar el rol de Tesorero.");
+                }
+                else if (await _usuarioService.CompaniaTieneTesorero(companiaId.Value))
+                {
+                    ModelState.AddModelError("", "La compañía seleccionada ya tiene un Tesorero asignado. Solo puede haber un Tesorero por compañía.");
+                }
+            }
 
             try
             {
                 if (ModelState.IsValid)
                 {
-                    // Verificar si ya existe un usuario con el mismo login o RUT
                     var usuariosExistentes = await _usuarioService.ObtenerUsuarios();
+
                     if (usuariosExistentes.Any(u => u.Login.ToLower() == usuario.Login.ToLower()))
                     {
                         ModelState.AddModelError("Login", "Ya existe un usuario con este login.");
-                        await CargarRoles();
+                        await CargarRolesYCompanias(rolTesoreroId);
+                        ViewBag.CompaniaSeleccionada = companiaId;
                         return View(usuario);
                     }
 
                     if (usuariosExistentes.Any(u => u.Rut == usuario.Rut))
                     {
                         ModelState.AddModelError("Rut", "Ya existe un usuario con este RUT.");
-                        await CargarRoles();
+                        await CargarRolesYCompanias(rolTesoreroId);
+                        ViewBag.CompaniaSeleccionada = companiaId;
                         return View(usuario);
                     }
 
-                    await _usuarioService.CrearUsuarioAsync(usuario, esGenerador);
+                    // El Tesorero siempre se registra como generador para guardar com_id
+                    bool debeSerGenerador = esGenerador || usuario.RolId == rolTesoreroId;
+                    await _usuarioService.CrearUsuarioAsync(usuario, debeSerGenerador, companiaId);
 
                     string mensaje = $"El usuario '{usuario.Login}' ha sido creado exitosamente";
-                    if (esGenerador)
-                    {
+                    if (usuario.RolId == rolTesoreroId)
+                        mensaje += $" como Tesorero de la compañía seleccionada";
+                    else if (esGenerador)
                         mensaje += " y configurado como generador";
-                    }
                     mensaje += ".";
 
                     TempData["SuccessMessage"] = mensaje;
@@ -82,14 +103,11 @@ namespace Recauda.Controllers
                 }
                 else
                 {
-                    // Log de errores de validación
                     foreach (var error in ModelState)
                     {
                         _logger.LogWarning($"Error en {error.Key}:");
                         foreach (var subError in error.Value.Errors)
-                        {
                             _logger.LogWarning($"  - {subError.ErrorMessage}");
-                        }
                     }
                 }
             }
@@ -99,7 +117,8 @@ namespace Recauda.Controllers
                 TempData["ErrorMessage"] = "Error al crear el usuario: " + ex.Message;
             }
 
-            await CargarRoles();
+            await CargarRolesYCompanias(rolTesoreroId);
+            ViewBag.CompaniaSeleccionada = companiaId;
             return View(usuario);
         }
 
@@ -114,11 +133,12 @@ namespace Recauda.Controllers
                     return RedirectToAction(nameof(Index));
                 }
 
-                await CargarRoles();
-
-                // Verificar si el usuario es generador
+                var rolTesoreroId = await _usuarioService.ObtenerIdRolTesorero();
                 ViewBag.EsGenerador = await _usuarioService.EsUsuarioGenerador(id);
+                ViewBag.RolTesoreroId = rolTesoreroId;
+                ViewBag.CompaniaActual = await _usuarioService.ObtenerCompaniaDeTesorero(id);
 
+                await CargarRolesYCompanias(rolTesoreroId);
                 return View(usuario);
             }
             catch (Exception ex)
@@ -130,52 +150,63 @@ namespace Recauda.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Editar([Bind("Id,Login,Rut,Dv,Nombre,RolId,Activo")] Usuario usuario, bool esGenerador = false)
+        public async Task<IActionResult> Editar(
+            [Bind("Id,Login,Rut,Dv,Nombre,RolId,Activo")] Usuario usuario,
+            bool esGenerador = false,
+            int? companiaId = null)
         {
-            _logger.LogInformation($"POST Editar - ID: {usuario.Id}, Login: '{usuario.Login}', Es Generador: {esGenerador}");
+            _logger.LogInformation($"POST Editar - ID: {usuario.Id}, Login: '{usuario.Login}', Es Generador: {esGenerador}, CompañíaId: {companiaId}");
 
-            // **DEBUGGING: Verificar qué se está recibiendo del formulario**
-            _logger.LogInformation($"DEBUG: Parámetro esGenerador recibido en controller: {esGenerador}");
-            _logger.LogInformation($"DEBUG: Request.Form contiene 'esGenerador': {Request.Form.ContainsKey("esGenerador")}");
-            if (Request.Form.ContainsKey("esGenerador"))
-            {
-                _logger.LogInformation($"DEBUG: Valores de esGenerador en Form: [{string.Join(", ", Request.Form["esGenerador"])}]");
-            }
-
-            // Limpiar errores de navegación del ModelState
             ModelState.Remove("Rol");
-            ModelState.Remove("Clave"); // No validar clave en edición
+            ModelState.Remove("Clave");
+
+            var rolTesoreroId = await _usuarioService.ObtenerIdRolTesorero();
+
+            // Validación de Tesorero: solo uno por compañía
+            if (usuario.RolId == rolTesoreroId)
+            {
+                if (!companiaId.HasValue || companiaId == 0)
+                {
+                    ModelState.AddModelError("", "Debe seleccionar una compañía para asignar el rol de Tesorero.");
+                }
+                else if (await _usuarioService.CompaniaTieneTesorero(companiaId.Value, excludeUsuarioId: usuario.Id))
+                {
+                    ModelState.AddModelError("", "La compañía seleccionada ya tiene un Tesorero asignado. Solo puede haber un Tesorero por compañía.");
+                }
+            }
 
             try
             {
                 if (ModelState.IsValid)
                 {
-                    // Verificar si ya existe otro usuario con el mismo login o RUT
                     var usuariosExistentes = await _usuarioService.ObtenerUsuarios();
+
                     if (usuariosExistentes.Any(u => u.Login.ToLower() == usuario.Login.ToLower() && u.Id != usuario.Id))
                     {
                         ModelState.AddModelError("Login", "Ya existe otro usuario con este login.");
-                        await CargarRoles();
+                        await CargarRolesYCompanias(rolTesoreroId);
                         ViewBag.EsGenerador = esGenerador;
+                        ViewBag.CompaniaActual = companiaId;
                         return View(usuario);
                     }
 
                     if (usuariosExistentes.Any(u => u.Rut == usuario.Rut && u.Id != usuario.Id))
                     {
                         ModelState.AddModelError("Rut", "Ya existe otro usuario con este RUT.");
-                        await CargarRoles();
+                        await CargarRolesYCompanias(rolTesoreroId);
                         ViewBag.EsGenerador = esGenerador;
+                        ViewBag.CompaniaActual = companiaId;
                         return View(usuario);
                     }
 
-                    _logger.LogInformation($"DEBUG: Llamando a EditarUsuarioAsync con esGenerador: {esGenerador}");
-                    await _usuarioService.EditarUsuarioAsync(usuario, esGenerador);
+                    bool debeSerGenerador = esGenerador || usuario.RolId == rolTesoreroId;
+                    await _usuarioService.EditarUsuarioAsync(usuario, debeSerGenerador, companiaId);
 
                     string mensaje = $"El usuario '{usuario.Login}' ha sido actualizado exitosamente";
-                    if (esGenerador)
-                    {
+                    if (usuario.RolId == rolTesoreroId)
+                        mensaje += $" como Tesorero de la compañía seleccionada";
+                    else if (esGenerador)
                         mensaje += " y configurado como generador";
-                    }
                     mensaje += ".";
 
                     TempData["SuccessMessage"] = mensaje;
@@ -183,14 +214,11 @@ namespace Recauda.Controllers
                 }
                 else
                 {
-                    // Log de errores de validación
                     foreach (var error in ModelState)
                     {
                         _logger.LogWarning($"Error en {error.Key}:");
                         foreach (var subError in error.Value.Errors)
-                        {
                             _logger.LogWarning($"  - {subError.ErrorMessage}");
-                        }
                     }
                 }
             }
@@ -200,8 +228,10 @@ namespace Recauda.Controllers
                 TempData["ErrorMessage"] = "Error al actualizar el usuario: " + ex.Message;
             }
 
-            await CargarRoles();
+            await CargarRolesYCompanias(rolTesoreroId);
             ViewBag.EsGenerador = esGenerador;
+            ViewBag.RolTesoreroId = rolTesoreroId;
+            ViewBag.CompaniaActual = companiaId;
             return View(usuario);
         }
 
@@ -259,8 +289,8 @@ namespace Recauda.Controllers
                     return RedirectToAction(nameof(Index));
                 }
 
-                // Verificar si el usuario es generador
                 ViewBag.EsGenerador = await _usuarioService.EsUsuarioGenerador(id);
+                ViewBag.CompaniaId = await _usuarioService.ObtenerCompaniaDeTesorero(id);
 
                 return View(usuario);
             }
@@ -271,10 +301,47 @@ namespace Recauda.Controllers
             }
         }
 
+        /// <summary>Endpoint AJAX: verifica si una compañía ya tiene Tesorero asignado.</summary>
+        [HttpGet]
+        public async Task<IActionResult> VerificarTesorero(int companiaId, int? excludeUsuarioId = null)
+        {
+            try
+            {
+                bool tieneTes = await _usuarioService.CompaniaTieneTesorero(companiaId, excludeUsuarioId);
+                return Json(new
+                {
+                    tieneTes,
+                    mensaje = tieneTes
+                        ? "Esta compañía ya tiene un Tesorero activo. No es posible asignar otro."
+                        : string.Empty
+                });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al verificar tesorero de compañía");
+                return Json(new { tieneTes = false, mensaje = string.Empty });
+            }
+        }
+
+        // ── helpers ──────────────────────────────────────────────────────────
+
         private async Task CargarRoles()
         {
             var roles = await _usuarioService.ObtenerRolesActivos();
             ViewBag.Roles = new SelectList(roles, "Id", "Nombre");
+        }
+
+        private async Task CargarCompanias()
+        {
+            var companias = await _usuarioService.ObtenerCompanias();
+            ViewBag.Companias = new SelectList(companias, "Id", "com_nombre");
+        }
+
+        private async Task CargarRolesYCompanias(int? rolTesoreroId)
+        {
+            await CargarRoles();
+            await CargarCompanias();
+            ViewBag.RolTesoreroId = rolTesoreroId;
         }
     }
 }

@@ -1,6 +1,9 @@
 ﻿@using Recauda.Interfaces
 @{
     ViewData["Title"] = "Reporte de Ingresos";
+    int? companiaIdFija = ViewBag.CompaniaIdFija;
+    string companiaNombreFija = ViewBag.CompaniaNombreFija ?? "";
+    bool esTesorero = companiaIdFija.HasValue;
 }
 
 <h1 class="mt-4">@ViewData["Title"]</h1>
@@ -13,26 +16,21 @@
 @if (TempData["ErrorMessage"] != null)
 {
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <i class="fas fa-exclamation-circle"></i>
-        @TempData["ErrorMessage"]
+        <i class="fas fa-exclamation-circle"></i> @TempData["ErrorMessage"]
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 }
-
 @if (TempData["SuccessMessage"] != null)
 {
     <div class="alert alert-success alert-dismissible fade show" role="alert">
-        <i class="fas fa-check-circle"></i>
-        @TempData["SuccessMessage"]
+        <i class="fas fa-check-circle"></i> @TempData["SuccessMessage"]
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 }
-
 @if (TempData["InfoMessage"] != null)
 {
     <div class="alert alert-info alert-dismissible fade show" role="alert">
-        <i class="fas fa-info-circle"></i>
-        @TempData["InfoMessage"]
+        <i class="fas fa-info-circle"></i> @TempData["InfoMessage"]
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
 }
@@ -44,50 +42,56 @@
             <div class="card-header">
                 <i class="fas fa-filter me-1"></i>
                 Filtros de Búsqueda
+                @if (esTesorero)
+                {
+                    <span class="badge bg-warning text-dark ms-2">
+                        <i class="fas fa-building me-1"></i>@companiaNombreFija
+                    </span>
+                }
             </div>
             <div class="card-body">
                 <form asp-action="ReporteIngresos" method="post" id="formFiltros">
                     @Html.AntiForgeryToken()
 
                     <div class="row g-3">
+                        <!-- Compañía: bloqueada para Tesorero, editable para el resto -->
                         <div class="col-md-4">
                             <label for="companiaId" class="form-label">
                                 <i class="fas fa-building"></i> Compañía
                             </label>
-                            <select name="companiaId" id="companiaId" asp-items="ViewBag.Companias" class="form-select">
-                                <option value="">-- Todas las Compañías --</option>
-                            </select>
-                            <small class="form-text text-muted">
-                                Opcional: Filtre por una compañía específica
-                            </small>
+                            @if (esTesorero)
+                            {
+                                <input type="hidden" name="companiaId" value="@companiaIdFija" />
+                                <div class="form-control bg-light text-muted d-flex align-items-center">
+                                    <i class="fas fa-lock me-2 text-warning"></i>
+                                    <strong>@companiaNombreFija</strong>
+                                </div>
+                            }
+                            else
+                            {
+                                <select name="companiaId" id="companiaId" asp-items="ViewBag.Companias" class="form-select">
+                                    <option value="">-- Todas las Compañías --</option>
+                                </select>
+                                <small class="form-text text-muted">Opcional: Filtre por una compañía específica</small>
+                            }
                         </div>
 
                         <div class="col-md-4">
                             <label for="fechaInicio" class="form-label">
                                 <i class="fas fa-calendar-alt"></i> Fecha Inicio
                             </label>
-                            <input type="date"
-                                   class="form-control"
-                                   id="fechaInicio"
-                                   name="fechaInicio"
+                            <input type="date" class="form-control" id="fechaInicio" name="fechaInicio"
                                    value="@(ViewBag.FechaInicio != null ? ((DateTime)ViewBag.FechaInicio).ToString("yyyy-MM-dd") : "")" />
-                            <small class="form-text text-muted">
-                                Opcional: Deje vacío para incluir desde el inicio
-                            </small>
+                            <small class="form-text text-muted">Opcional: Deje vacío para incluir desde el inicio</small>
                         </div>
 
                         <div class="col-md-4">
                             <label for="fechaFin" class="form-label">
                                 <i class="fas fa-calendar-alt"></i> Fecha Fin
                             </label>
-                            <input type="date"
-                                   class="form-control"
-                                   id="fechaFin"
-                                   name="fechaFin"
+                            <input type="date" class="form-control" id="fechaFin" name="fechaFin"
                                    value="@(ViewBag.FechaFin != null ? ((DateTime)ViewBag.FechaFin).ToString("yyyy-MM-dd") : "")" />
-                            <small class="form-text text-muted">
-                                Opcional: Deje vacío para incluir hasta hoy
-                            </small>
+                            <small class="form-text text-muted">Opcional: Deje vacío para incluir hasta hoy</small>
                         </div>
                     </div>
 
@@ -124,7 +128,6 @@
                 </div>
             </div>
         </div>
-
         <div class="col-xl-4 col-md-6">
             <div class="card bg-success text-white mb-4">
                 <div class="card-body">
@@ -136,7 +139,6 @@
                 </div>
             </div>
         </div>
-
         <div class="col-xl-4 col-md-6">
             <div class="card bg-info text-white mb-4">
                 <div class="card-body">
@@ -156,17 +158,11 @@
             <div class="col-lg-6">
                 <div class="card">
                     <div class="card-header">
-                        <i class="fas fa-chart-pie me-1"></i>
-                        Ingresos por Compañía
+                        <i class="fas fa-chart-pie me-1"></i> Ingresos por Compañía
                     </div>
                     <div class="card-body">
                         <table class="table table-sm">
-                            <thead>
-                                <tr>
-                                    <th>Compañía</th>
-                                    <th class="text-end">Total</th>
-                                </tr>
-                            </thead>
+                            <thead><tr><th>Compañía</th><th class="text-end">Total</th></tr></thead>
                             <tbody>
                                 @foreach (var item in resumen.IngresosPorCompania.OrderByDescending(x => x.Value))
                                 {
@@ -180,21 +176,14 @@
                     </div>
                 </div>
             </div>
-
             <div class="col-lg-6">
                 <div class="card">
                     <div class="card-header">
-                        <i class="fas fa-chart-bar me-1"></i>
-                        Ingresos por Mes
+                        <i class="fas fa-chart-bar me-1"></i> Ingresos por Mes
                     </div>
                     <div class="card-body">
                         <table class="table table-sm">
-                            <thead>
-                                <tr>
-                                    <th>Mes</th>
-                                    <th class="text-end">Total</th>
-                                </tr>
-                            </thead>
+                            <thead><tr><th>Mes</th><th class="text-end">Total</th></tr></thead>
                             <tbody>
                                 @foreach (var item in resumen.IngresosPorMes)
                                 {
@@ -291,50 +280,36 @@
     <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
 
     <script>
-        $(document).ready(function() {
-            // Preseleccionar compañía si viene en el ViewBag
-        @if (ViewBag.CompaniaSeleccionada != null)
+        $(document).ready(function () {
+        @if (ViewBag.CompaniaSeleccionada != null && !esTesorero)
         {
-            <text>
-                        $('#companiaId').val('@ViewBag.CompaniaSeleccionada');
-            </text>
+            <text>$('#companiaId').val('@ViewBag.CompaniaSeleccionada');</text>
         }
 
-            // Inicializar DataTable si existe la tabla
             if ($('#tablaIngresos').length > 0) {
                 $('#tablaIngresos').DataTable({
-                    language: {
-                        url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/es-ES.json'
-                    },
-                    order: [[0, 'desc']], // Ordenar por fecha descendente
+                    language: { url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/es-ES.json' },
+                    order: [[0, 'desc']],
                     pageLength: 25,
-                    responsive: true,
-                    dom: 'Bfrtip',
-                    buttons: []
+                    responsive: true
                 });
             }
 
-            // Limpiar filtros
-            $('#btnLimpiarFiltros').on('click', function() {
-                $('#companiaId').val('');
+            $('#btnLimpiarFiltros').on('click', function () {
+        @if (!esTesorero)
+        {
+            <text>$('#companiaId').val('');</text>
+        }
                 $('#fechaInicio').val('');
                 $('#fechaFin').val('');
             });
 
-            // Validación de fechas
-            $('#formFiltros').on('submit', function(e) {
-                var fechaInicio = $('#fechaInicio').val();
-                var fechaFin = $('#fechaFin').val();
-
-                if (fechaInicio && fechaFin) {
-                    var inicio = new Date(fechaInicio);
-                    var fin = new Date(fechaFin);
-
-                    if (inicio > fin) {
-                        e.preventDefault();
-                        alert('La fecha de inicio no puede ser mayor a la fecha de fin.');
-                        return false;
-                    }
+            $('#formFiltros').on('submit', function (e) {
+                var fi = $('#fechaInicio').val();
+                var ff = $('#fechaFin').val();
+                if (fi && ff && new Date(fi) > new Date(ff)) {
+                    e.preventDefault();
+                    alert('La fecha de inicio no puede ser mayor a la fecha de fin.');
                 }
             });
         });

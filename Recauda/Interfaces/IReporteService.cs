@@ -8,6 +8,7 @@ namespace Recauda.Interfaces
         Task<List<Compania>> ObtenerCompaniasActivas();
         Task<List<ReporteIngreso>> ObtenerReporteIngresos(int? companiaId, DateTime? fechaInicio, DateTime? fechaFin);
         Task<ResumenIngresos> ObtenerResumenIngresos(int? companiaId, DateTime? fechaInicio, DateTime? fechaFin);
+        Task<int?> ObtenerCompaniaDeUsuario(int usuarioId);
     }
 
     // Clase para representar un ingreso en el reporte

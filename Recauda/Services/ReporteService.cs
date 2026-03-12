@@ -16,9 +16,6 @@ namespace Recauda.Services
             _logger = logger;
         }
 
-        /// <summary>
-        /// Obtiene todas las compañías activas
-        /// </summary>
         public async Task<List<Compania>> ObtenerCompaniasActivas()
         {
             return await _context.Companias
@@ -27,8 +24,15 @@ namespace Recauda.Services
         }
 
         /// <summary>
-        /// Obtiene el reporte detallado de ingresos
+        /// Retorna el com_id del generador activo del usuario (usado para filtrar por compañía del Tesorero).
         /// </summary>
+        public async Task<int?> ObtenerCompaniaDeUsuario(int usuarioId)
+        {
+            var generador = await _context.Generadores
+                .FirstOrDefaultAsync(g => g.usu_id == usuarioId && g.gen_activo);
+            return generador?.com_id;
+        }
+
         public async Task<List<ReporteIngreso>> ObtenerReporteIngresos(int? companiaId, DateTime? fechaInicio, DateTime? fechaFin)
         {
             try
@@ -51,20 +55,14 @@ namespace Recauda.Services
                                 UsuarioRecaudador = usuarioRec
                             };
 
-                // Aplicar filtros
                 if (companiaId.HasValue && companiaId.Value > 0)
-                {
                     query = query.Where(x => x.Cobro.com_id == companiaId.Value);
-                }
 
                 if (fechaInicio.HasValue)
-                {
                     query = query.Where(x => x.Pago.pag_fecha >= fechaInicio.Value);
-                }
 
                 if (fechaFin.HasValue)
                 {
-                    // Incluir todo el día final
                     var fechaFinInclusive = fechaFin.Value.Date.AddDays(1).AddTicks(-1);
                     query = query.Where(x => x.Pago.pag_fecha <= fechaFinInclusive);
                 }
@@ -73,7 +71,7 @@ namespace Recauda.Services
                     .OrderByDescending(x => x.Pago.pag_fecha)
                     .ToListAsync();
 
-                var reporte = resultados.Select(x => new ReporteIngreso
+                return resultados.Select(x => new ReporteIngreso
                 {
                     PagoId = x.Pago.Id,
                     FechaPago = x.Pago.pag_fecha,
@@ -86,8 +84,6 @@ namespace Recauda.Services
                     ValorPagado = x.Pago.pag_valor_pagado,
                     NombreRecaudador = x.UsuarioRecaudador.Nombre
                 }).ToList();
-
-                return reporte;
             }
             catch (Exception ex)
             {
@@ -96,9 +92,6 @@ namespace Recauda.Services
             }
         }
 
-        /// <summary>
-        /// Obtiene el resumen estadístico de los ingresos
-        /// </summary>
         public async Task<ResumenIngresos> ObtenerResumenIngresos(int? companiaId, DateTime? fechaInicio, DateTime? fechaFin)
         {
             try
@@ -119,7 +112,7 @@ namespace Recauda.Services
                     };
                 }
 
-                var resumen = new ResumenIngresos
+                return new ResumenIngresos
                 {
                     TotalPagos = ingresos.Count,
                     TotalIngresos = ingresos.Sum(x => x.ValorPagado),
@@ -137,8 +130,6 @@ namespace Recauda.Services
                             g => g.Sum(x => x.ValorPagado)
                         )
                 };
-
-                return resumen;
             }
             catch (Exception ex)
             {
@@ -147,17 +138,9 @@ namespace Recauda.Services
             }
         }
 
-        /// <summary>
-        /// Formatea el RUT con puntos y guión
-        /// </summary>
         private string FormatearRut(int rut, string dv)
-        {
-            return $"{rut:N0}".Replace(",", ".") + "-" + dv;
-        }
+            => $"{rut:N0}".Replace(",", ".") + "-" + dv;
 
-        /// <summary>
-        /// Formatea el mes y año desde formato yyyy-MM a nombre de mes
-        /// </summary>
         private string FormatearMesAnio(string yyyyMM)
         {
             if (DateTime.TryParseExact(yyyyMM + "-01", "yyyy-MM-dd", null,

@@ -6,17 +6,15 @@ using Recauda.Data;
 using Recauda.Interfaces;
 using Recauda.Models;
 using Recauda.Services;
+using System.Security.Claims;
 
 namespace Recauda.Controllers
 {
     [Authorize]
-        
     public class ContribuyenteController : Controller
     {
-
         private readonly IContribuyenteService _contribuyenteService;
         private readonly ILogger<ContribuyenteController> _logger;
-        private object _context;
 
         public ContribuyenteController(IContribuyenteService contribuyenteService, ILogger<ContribuyenteController> logger)
         {
@@ -29,6 +27,29 @@ namespace Recauda.Controllers
             try
             {
                 var contribuyentes = await _contribuyenteService.ObtenerContribuyentes();
+
+                var rolNombre = User.FindFirstValue(ClaimTypes.Role);
+                if (rolNombre?.ToLower() == "tesorero")
+                {
+                    var usuarioId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+                    var companiaId = await _contribuyenteService.ObtenerCompaniaDeUsuario(usuarioId);
+
+                    if (companiaId.HasValue)
+                    {
+                        contribuyentes = contribuyentes
+                            .Where(c => c.com_id == companiaId.Value)
+                            .ToList();
+
+                        ViewBag.FiltroCompania = true;
+                        ViewBag.CompaniaNombre = contribuyentes.FirstOrDefault()?.com_nombre ?? string.Empty;
+                    }
+                    else
+                    {
+                        contribuyentes = new List<VContribuyente>();
+                        TempData["ErrorMessage"] = "No tiene una compañía asignada. Contacte al administrador.";
+                    }
+                }
+
                 return View(contribuyentes);
             }
             catch (Exception ex)
@@ -37,6 +58,7 @@ namespace Recauda.Controllers
                 return View(new List<VContribuyente>());
             }
         }
+
         public async Task<IActionResult> Eliminar(int Id)
         {
             try
@@ -55,8 +77,6 @@ namespace Recauda.Controllers
                 return RedirectToAction(nameof(Index));
             }
         }
-
-
 
         [HttpPost, ActionName("Eliminar")]
         [ValidateAntiForgeryToken]
@@ -92,7 +112,6 @@ namespace Recauda.Controllers
                     TempData["ErrorMessage"] = "El contribuyente solicitado no existe.";
                     return RedirectToAction(nameof(Index));
                 }
-
                 return View(contribuyente);
             }
             catch (Exception ex)
@@ -102,13 +121,12 @@ namespace Recauda.Controllers
             }
         }
 
-        // Método GET para mostrar el formulario de crear
         public async Task<IActionResult> Crear()
         {
             try
             {
-                // Cargar datos para los dropdowns
                 await CargarViewBags();
+                await CargarCompaniaFija();
                 return View(new Contribuyente());
             }
             catch (Exception ex)
@@ -126,28 +144,27 @@ namespace Recauda.Controllers
 
             try
             {
-                // Validar fechas antes de procesar
                 if (contribuyente.con_fecha_inicio == DateTime.MinValue)
-                {
                     contribuyente.con_fecha_inicio = DateTime.Now;
-                }
 
-                // Si con_fecha_fin está vacía o es MinValue, establecerla como null
                 if (contribuyente.con_fecha_fin.HasValue && contribuyente.con_fecha_fin.Value == DateTime.MinValue)
-                {
                     contribuyente.con_fecha_fin = null;
-                }
 
-                // Establecer fecha de registro
                 contribuyente.FechaRegistro = DateTime.Now;
 
-                // Establecer periodicidad por defecto si no viene
                 if (string.IsNullOrEmpty(contribuyente.con_periodicidad_cobro))
-                {
                     contribuyente.con_periodicidad_cobro = "Mensual";
+
+                // Si es Tesorero, forzar su propia compañía independiente de lo que venga en el form
+                var rolNombre = User.FindFirstValue(ClaimTypes.Role);
+                if (rolNombre?.ToLower() == "tesorero")
+                {
+                    var usuarioId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+                    var companiaId = await _contribuyenteService.ObtenerCompaniaDeUsuario(usuarioId);
+                    if (companiaId.HasValue)
+                        contribuyente.com_id = companiaId.Value;
                 }
 
-                // Limpiar errores de navegación del ModelState
                 ModelState.Remove("Persona");
                 ModelState.Remove("MotivoCobro");
                 ModelState.Remove("Recaudador");
@@ -162,14 +179,11 @@ namespace Recauda.Controllers
                 }
                 else
                 {
-                    // Log de errores de validación
                     foreach (var error in ModelState)
                     {
                         _logger.LogWarning($"Error en {error.Key}:");
                         foreach (var subError in error.Value.Errors)
-                        {
                             _logger.LogWarning($"  - {subError.ErrorMessage}");
-                        }
                     }
                 }
             }
@@ -180,6 +194,7 @@ namespace Recauda.Controllers
             }
 
             await CargarViewBags();
+            await CargarCompaniaFija();
             return View(contribuyente);
         }
 
@@ -211,6 +226,7 @@ namespace Recauda.Controllers
                 };
 
                 await CargarViewBags();
+                await CargarCompaniaFija();
                 return View(contribuyenteModel);
             }
             catch (Exception ex)
@@ -226,6 +242,16 @@ namespace Recauda.Controllers
         {
             try
             {
+                // Si es Tesorero, forzar su propia compañía
+                var rolNombre = User.FindFirstValue(ClaimTypes.Role);
+                if (rolNombre?.ToLower() == "tesorero")
+                {
+                    var usuarioId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+                    var companiaId = await _contribuyenteService.ObtenerCompaniaDeUsuario(usuarioId);
+                    if (companiaId.HasValue)
+                        contribuyente.com_id = companiaId.Value;
+                }
+
                 if (ModelState.IsValid)
                 {
                     await _contribuyenteService.EditarContribuyenteAsync(contribuyente);
@@ -239,10 +265,10 @@ namespace Recauda.Controllers
             }
 
             await CargarViewBags();
+            await CargarCompaniaFija();
             return View(contribuyente);
         }
 
-        // Método AJAX para buscar persona por RUT
         [HttpGet]
         public async Task<IActionResult> BuscarPersona(int rut)
         {
@@ -272,7 +298,6 @@ namespace Recauda.Controllers
             }
         }
 
-        // Método AJAX para crear nueva persona
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CrearPersona([FromBody] Persona persona)
@@ -280,9 +305,7 @@ namespace Recauda.Controllers
             try
             {
                 if (string.IsNullOrEmpty(persona.per_nombres) || string.IsNullOrEmpty(persona.per_paterno))
-                {
                     return Json(new { success = false, message = "Nombres y apellido paterno son obligatorios" });
-                }
 
                 await _contribuyenteService.CrearPersonaAsync(persona);
 
@@ -298,7 +321,8 @@ namespace Recauda.Controllers
             }
         }
 
-        // Método privado para cargar los datos de los dropdowns
+        // ── helpers ──────────────────────────────────────────────────────────
+
         private async Task CargarViewBags()
         {
             ViewBag.MotivosCobro = await _contribuyenteService.ObtenerMotivosCobro();
@@ -306,5 +330,28 @@ namespace Recauda.Controllers
             ViewBag.Companias = await _contribuyenteService.ObtenerCompanias();
         }
 
+        /// <summary>
+        /// Si el usuario autenticado es Tesorero, setea ViewBag.CompaniaIdFija y
+        /// ViewBag.CompaniaNombreFija para que las vistas bloqueen el selector de compañía.
+        /// </summary>
+        private async Task CargarCompaniaFija()
+        {
+            var rolNombre = User.FindFirstValue(ClaimTypes.Role);
+            if (rolNombre?.ToLower() != "tesorero") return;
+
+            var usuarioId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            var companiaId = await _contribuyenteService.ObtenerCompaniaDeUsuario(usuarioId);
+
+            if (companiaId.HasValue)
+            {
+                var companias = await _contribuyenteService.ObtenerCompanias();
+                var nombre = companias
+                    .FirstOrDefault(c => c.Value == companiaId.Value.ToString())?.Text
+                    ?? string.Empty;
+
+                ViewBag.CompaniaIdFija = companiaId.Value;
+                ViewBag.CompaniaNombreFija = nombre;
+            }
+        }
     }
 }

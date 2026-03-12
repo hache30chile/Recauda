@@ -2,6 +2,9 @@
 
 @{
     ViewData["Title"] = "Editar Contribuyente";
+    int? companiaIdFija = ViewBag.CompaniaIdFija;
+    string companiaNombreFija = ViewBag.CompaniaNombreFija ?? "";
+    bool esTesorero = companiaIdFija.HasValue;
 }
 
 <h1 class="mt-4">@ViewData["Title"]</h1>
@@ -166,14 +169,30 @@
                                     <label asp-for="com_id" class="form-label">
                                         <i class="fas fa-building"></i> Compañía *
                                     </label>
-                                    <select asp-for="com_id" class="form-control">
-                                        <option value="">-- Seleccione una compañía --</option>
-                                        @foreach (var compania in ViewBag.Companias)
-                                        {
-                                            <option value="@compania.Value" selected="@(compania.Value == Model.com_id.ToString())">@compania.Text</option>
-                                        }
-                                    </select>
-                                    <span asp-validation-for="com_id" class="text-danger"></span>
+                                    @if (esTesorero)
+                                    {
+                                        <!-- Tesorero: compañía fija, no editable -->
+                                        <input type="hidden" asp-for="com_id" value="@companiaIdFija" />
+                                        <div class="form-control bg-light text-muted d-flex align-items-center">
+                                            <i class="fas fa-lock me-2 text-warning"></i>
+                                            <strong>@companiaNombreFija</strong>
+                                        </div>
+                                        <small class="form-text text-muted">
+                                            <i class="fas fa-info-circle"></i>
+                                            Como Tesorero, solo puede gestionar contribuyentes de su compañía.
+                                        </small>
+                                    }
+                                    else
+                                    {
+                                        <select asp-for="com_id" class="form-control">
+                                            <option value="">-- Seleccione una compañía --</option>
+                                            @foreach (var compania in ViewBag.Companias)
+                                            {
+                                                <option value="@compania.Value" selected="@(compania.Value == Model.com_id.ToString())">@compania.Text</option>
+                                            }
+                                        </select>
+                                        <span asp-validation-for="com_id" class="text-danger"></span>
+                                    }
                                 </div>
                             </div>
                         </div>

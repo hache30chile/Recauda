@@ -540,6 +540,42 @@
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
       <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\comprobantes\2026\01\Comprobante_Pago_00000034_20260129_34_20260129_135841.pdf'))</OriginalItemSpec>
     </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\comprobantes\2026\01\Comprobante_Pago_00000035_20260129_35_20260129_142449.pdf'))">
+      <SourceType>Package</SourceType>
+      <SourceId>Recauda</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/Recauda</BasePath>
+      <RelativePath>comprobantes/2026/01/Comprobante_Pago_00000035_20260129_35_20260129_142449.pdf</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <Fingerprint>8n1jbitel8</Fingerprint>
+      <Integrity>7K0XYO+Rc7HBScFGNT6L68hsKpFrNGlELpPAbTx5Kcs=</Integrity>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\comprobantes\2026\01\Comprobante_Pago_00000035_20260129_35_20260129_142449.pdf'))</OriginalItemSpec>
+    </StaticWebAsset>
+    <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\comprobantes\2026\01\Comprobante_Pago_00000036_20260129_36_20260129_142503.pdf'))">
+      <SourceType>Package</SourceType>
+      <SourceId>Recauda</SourceId>
+      <ContentRoot>$(MSBuildThisFileDirectory)..\staticwebassets\</ContentRoot>
+      <BasePath>_content/Recauda</BasePath>
+      <RelativePath>comprobantes/2026/01/Comprobante_Pago_00000036_20260129_36_20260129_142503.pdf</RelativePath>
+      <AssetKind>All</AssetKind>
+      <AssetMode>All</AssetMode>
+      <AssetRole>Primary</AssetRole>
+      <RelatedAsset></RelatedAsset>
+      <AssetTraitName></AssetTraitName>
+      <AssetTraitValue></AssetTraitValue>
+      <Fingerprint>ycy6kodob7</Fingerprint>
+      <Integrity>crcFgXCDw011nNRhYWCLfhxO8DwwuEztKpBg4q4Bj2M=</Integrity>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      <OriginalItemSpec>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\comprobantes\2026\01\Comprobante_Pago_00000036_20260129_36_20260129_142503.pdf'))</OriginalItemSpec>
+    </StaticWebAsset>
     <StaticWebAsset Include="$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\css\site.css'))">
       <SourceType>Package</SourceType>
       <SourceId>Recauda</SourceId>

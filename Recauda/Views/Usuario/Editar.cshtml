@@ -3,6 +3,8 @@
 @{
     ViewData["Title"] = "Editar Usuario";
     bool esGenerador = ViewBag.EsGenerador ?? false;
+    int rolTesoreroId = ViewBag.RolTesoreroId ?? 0;
+    int? companiaActual = ViewBag.CompaniaActual;
 }
 
 <h1 class="mt-4">@ViewData["Title"]</h1>
@@ -12,7 +14,6 @@
     <li class="breadcrumb-item active">Editar</li>
 </ol>
 
-@* Mostrar mensajes de error/éxito *@
 @if (TempData["ErrorMessage"] != null)
 {
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -34,9 +35,14 @@
                         <i class="fas fa-bolt"></i> Generador
                     </span>
                 }
+                @if (Model.RolId == rolTesoreroId)
+                {
+                    <span class="badge bg-warning text-dark ms-2">
+                        <i class="fas fa-crown"></i> Tesorero
+                    </span>
+                }
             </div>
             <div class="card-body">
-                @* Debug: Mostrar errores del ModelState *@
                 @if (!ViewData.ModelState.IsValid)
                 {
                     <div class="alert alert-warning">
@@ -90,7 +96,7 @@
                             <label asp-for="RolId" class="form-label">
                                 <i class="fas fa-user-tag"></i> Rol *
                             </label>
-                            <select asp-for="RolId" asp-items="ViewBag.Roles" class="form-select">
+                            <select asp-for="RolId" asp-items="ViewBag.Roles" class="form-select" id="rolSelect">
                                 <option value="">-- Seleccione un Rol --</option>
                             </select>
                             <span asp-validation-for="RolId" class="text-danger"></span>
@@ -111,8 +117,44 @@
                         </div>
                     </div>
 
-                    <!-- Nueva sección para Generador -->
-                    <div class="row">
+                    <div class="row" id="seccionTesorero" style="display:none !important;">
+                        <div class="col-12 mb-3">
+                            <div class="card border-warning">
+                                <div class="card-header bg-warning text-dark">
+                                    Asignación de Compañía — Tesorero
+                                </div>
+                                <div class="card-body">
+                                    <p class="text-muted small mb-2">
+                                        El rol de <strong>Tesorero</strong> requiere asociar al usuario a una compañía.
+                                        Solo puede existir <strong>un Tesorero por compañía</strong>.
+                                    </p>
+                                    <label for="companiaId" class="form-label">
+                                        <i class="fas fa-building"></i> Compañía *
+                                    </label>
+                                    <select name="companiaId" id="companiaId" class="form-select">
+                                        <option value="">-- Seleccione una Compañía --</option>
+                                        @foreach (var item in (IEnumerable<Microsoft.AspNetCore.Mvc.Rendering.SelectListItem>)ViewBag.Companias)
+                                        {
+                                            if (item.Value == companiaActual?.ToString())
+                                            {
+                                                <option value="@item.Value" selected>@item.Text</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@item.Value">@item.Text</option>
+                                            }
+                                        }
+                                    </select>
+                                    <div id="avisoTesorero" class="alert alert-danger mt-2" style="display:none;">
+                                        <i class="fas fa-exclamation-triangle"></i>
+                                        <span id="avisoTesoreroTexto"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" id="seccionGenerador">
                         <div class="col-12 mb-3">
                             <div class="card border-info">
                                 <div class="card-header bg-info text-white">
@@ -120,7 +162,8 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="form-check form-switch">
-                                        <input name="esGenerador" class="form-check-input" type="checkbox" id="esGenerador" value="true" @(esGenerador ? "checked" : "") />
+                                        <input name="esGenerador" class="form-check-input" type="checkbox"
+                                               id="esGenerador" value="true" @(esGenerador ? "checked" : "") />
                                         <label class="form-check-label" for="esGenerador">
                                             <i class="fas fa-industry"></i> Este usuario es un generador
                                         </label>
@@ -139,15 +182,10 @@
                             </div>
                         </div>
                     </div>
-@* 
-                    <div class="alert alert-info" role="alert">
-                        <i class="fas fa-info-circle"></i>
-                        <strong>Nota:</strong> La contraseña no se modifica desde esta pantalla. Use la opción "Cambiar Contraseña" si es necesario.
-                    </div> *@
 
                     <div class="row mt-4">
                         <div class="col-12">
-                            <button type="submit" class="btn btn-primary">
+                            <button type="submit" class="btn btn-primary" id="btnGuardar">
                                 <i class="fas fa-save"></i> Guardar Cambios
                             </button>
                             <a asp-action="Detalles" asp-route-id="@Model.Id" class="btn btn-info ms-2">
@@ -211,6 +249,17 @@
                             }
                         </td>
                     </tr>
+                    @if (Model.RolId == rolTesoreroId && companiaActual.HasValue)
+                    {
+                        <tr>
+                            <td><strong>Compañía:</strong></td>
+                            <td>
+                                <span class="badge bg-warning text-dark">
+                                    <i class="fas fa-building"></i> ID @companiaActual
+                                </span>
+                            </td>
+                        </tr>
+                    }
                 </table>
 
                 <div class="alert alert-warning" role="alert">
@@ -241,4 +290,74 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+
+    <script>
+        const ROL_TESORERO_ID  = @rolTesoreroId;
+        const USUARIO_ID       = @Model.Id;
+
+        document.addEventListener('DOMContentLoaded', function () {
+
+            const rolSelect        = document.getElementById('rolSelect');
+            const seccionTesorero  = document.getElementById('seccionTesorero');
+            const seccionGenerador = document.getElementById('seccionGenerador');
+            const companiaSelect   = document.getElementById('companiaId');
+            const avisoDiv         = document.getElementById('avisoTesorero');
+            const avisoTexto       = document.getElementById('avisoTesoreroTexto');
+            const btnGuardar       = document.getElementById('btnGuardar');
+
+            function actualizarSeccionTesorero() {
+                const esTesorero = parseInt(rolSelect.value) === ROL_TESORERO_ID;
+
+                if (esTesorero) {
+                    seccionTesorero.style.removeProperty('display');
+                    seccionGenerador.style.removeProperty('display');
+                } else {
+                    seccionTesorero.style.display = 'none';
+                    seccionGenerador.style.removeProperty('display');
+                    companiaSelect.value = '';
+                    ocultarAviso();
+                }
+            }
+
+            async function verificarTesorero(companiaId) {
+                if (!companiaId) { ocultarAviso(); return; }
+
+                try {
+                    const url  = `/Usuario/VerificarTesorero?companiaId=${companiaId}&excludeUsuarioId=${USUARIO_ID}`;
+                    const resp = await fetch(url);
+                    const data = await resp.json();
+
+                    if (data.tieneTes) {
+                        mostrarAviso(data.mensaje);
+                        btnGuardar.disabled = true;
+                    } else {
+                        ocultarAviso();
+                        btnGuardar.disabled = false;
+                    }
+                } catch {
+                    ocultarAviso();
+                }
+            }
+
+            function mostrarAviso(texto) {
+                avisoTexto.textContent = texto;
+                avisoDiv.style.display = '';
+            }
+
+            function ocultarAviso() {
+                avisoDiv.style.display = 'none';
+                avisoTexto.textContent = '';
+                btnGuardar.disabled = false;
+            }
+
+            rolSelect.addEventListener('change', actualizarSeccionTesorero);
+            companiaSelect.addEventListener('change', function () {
+                verificarTesorero(this.value);
+            });
+
+            // Inicializar al cargar
+            actualizarSeccionTesorero();
+            if (companiaSelect.value) verificarTesorero(companiaSelect.value);
+        });
+    </script>
 }

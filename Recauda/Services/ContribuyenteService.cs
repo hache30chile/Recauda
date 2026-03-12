@@ -140,5 +140,12 @@ namespace Recauda.Services
                 .ToListAsync();
         }
 
+        public async Task<int?> ObtenerCompaniaDeUsuario(int usuarioId)
+        {
+            var generador = await _context.Generadores
+                .FirstOrDefaultAsync(g => g.usu_id == usuarioId && g.gen_activo);
+            return generador?.com_id;
+        }
+
     }
 }

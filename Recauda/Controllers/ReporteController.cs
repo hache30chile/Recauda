@@ -5,6 +5,7 @@ using Recauda.Interfaces;
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
 using System.Drawing;
+using System.Security.Claims;
 
 namespace Recauda.Controllers
 {
@@ -18,8 +19,6 @@ namespace Recauda.Controllers
         {
             _reporteService = reporteService;
             _logger = logger;
-
-            // Configurar licencia de EPPlus (Non-Commercial)
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
         }
 
@@ -28,20 +27,15 @@ namespace Recauda.Controllers
             return View();
         }
 
-        /// <summary>
-        /// Vista del reporte de ingresos
-        /// </summary>
         [HttpGet]
         public async Task<IActionResult> ReporteIngresos()
         {
             try
             {
                 await CargarCompanias();
-
-                // No configurar fechas por defecto, dejar vacío para traer todo
+                await CargarCompaniaFija();
                 ViewBag.FechaInicio = null;
                 ViewBag.FechaFin = null;
-
                 return View();
             }
             catch (Exception ex)
@@ -52,50 +46,43 @@ namespace Recauda.Controllers
             }
         }
 
-        /// <summary>
-        /// Genera el reporte de ingresos con los filtros aplicados
-        /// </summary>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ReporteIngresos(int? companiaId, DateTime? fechaInicio, DateTime? fechaFin)
         {
-            _logger.LogInformation("POST ReporteIngresos - Generando reporte");
-            _logger.LogInformation($"Filtros - Compañía: {companiaId}, Fecha Inicio: {fechaInicio}, Fecha Fin: {fechaFin}");
+            _logger.LogInformation($"POST ReporteIngresos - Compañía: {companiaId}, Inicio: {fechaInicio}, Fin: {fechaFin}");
 
             try
             {
-                // Validar fechas solo si ambas están presentes
+                // Si es Tesorero, ignorar el companiaId del form y forzar el suyo
+                companiaId = await ObtenerCompaniaEfectiva(companiaId);
+
                 if (fechaInicio.HasValue && fechaFin.HasValue && fechaInicio.Value > fechaFin.Value)
                 {
                     ModelState.AddModelError("", "La fecha de inicio no puede ser mayor a la fecha de fin.");
                     await CargarCompanias();
+                    await CargarCompaniaFija();
                     ViewBag.FechaInicio = fechaInicio;
                     ViewBag.FechaFin = fechaFin;
                     ViewBag.CompaniaSeleccionada = companiaId;
                     return View("ReporteIngresos");
                 }
 
-                // Obtener datos del reporte (sin filtros de fecha trae todo el histórico)
                 var ingresos = await _reporteService.ObtenerReporteIngresos(companiaId, fechaInicio, fechaFin);
                 var resumen = await _reporteService.ObtenerResumenIngresos(companiaId, fechaInicio, fechaFin);
 
-                // Pasar datos a la vista
                 ViewBag.Ingresos = ingresos;
                 ViewBag.Resumen = resumen;
                 ViewBag.FechaInicio = fechaInicio;
                 ViewBag.FechaFin = fechaFin;
                 ViewBag.CompaniaSeleccionada = companiaId;
 
-                if (ingresos.Count == 0)
-                {
-                    TempData["InfoMessage"] = "No se encontraron ingresos con los filtros aplicados.";
-                }
-                else
-                {
-                    TempData["SuccessMessage"] = $"Se encontraron {ingresos.Count} registro(s) de ingresos.";
-                }
+                TempData[ingresos.Count == 0 ? "InfoMessage" : "SuccessMessage"] = ingresos.Count == 0
+                    ? "No se encontraron ingresos con los filtros aplicados."
+                    : $"Se encontraron {ingresos.Count} registro(s) de ingresos.";
 
                 await CargarCompanias();
+                await CargarCompaniaFija();
                 return View("ReporteIngresos");
             }
             catch (Exception ex)
@@ -103,13 +90,42 @@ namespace Recauda.Controllers
                 _logger.LogError(ex, "Error al generar reporte de ingresos");
                 TempData["ErrorMessage"] = "Error al generar el reporte: " + ex.Message;
                 await CargarCompanias();
+                await CargarCompaniaFija();
                 return View("ReporteIngresos");
             }
         }
 
-        /// <summary>
-        /// Carga la lista de compañías activas para el dropdown
-        /// </summary>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ExportarReporteExcel(int? companiaId, DateTime? fechaInicio, DateTime? fechaFin)
+        {
+            try
+            {
+                // Si es Tesorero, forzar su compañía también en la exportación
+                companiaId = await ObtenerCompaniaEfectiva(companiaId);
+
+                var ingresos = await _reporteService.ObtenerReporteIngresos(companiaId, fechaInicio, fechaFin);
+
+                if (ingresos.Count == 0)
+                {
+                    TempData["ErrorMessage"] = "No hay datos para exportar.";
+                    return RedirectToAction("ReporteIngresos");
+                }
+
+                var excelBytes = GenerarExcel(ingresos);
+                var nombreArchivo = $"Reporte_Ingresos_{DateTime.Now:yyyyMMdd_HHmmss}.xlsx";
+                return File(excelBytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", nombreArchivo);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error al exportar reporte a Excel");
+                TempData["ErrorMessage"] = "Error al exportar el reporte: " + ex.Message;
+                return RedirectToAction("ReporteIngresos");
+            }
+        }
+
+        // ── helpers ──────────────────────────────────────────────────────────
+
         private async Task CargarCompanias()
         {
             try
@@ -125,44 +141,45 @@ namespace Recauda.Controllers
         }
 
         /// <summary>
-        /// Exporta el reporte a Excel
+        /// Si el usuario es Tesorero, setea ViewBag.CompaniaIdFija y ViewBag.CompaniaNombreFija
+        /// para que la vista bloquee el selector de compañía.
         /// </summary>
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ExportarReporteExcel(int? companiaId, DateTime? fechaInicio, DateTime? fechaFin)
+        private async Task CargarCompaniaFija()
         {
-            try
+            var rolNombre = User.FindFirstValue(ClaimTypes.Role);
+            if (rolNombre?.ToLower() != "tesorero") return;
+
+            var usuarioId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            var companiaId = await _reporteService.ObtenerCompaniaDeUsuario(usuarioId);
+
+            if (companiaId.HasValue)
             {
-                var ingresos = await _reporteService.ObtenerReporteIngresos(companiaId, fechaInicio, fechaFin);
+                var companias = await _reporteService.ObtenerCompaniasActivas();
+                var nombre = companias.FirstOrDefault(c => c.Id == companiaId.Value)?.com_nombre ?? string.Empty;
 
-                if (ingresos.Count == 0)
-                {
-                    TempData["ErrorMessage"] = "No hay datos para exportar.";
-                    return RedirectToAction("ReporteIngresos");
-                }
-
-                var excelBytes = GenerarExcel(ingresos);
-                var nombreArchivo = $"Reporte_Ingresos_{DateTime.Now:yyyyMMdd_HHmmss}.xlsx";
-
-                return File(excelBytes, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", nombreArchivo);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "Error al exportar reporte a Excel");
-                TempData["ErrorMessage"] = "Error al exportar el reporte: " + ex.Message;
-                return RedirectToAction("ReporteIngresos");
+                ViewBag.CompaniaIdFija = companiaId.Value;
+                ViewBag.CompaniaNombreFija = nombre;
             }
         }
 
         /// <summary>
-        /// Genera el archivo Excel del reporte
+        /// Retorna el companiaId efectivo: si el usuario es Tesorero devuelve siempre su compañía,
+        /// ignorando el valor que llegue del formulario.
         /// </summary>
+        private async Task<int?> ObtenerCompaniaEfectiva(int? companiaIdForm)
+        {
+            var rolNombre = User.FindFirstValue(ClaimTypes.Role);
+            if (rolNombre?.ToLower() != "tesorero") return companiaIdForm;
+
+            var usuarioId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
+            return await _reporteService.ObtenerCompaniaDeUsuario(usuarioId) ?? companiaIdForm;
+        }
+
         private byte[] GenerarExcel(List<ReporteIngreso> ingresos)
         {
             using var package = new ExcelPackage();
             var worksheet = package.Workbook.Worksheets.Add("Reporte de Ingresos");
 
-            // Título del reporte
             worksheet.Cells["A1:H1"].Merge = true;
             worksheet.Cells["A1"].Value = "REPORTE DE INGRESOS";
             worksheet.Cells["A1"].Style.Font.Size = 16;
@@ -173,40 +190,26 @@ namespace Recauda.Controllers
             worksheet.Cells["A1"].Style.Font.Color.SetColor(Color.White);
             worksheet.Row(1).Height = 25;
 
-            // Información adicional
             worksheet.Cells["A2"].Value = $"Fecha de generación: {DateTime.Now:dd/MM/yyyy HH:mm}";
             worksheet.Cells["A2"].Style.Font.Italic = true;
             worksheet.Row(2).Height = 20;
 
-            // Encabezados de columnas
-            var headers = new string[]
-            {
-                "Fecha Pago",
-                "Contribuyente",
-                "RUT",
-                "Compañía",
-                "Motivo",
-                "Período",
-                "Valor Pagado",
-                "Recaudador"
-            };
-
+            var headers = new[] { "Fecha Pago", "Contribuyente", "RUT", "Compañía", "Motivo", "Período", "Valor Pagado", "Recaudador" };
             for (int i = 0; i < headers.Length; i++)
             {
-                worksheet.Cells[4, i + 1].Value = headers[i];
-                worksheet.Cells[4, i + 1].Style.Font.Bold = true;
-                worksheet.Cells[4, i + 1].Style.Fill.PatternType = ExcelFillStyle.Solid;
-                worksheet.Cells[4, i + 1].Style.Fill.BackgroundColor.SetColor(Color.FromArgb(217, 217, 217));
-                worksheet.Cells[4, i + 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
-                worksheet.Cells[4, i + 1].Style.VerticalAlignment = ExcelVerticalAlignment.Center;
-                worksheet.Cells[4, i + 1].Style.Border.BorderAround(ExcelBorderStyle.Thin);
+                var cell = worksheet.Cells[4, i + 1];
+                cell.Value = headers[i];
+                cell.Style.Font.Bold = true;
+                cell.Style.Fill.PatternType = ExcelFillStyle.Solid;
+                cell.Style.Fill.BackgroundColor.SetColor(Color.FromArgb(217, 217, 217));
+                cell.Style.HorizontalAlignment = ExcelHorizontalAlignment.Center;
+                cell.Style.VerticalAlignment = ExcelVerticalAlignment.Center;
+                cell.Style.Border.BorderAround(ExcelBorderStyle.Thin);
             }
             worksheet.Row(4).Height = 25;
 
-            // Datos
             int row = 5;
-            decimal totalIngresos = 0;
-
+            decimal total = 0;
             foreach (var ingreso in ingresos)
             {
                 worksheet.Cells[row, 1].Value = ingreso.FechaPago.ToString("dd/MM/yyyy HH:mm");
@@ -219,57 +222,43 @@ namespace Recauda.Controllers
                 worksheet.Cells[row, 7].Style.Numberformat.Format = "$#,##0";
                 worksheet.Cells[row, 8].Value = ingreso.NombreRecaudador;
 
-                // Bordes para todas las celdas
                 for (int col = 1; col <= 8; col++)
-                {
                     worksheet.Cells[row, col].Style.Border.BorderAround(ExcelBorderStyle.Thin);
-                }
 
-                // Alternar color de filas para mejor legibilidad
                 if (row % 2 == 0)
                 {
                     worksheet.Cells[row, 1, row, 8].Style.Fill.PatternType = ExcelFillStyle.Solid;
                     worksheet.Cells[row, 1, row, 8].Style.Fill.BackgroundColor.SetColor(Color.FromArgb(242, 242, 242));
                 }
 
-                totalIngresos += ingreso.ValorPagado;
+                total += ingreso.ValorPagado;
                 row++;
             }
 
-            // Fila de totales
             worksheet.Cells[row, 1, row, 6].Merge = true;
             worksheet.Cells[row, 1].Value = "TOTAL:";
             worksheet.Cells[row, 1].Style.Font.Bold = true;
             worksheet.Cells[row, 1].Style.HorizontalAlignment = ExcelHorizontalAlignment.Right;
             worksheet.Cells[row, 1].Style.Fill.PatternType = ExcelFillStyle.Solid;
             worksheet.Cells[row, 1].Style.Fill.BackgroundColor.SetColor(Color.FromArgb(217, 217, 217));
-
-            worksheet.Cells[row, 7].Value = totalIngresos;
+            worksheet.Cells[row, 7].Value = total;
             worksheet.Cells[row, 7].Style.Numberformat.Format = "$#,##0";
             worksheet.Cells[row, 7].Style.Font.Bold = true;
             worksheet.Cells[row, 7].Style.Font.Size = 12;
             worksheet.Cells[row, 7].Style.Fill.PatternType = ExcelFillStyle.Solid;
             worksheet.Cells[row, 7].Style.Fill.BackgroundColor.SetColor(Color.FromArgb(146, 208, 80));
-
-            // Bordes para la fila de totales
             for (int col = 1; col <= 8; col++)
-            {
                 worksheet.Cells[row, col].Style.Border.BorderAround(ExcelBorderStyle.Medium);
-            }
-
             worksheet.Row(row).Height = 25;
 
-            // Ajustar ancho de columnas
-            worksheet.Column(1).Width = 18; // Fecha
-            worksheet.Column(2).Width = 30; // Contribuyente
-            worksheet.Column(3).Width = 15; // RUT
-            worksheet.Column(4).Width = 25; // Compañía
-            worksheet.Column(5).Width = 25; // Motivo
-            worksheet.Column(6).Width = 12; // Período
-            worksheet.Column(7).Width = 15; // Valor
-            worksheet.Column(8).Width = 25; // Recaudador
-
-            // Congelar paneles (encabezados)
+            worksheet.Column(1).Width = 18;
+            worksheet.Column(2).Width = 30;
+            worksheet.Column(3).Width = 15;
+            worksheet.Column(4).Width = 25;
+            worksheet.Column(5).Width = 25;
+            worksheet.Column(6).Width = 12;
+            worksheet.Column(7).Width = 15;
+            worksheet.Column(8).Width = 25;
             worksheet.View.FreezePanes(5, 1);
 
             return package.GetAsByteArray();

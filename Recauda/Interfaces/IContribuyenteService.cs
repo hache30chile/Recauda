@@ -21,6 +21,7 @@ namespace Recauda.Interfaces
         Task<List<SelectListItem>> ObtenerMotivosCobro();
         Task<List<SelectListItem>> ObtenerRecaudadores();
         Task<List<SelectListItem>> ObtenerCompanias();
+        Task<int?> ObtenerCompaniaDeUsuario(int usuarioId);
 
     }
 }

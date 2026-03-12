@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "9I3/8nRnsBn5pIr5O4gPb17e/szdmfQYRBFvzgRuc1g=",
+  "Hash": "CzJKHAfacWEtAJahpo3MUK5oRZZataXlcvchjp3LVA8=",
   "Source": "Recauda",
   "BasePath": "_content/Recauda",
   "Mode": "Default",
@@ -687,6 +687,48 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\comprobantes\\2026\\01\\Comprobante_Pago_00000034_20260129_34_20260129_135841.pdf"
+    },
+    {
+      "Identity": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\wwwroot\\comprobantes\\2026\\01\\Comprobante_Pago_00000035_20260129_35_20260129_142449.pdf",
+      "SourceId": "Recauda",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\wwwroot\\",
+      "BasePath": "_content/Recauda",
+      "RelativePath": "comprobantes/2026/01/Comprobante_Pago_00000035_20260129_35_20260129_142449#[.{fingerprint}]?.pdf",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "8n1jbitel8",
+      "Integrity": "7K0XYO+Rc7HBScFGNT6L68hsKpFrNGlELpPAbTx5Kcs=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\comprobantes\\2026\\01\\Comprobante_Pago_00000035_20260129_35_20260129_142449.pdf"
+    },
+    {
+      "Identity": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\wwwroot\\comprobantes\\2026\\01\\Comprobante_Pago_00000036_20260129_36_20260129_142503.pdf",
+      "SourceId": "Recauda",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\wwwroot\\",
+      "BasePath": "_content/Recauda",
+      "RelativePath": "comprobantes/2026/01/Comprobante_Pago_00000036_20260129_36_20260129_142503#[.{fingerprint}]?.pdf",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "ycy6kodob7",
+      "Integrity": "crcFgXCDw011nNRhYWCLfhxO8DwwuEztKpBg4q4Bj2M=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\comprobantes\\2026\\01\\Comprobante_Pago_00000036_20260129_36_20260129_142503.pdf"
     },
     {
       "Identity": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\wwwroot\\css\\site.css",
@@ -4491,6 +4533,170 @@
         {
           "Name": "integrity",
           "Value": "sha256-ywqBnCKwQhPTQzWkLryHjLs7i6zujfWXhWm+6ezZGeA="
+        }
+      ]
+    },
+    {
+      "Route": "comprobantes/2026/01/Comprobante_Pago_00000035_20260129_35_20260129_142449.8n1jbitel8.pdf",
+      "AssetFile": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\wwwroot\\comprobantes\\2026\\01\\Comprobante_Pago_00000035_20260129_35_20260129_142449.pdf",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "89869"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/pdf"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"7K0XYO+Rc7HBScFGNT6L68hsKpFrNGlELpPAbTx5Kcs=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 29 Jan 2026 17:24:49 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "8n1jbitel8"
+        },
+        {
+          "Name": "label",
+          "Value": "comprobantes/2026/01/Comprobante_Pago_00000035_20260129_35_20260129_142449.pdf"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-7K0XYO+Rc7HBScFGNT6L68hsKpFrNGlELpPAbTx5Kcs="
+        }
+      ]
+    },
+    {
+      "Route": "comprobantes/2026/01/Comprobante_Pago_00000035_20260129_35_20260129_142449.pdf",
+      "AssetFile": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\wwwroot\\comprobantes\\2026\\01\\Comprobante_Pago_00000035_20260129_35_20260129_142449.pdf",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "89869"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/pdf"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"7K0XYO+Rc7HBScFGNT6L68hsKpFrNGlELpPAbTx5Kcs=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 29 Jan 2026 17:24:49 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-7K0XYO+Rc7HBScFGNT6L68hsKpFrNGlELpPAbTx5Kcs="
+        }
+      ]
+    },
+    {
+      "Route": "comprobantes/2026/01/Comprobante_Pago_00000036_20260129_36_20260129_142503.pdf",
+      "AssetFile": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\wwwroot\\comprobantes\\2026\\01\\Comprobante_Pago_00000036_20260129_36_20260129_142503.pdf",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "89510"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/pdf"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"crcFgXCDw011nNRhYWCLfhxO8DwwuEztKpBg4q4Bj2M=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 29 Jan 2026 17:25:03 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-crcFgXCDw011nNRhYWCLfhxO8DwwuEztKpBg4q4Bj2M="
+        }
+      ]
+    },
+    {
+      "Route": "comprobantes/2026/01/Comprobante_Pago_00000036_20260129_36_20260129_142503.ycy6kodob7.pdf",
+      "AssetFile": "C:\\Users\\augus\\source\\repos\\Recauda\\Recauda\\wwwroot\\comprobantes\\2026\\01\\Comprobante_Pago_00000036_20260129_36_20260129_142503.pdf",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "89510"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/pdf"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"crcFgXCDw011nNRhYWCLfhxO8DwwuEztKpBg4q4Bj2M=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 29 Jan 2026 17:25:03 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "ycy6kodob7"
+        },
+        {
+          "Name": "label",
+          "Value": "comprobantes/2026/01/Comprobante_Pago_00000036_20260129_36_20260129_142503.pdf"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-crcFgXCDw011nNRhYWCLfhxO8DwwuEztKpBg4q4Bj2M="
         }
       ]
     },

@@ -2545,6 +2545,170 @@
       ]
     },
     {
+      "Route": "comprobantes/2026/01/Comprobante_Pago_00000035_20260129_35_20260129_142449.8n1jbitel8.pdf",
+      "AssetFile": "comprobantes/2026/01/Comprobante_Pago_00000035_20260129_35_20260129_142449.pdf",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "89869"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/pdf"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"7K0XYO+Rc7HBScFGNT6L68hsKpFrNGlELpPAbTx5Kcs=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 29 Jan 2026 17:24:49 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "8n1jbitel8"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-7K0XYO+Rc7HBScFGNT6L68hsKpFrNGlELpPAbTx5Kcs="
+        },
+        {
+          "Name": "label",
+          "Value": "comprobantes/2026/01/Comprobante_Pago_00000035_20260129_35_20260129_142449.pdf"
+        }
+      ]
+    },
+    {
+      "Route": "comprobantes/2026/01/Comprobante_Pago_00000035_20260129_35_20260129_142449.pdf",
+      "AssetFile": "comprobantes/2026/01/Comprobante_Pago_00000035_20260129_35_20260129_142449.pdf",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "89869"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/pdf"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"7K0XYO+Rc7HBScFGNT6L68hsKpFrNGlELpPAbTx5Kcs=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 29 Jan 2026 17:24:49 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-7K0XYO+Rc7HBScFGNT6L68hsKpFrNGlELpPAbTx5Kcs="
+        }
+      ]
+    },
+    {
+      "Route": "comprobantes/2026/01/Comprobante_Pago_00000036_20260129_36_20260129_142503.pdf",
+      "AssetFile": "comprobantes/2026/01/Comprobante_Pago_00000036_20260129_36_20260129_142503.pdf",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "89510"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/pdf"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"crcFgXCDw011nNRhYWCLfhxO8DwwuEztKpBg4q4Bj2M=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 29 Jan 2026 17:25:03 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-crcFgXCDw011nNRhYWCLfhxO8DwwuEztKpBg4q4Bj2M="
+        }
+      ]
+    },
+    {
+      "Route": "comprobantes/2026/01/Comprobante_Pago_00000036_20260129_36_20260129_142503.ycy6kodob7.pdf",
+      "AssetFile": "comprobantes/2026/01/Comprobante_Pago_00000036_20260129_36_20260129_142503.pdf",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "89510"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "application/pdf"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"crcFgXCDw011nNRhYWCLfhxO8DwwuEztKpBg4q4Bj2M=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 29 Jan 2026 17:25:03 GMT"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "ycy6kodob7"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-crcFgXCDw011nNRhYWCLfhxO8DwwuEztKpBg4q4Bj2M="
+        },
+        {
+          "Name": "label",
+          "Value": "comprobantes/2026/01/Comprobante_Pago_00000036_20260129_36_20260129_142503.pdf"
+        }
+      ]
+    },
+    {
       "Route": "css/site.c2tiyv64ts.css",
       "AssetFile": "css/site.css",
       "Selectors": [],

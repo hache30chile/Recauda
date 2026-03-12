@@ -18,13 +18,17 @@ namespace Recauda.Interfaces
 
         // Métodos para generación de cobros
         Task<List<VContribuyente>> ObtenerContribuyentesActivos();
+        Task<List<VContribuyente>> ObtenerContribuyentesPorCompania(int companiaId);
+        Task<int?> ObtenerCompaniaDeTesorero(int usuarioId);
         Task<VContribuyente?> ObtenerContribuyentePorId(int id);
         Task<int> GenerarCobrosAsync(VContribuyente contribuyente, int anio, int usuarioActualId);
         Task<int?> ObtenerGeneradorPorUsuario(int usuarioId);
 
         // Métodos para consulta de cobros
         Task<List<VCobros>> ObtenerTodosLosCobros();
+        Task<List<VCobros>> ObtenerCobrosPorCompania(int companiaId);
         Task<List<VCobros>> BuscarCobrosPorRut(int rut);
+        Task<List<VCobros>> BuscarCobrosPorRutYCompania(int rut, int companiaId);
 
         // Métodos para manejo de pagos
         Task<List<VCobros>> ObtenerCobrosPorContribuyente(int contribuyenteId);
