@@ -37,16 +37,16 @@ namespace Recauda.Services
                                 headerColumn.Item().AlignCenter().Text("SERVICIO DE UTILIDAD PÚBLICA")
                                     .FontSize(10).FontColor(Colors.Black);
 
-                                headerColumn.Item().AlignCenter().Text("Dirección de la empresa")
+                                headerColumn.Item().AlignCenter().Text("Calle San Pedro 700, San Pedro de La Paz")
                                     .FontSize(8).FontColor(Colors.Black);
 
-                                headerColumn.Item().AlignCenter().Text("Teléfonos: 000-000000 - 000-000000")
+                                headerColumn.Item().AlignCenter().Text("Teléfonos: 412371300")
                                     .FontSize(8).FontColor(Colors.Black);
 
-                                headerColumn.Item().AlignCenter().Text("e-mail: contacto@empresa.cl")
+                                headerColumn.Item().AlignCenter().Text("e-mail: primerasanpedrodelapaz@gmail.com")
                                     .FontSize(8).FontColor(Colors.Black);
 
-                                headerColumn.Item().AlignCenter().Text("R.U.T: 00.000.000-0")
+                                headerColumn.Item().AlignCenter().Text("R.U.T: 75.961.170-5")
                                     .FontSize(8).FontColor(Colors.Black);
                             });
 
