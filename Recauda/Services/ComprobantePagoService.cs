@@ -113,7 +113,7 @@ namespace Recauda.Services
 
                                 conceptoCol.Item().Row(row =>
                                 {
-                                    row.ConstantItem(15).Text(esAporteParticular ? "✓" : "__")
+                                    row.ConstantItem(15).Text(esAporteParticular ? "X" : "__")
                                         .FontSize(11).FontColor(Colors.Black);
                                     row.RelativeItem().Text("Aporte de particular")
                                         .FontSize(11).FontColor(Colors.Black);
@@ -121,7 +121,7 @@ namespace Recauda.Services
 
                                 conceptoCol.Item().PaddingTop(5).Row(row =>
                                 {
-                                    row.ConstantItem(15).Text(esResolucionJudicial ? "✓" : "__")
+                                    row.ConstantItem(15).Text(esResolucionJudicial ? "X" : "__")
                                         .FontSize(11).FontColor(Colors.Black);
                                     row.RelativeItem().Text("Resolución Judicial")
                                         .FontSize(11).FontColor(Colors.Black);
@@ -129,7 +129,7 @@ namespace Recauda.Services
 
                                 conceptoCol.Item().PaddingTop(5).Row(row =>
                                 {
-                                    row.ConstantItem(15).Text(esAporteCompania ? "✓" : "__")
+                                    row.ConstantItem(15).Text(esAporteCompania ? "X" : "__")
                                         .FontSize(11).FontColor(Colors.Black);
                                     row.RelativeItem().Text("Aporte de Compañía")
                                         .FontSize(11).FontColor(Colors.Black);
@@ -137,7 +137,7 @@ namespace Recauda.Services
 
                                 conceptoCol.Item().PaddingTop(5).Row(row =>
                                 {
-                                    row.ConstantItem(15).Text(esAporteCompania ? "✓" : "__")
+                                    row.ConstantItem(15).Text(esAporteCompania ? "X" : "__")
                                         .FontSize(11).FontColor(Colors.Black);
                                     row.RelativeItem().Text("Cuota de Voluntario")
                                         .FontSize(11).FontColor(Colors.Black);
@@ -145,7 +145,7 @@ namespace Recauda.Services
 
                                 conceptoCol.Item().PaddingTop(5).Row(row =>
                                 {
-                                    row.ConstantItem(15).Text(esPrestacionServicios ? "✓" : "__")
+                                    row.ConstantItem(15).Text(esPrestacionServicios ? "X" : "__")
                                         .FontSize(11).FontColor(Colors.Black);
                                     row.RelativeItem().Text($"Prestación de Servicios")
                                         .FontSize(11).FontColor(Colors.Black);
